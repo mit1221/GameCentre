@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".GameCentre">
+    tools:context="fall2018.csc2017.GameCentre">
 
 <TextView
     android:layout_width="match_parent"
