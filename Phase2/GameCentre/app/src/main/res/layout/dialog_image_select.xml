@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/choose_image_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true"
+        android:text="@string/click_start_game_text" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="72dp"
+        android:text="@string/download_image_from_url"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <EditText
+        android:id="@+id/textURL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_alignStart="@+id/textView2"
+        android:ems="10"
+        android:hint="@string/enter_url"
+        android:inputType="textUri"
+        android:autofillHints="" />
+
+    <View
+        android:id="@+id/hr"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#CCC"
+        android:layout_below="@+id/textURL"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/fromPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hr"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="17dp"
+        android:text="@string/choose_image_from_phone"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Button
+        android:id="@+id/ChooseFromPhoneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/fromPhone"
+        android:layout_marginTop="5dp"
+        android:onClick="onBtnUploadImage"
+        android:text="@string/choose_image" />
+
+    <View
+        android:id="@+id/hr2"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/ChooseFromPhoneButton"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentStart="true"
+        android:background="#CCC" />
+
+    <TextView
+        android:id="@+id/fromBelow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hr"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="0dp"
+        android:text="Choose from below"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <ImageView
+    android:id="@+id/flower"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:layout_below="@+id/fromBelow"
+    android:onClick="onBtnChooseImage"
+    android:layout_marginTop="10dp"
+    app:srcCompat="@drawable/flower" />
+
+    <ImageView
+        android:id="@+id/cat"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/fromBelow"
+        android:layout_toEndOf="@+id/flower"
+        android:layout_marginLeft="10dp"
+        android:onClick="onBtnChooseImage"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/cat" />
+
+    <ImageView
+        android:id="@+id/smartboy"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/fromBelow"
+        android:layout_toEndOf="@+id/cat"
+        android:layout_marginLeft="10dp"
+        android:onClick="onBtnChooseImage"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/smartboy" />
+
+    <TextView
+        android:id="@+id/CancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/flower"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="106dp"
+        android:text="@string/cancel"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
+
+    <TextView
+        android:id="@+id/StartGameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/flower"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="17dp"
+        android:text="@string/start_game"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored" />
+</RelativeLayout>

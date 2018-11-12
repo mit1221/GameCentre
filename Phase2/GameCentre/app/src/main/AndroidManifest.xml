@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fall2018.csc2017.slidingtiles">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name="fall2018.csc2017.slidingtiles.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="fall2018.csc2017.slidingtiles.GameActivity"/>
+        <activity android:name="fall2018.csc2017.slidingtiles.GameCentre"/>
+        <activity android:name="fall2018.csc2017.slidingtiles.StartingActivity"/>
+        <activity android:name="fall2018.csc2017.slidingtiles.RegisterActivity"/>
+        <activity android:name="fall2018.csc2017.slidingtiles.HighscoresActivity"/>
+        <activity android:name="fall2018.csc2017.slidingtiles.SettingsActivity"/>
+
+
+    </application>
+
+</manifest>

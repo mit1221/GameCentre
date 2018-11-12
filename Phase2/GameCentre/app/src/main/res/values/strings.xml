@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">SlidingTiles</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="title_activity_register">Sign up</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- String for Highscores -->
+    <string name="all_users">All Users</string>
+    <string name="current_user">Just mine</string>
+    <string name="load_saved_game">Load Saved Game</string>
+    <string name="highscores">Highscores</string>
+    <string name="new_4x4_game">New 4x4 Game</string>
+    <string name="new_3x3_game">New 3x3 Game</string>
+    <string name="new_5x5_game">New 5x5 Game</string>
+    <string name="upload_image_from_phone">Upload Image from Phone</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="upload_image_from_url">Upload Image from URL</string>
+    <string name="welcome_to_sliding_tiles">Welcome To Sliding Tiles   A Puzzle Game where you must arrange the numbers in the correct order</string>
+    <string name="choose_image_text">Choose image</string>
+    <string name="download_image_from_url">Download image from URL</string>
+    <string name="enter_url">Enter URL</string>
+    <string name="start_game">Start Game</string>
+    <string name="cancel">Cancel</string>
+    <string name="click_start_game_text">Click Start Game if you want to use numbered tiles</string>
+    <string name="choose_image_from_phone">Choose image from phone</string>
+    <string-array name="game_options">
+        <item>All Games</item>
+        <item>5x5</item>
+        <item>4x4</item>
+        <item>3x3</item>
+    </string-array>
+
+
+</resources>
