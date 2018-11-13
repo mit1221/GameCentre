@@ -17,11 +17,31 @@
         android:id="@+id/btnSlidingTiles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="209dp"
+        android:width="150dp"
         android:text="Sliding tiles" />
+
+    <Button
+        android:id="@+id/btnSudoku"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="158dp"
+        android:width="150dp"
+        android:text="Sudoku" />
+
+    <Button
+        android:id="@+id/btnHangman"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="104dp"
+        android:width="150dp"
+        android:text="Hangman" />
 
     <ImageButton
         android:id="@+id/settingsButton"
