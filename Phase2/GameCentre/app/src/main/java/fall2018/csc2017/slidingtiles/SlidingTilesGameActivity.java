@@ -28,7 +28,7 @@ import fall2018.csc2017.UserManager;
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer {
+public class SlidingTilesGameActivity extends AppCompatActivity implements Observer {
 
     /**
      * The board manager.

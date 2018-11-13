@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="fall2018.csc2017.slidingtiles.GameActivity"/>
+        <activity android:name="fall2018.csc2017.slidingtiles.SlidingTilesGameActivity"/>
         <activity android:name="fall2018.csc2017.GameCentre"/>
         <activity android:name="fall2018.csc2017.slidingtiles.SlidingTilesMenuActivity"/>
         <activity android:name="fall2018.csc2017.RegisterActivity"/>

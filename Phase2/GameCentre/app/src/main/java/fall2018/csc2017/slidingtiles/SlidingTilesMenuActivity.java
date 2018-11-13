@@ -238,7 +238,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
         int boardSize = (int) gameOptions.get("size");
         Board.NUM_COLS = boardSize;
         Board.NUM_ROWS = boardSize;
-        Intent intent = new Intent(SlidingTilesMenuActivity.this, GameActivity.class);
+        Intent intent = new Intent(SlidingTilesMenuActivity.this, SlidingTilesGameActivity.class);
         intent.putExtra("User", user);
         intent.putExtra("LoadGame", false);
 
@@ -279,7 +279,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
      */
     private void loadSavedGame() {
         if (user != null && user.hasSave("slidingtiles")) {
-            Intent intent = new Intent(SlidingTilesMenuActivity.this, GameActivity.class);
+            Intent intent = new Intent(SlidingTilesMenuActivity.this, SlidingTilesGameActivity.class);
             intent.putExtra("User", user);
             intent.putExtra("LoadGame", true);
             startActivity(intent);
