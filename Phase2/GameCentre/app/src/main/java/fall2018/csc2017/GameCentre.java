@@ -8,8 +8,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import fall2018.csc2017.hangman.HangmanMenuActivity;
 import fall2018.csc2017.slidingtiles.R;
 import fall2018.csc2017.slidingtiles.SlidingTilesMenuActivity;
+import fall2018.csc2017.sudoku.SudokuMenuActivity;
 
 public class GameCentre extends AppCompatActivity {
 
@@ -31,7 +33,21 @@ public class GameCentre extends AppCompatActivity {
         btnSliding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchSlidingTiles();
+                launchGame(SlidingTilesMenuActivity.class);
+            }
+        });
+
+        findViewById(R.id.btnHangman).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchGame(HangmanMenuActivity.class);
+            }
+        });
+
+        findViewById(R.id.btnSudoku).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchGame(SudokuMenuActivity.class);
             }
         });
 
@@ -48,6 +64,10 @@ public class GameCentre extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         ImageView img = findViewById(R.id.profilePicture);
+        if(SettingsActivity.current_img >= 0 && SettingsActivity.current_img < SettingsActivity.imageNo.length){
+            img.setImageResource(SettingsActivity.imageNo[SettingsActivity.current_img]);
+        }
+        /*
         if (SettingsActivity.current_img == 0){
             img.setImageResource(SettingsActivity.imageNo[0]);
         }
@@ -60,17 +80,27 @@ public class GameCentre extends AppCompatActivity {
         if (SettingsActivity.current_img == 4){
             img.setImageResource(SettingsActivity.imageNo[4]);}
         if (SettingsActivity.current_img == 5){
-            img.setImageResource(SettingsActivity.imageNo[5]);}
+            img.setImageResource(SettingsActivity.imageNo[5]);}*/
     }
 
     /**
-     * Start the SlidingTiles game for the user
+     * Launches the specified game
+     * @param gameClass
      */
+    private void launchGame(Class<?> gameClass){
+        Intent intent = new Intent(GameCentre.this, gameClass);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    /** Refactored into launchGame
+     * Start the SlidingTiles game for the user
+
     private void launchSlidingTiles(){
         Intent intent = new Intent(GameCentre.this, SlidingTilesMenuActivity.class);
         intent.putExtra("User", user);
         startActivity(intent);
-    }
+    } */
 
     /**
      * Open the settings page.
