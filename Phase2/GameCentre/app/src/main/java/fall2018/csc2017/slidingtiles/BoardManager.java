@@ -45,8 +45,7 @@ class BoardManager implements Serializable {
         tiles.add(t);
 
         Collections.shuffle(tiles);
-        // TODO: add a helper function that changes the board to be solvable
-        makeSolvable(tiles);
+        makeSolvable(tiles);  // make sure the board is solvable
         this.board = new Board(tiles, maxUndoMoves);
     }
 
@@ -65,18 +64,17 @@ class BoardManager implements Serializable {
         tiles.add(t);
 
         Collections.shuffle(tiles);
-        // TODO: add a helper function that changes the board to be solvable
-        makeSolvable(tiles);
+        makeSolvable(tiles);  // make sure the board is solvable
         this.board = new Board(tiles, maxUndoMoves, image);
     }
 
     /**
      * Change the tiles so that it is solvable if it isn't. Leave it alone otherwise.
+     * source: wikipedia https://en.wikipedia.org/wiki/15_puzzle
      *
      * @param tiles a list of tiles
      */
-    // TODO: site sources (wikipedia https://en.wikipedia.org/wiki/15_puzzle)
-    void makeSolvable(List<Tile> tiles) {
+    private void makeSolvable(List<Tile> tiles) {
         int inv = 0;
         int rowDist = 0;
         for (int i = 0; i < tiles.size(); i++) {
