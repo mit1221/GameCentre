@@ -1,4 +1,4 @@
-package fall2018.csc2017.slidingtiles;
+package fall2018.csc2017;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import fall2018.csc2017.User;
+import fall2018.csc2017.UserException;
+import fall2018.csc2017.slidingtiles.EmptyFieldException;
 
 import static android.content.Context.MODE_PRIVATE;
 

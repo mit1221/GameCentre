@@ -1,7 +1,5 @@
 package fall2018.csc2017.slidingtiles;
 
-import android.graphics.Bitmap;
-
 import java.util.Comparator;
 import java.util.Observable;
 
@@ -9,6 +7,9 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import fall2018.csc2017.Score;
+import fall2018.csc2017.UndoMoveList;
 
 /**
  * The sliding tiles board.

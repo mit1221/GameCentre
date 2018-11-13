@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -22,10 +21,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+import fall2018.csc2017.User;
+import fall2018.csc2017.UserManager;
+
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class StartingActivity extends AppCompatActivity {
+public class SlidingTilesMenuActivity extends AppCompatActivity {
 
     /**
      * Current user
@@ -236,7 +238,7 @@ public class StartingActivity extends AppCompatActivity {
         int boardSize = (int) gameOptions.get("size");
         Board.NUM_COLS = boardSize;
         Board.NUM_ROWS = boardSize;
-        Intent intent = new Intent(StartingActivity.this, GameActivity.class);
+        Intent intent = new Intent(SlidingTilesMenuActivity.this, GameActivity.class);
         intent.putExtra("User", user);
         intent.putExtra("LoadGame", false);
 
@@ -277,7 +279,7 @@ public class StartingActivity extends AppCompatActivity {
      */
     private void loadSavedGame() {
         if (user != null && user.hasSave("slidingtiles")) {
-            Intent intent = new Intent(StartingActivity.this, GameActivity.class);
+            Intent intent = new Intent(SlidingTilesMenuActivity.this, GameActivity.class);
             intent.putExtra("User", user);
             intent.putExtra("LoadGame", true);
             startActivity(intent);

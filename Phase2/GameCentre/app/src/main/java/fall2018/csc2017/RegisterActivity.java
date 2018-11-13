@@ -7,11 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import fall2018.csc2017.LoginActivity;
 import fall2018.csc2017.slidingtiles.EmptyFieldException;
 import fall2018.csc2017.slidingtiles.R;
-import fall2018.csc2017.slidingtiles.UserException;
-import fall2018.csc2017.slidingtiles.UserManager;
 
 /**
  * Activity to register a new user

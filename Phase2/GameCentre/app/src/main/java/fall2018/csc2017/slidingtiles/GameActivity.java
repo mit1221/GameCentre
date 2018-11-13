@@ -19,6 +19,12 @@ import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
 
+import fall2018.csc2017.CustomAdapter;
+import fall2018.csc2017.GameScoreboard;
+import fall2018.csc2017.Score;
+import fall2018.csc2017.User;
+import fall2018.csc2017.UserManager;
+
 /**
  * The game activity.
  */
@@ -257,7 +263,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onPause() {
         super.onPause();
-        //saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+        //saveToFile(SlidingTilesMenuActivity.TEMP_SAVE_FILENAME);
         if (user != null) {
             UserManager.saveUserState(user, this);
         }

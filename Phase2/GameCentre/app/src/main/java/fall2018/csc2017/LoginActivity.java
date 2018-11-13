@@ -8,8 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import fall2018.csc2017.slidingtiles.R;
-import fall2018.csc2017.slidingtiles.User;
-import fall2018.csc2017.slidingtiles.UserManager;
 
 /**
  * Activity for letting users login and access their games.

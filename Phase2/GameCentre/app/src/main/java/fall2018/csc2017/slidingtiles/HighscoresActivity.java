@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import fall2018.csc2017.GameScoreboard;
+import fall2018.csc2017.Score;
+import fall2018.csc2017.User;
+
 /**
  * Activity for displaying user's highscore
  */

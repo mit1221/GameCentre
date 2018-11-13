@@ -9,9 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import fall2018.csc2017.slidingtiles.R;
-import fall2018.csc2017.slidingtiles.SettingsActivity;
-import fall2018.csc2017.slidingtiles.StartingActivity;
-import fall2018.csc2017.slidingtiles.User;
+import fall2018.csc2017.slidingtiles.SlidingTilesMenuActivity;
 
 public class GameCentre extends AppCompatActivity {
 
@@ -69,7 +67,7 @@ public class GameCentre extends AppCompatActivity {
      * Start the SlidingTiles game for the user
      */
     private void launchSlidingTiles(){
-        Intent intent = new Intent(GameCentre.this, StartingActivity.class);
+        Intent intent = new Intent(GameCentre.this, SlidingTilesMenuActivity.class);
         intent.putExtra("User", user);
         startActivity(intent);
     }

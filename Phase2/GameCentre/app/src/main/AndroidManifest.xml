@@ -20,10 +20,10 @@
         </activity>
         <activity android:name="fall2018.csc2017.slidingtiles.GameActivity"/>
         <activity android:name="fall2018.csc2017.GameCentre"/>
-        <activity android:name="fall2018.csc2017.slidingtiles.StartingActivity"/>
+        <activity android:name="fall2018.csc2017.slidingtiles.SlidingTilesMenuActivity"/>
         <activity android:name="fall2018.csc2017.RegisterActivity"/>
         <activity android:name="fall2018.csc2017.slidingtiles.HighscoresActivity"/>
-        <activity android:name="fall2018.csc2017.slidingtiles.SettingsActivity"/>
+        <activity android:name="fall2018.csc2017.SettingsActivity"/>
 
 
     </application>
