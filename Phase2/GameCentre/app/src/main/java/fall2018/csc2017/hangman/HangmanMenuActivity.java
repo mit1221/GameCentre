@@ -1,5 +1,6 @@
 package fall2018.csc2017.hangman;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,5 +43,12 @@ public class HangmanMenuActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Start the hangman game
+     */
+    private void gotoHangmanGameActivity(){
+        Intent intent = new Intent(this, HangmanGameActivity.class);
+        startActivity(intent);
+    }
 
 }
