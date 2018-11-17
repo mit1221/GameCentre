@@ -19,15 +19,15 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
+import fall2018.csc2017.MenuActivity;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
 
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class SlidingTilesMenuActivity extends AppCompatActivity {
+public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuActivity {
 
     /**
      * Current user
@@ -37,7 +37,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
     /**
      * Customizable options for the game
      */
-    private HashMap<String, Object> gameOptions = new HashMap<>();
+    private SlidingTilesGameOptions gameOptions = new SlidingTilesGameOptions();
 
     /**
      * Dialog for choosing board image options.
@@ -49,7 +49,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Retrieve the user who is currently logged in
         user = (User) getIntent().getSerializableExtra("User");
-        setContentView(R.layout.activity_starting_);
+        setContentView(R.layout.activity_starting);
     }
 
     /**
@@ -73,7 +73,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
                 boardSize = 3;
                 break;
         }
-        gameOptions.put("size", boardSize);
+        gameOptions.setSize(boardSize);
         openDialog1();
     }
 
@@ -140,7 +140,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     undoMoves = unlimitedUndoMoves[0] ? -1 : undoMoves;
-                    gameOptions.put("undoMoves", undoMoves);
+                    gameOptions.setUndoMoves(undoMoves);
                     openDialog2();
                 }
             }
@@ -182,7 +182,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
                                     "No image at given URL. Try again with another URL.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            gameOptions.put("image", output);
+                            gameOptions.setImage(output);
                             try {
                                 startGame();
                                 imageSelectDialog.dismiss();
@@ -216,7 +216,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
         BitmapDrawable drawable = (BitmapDrawable) imgView.getDrawable();
 
         Bitmap bitmap = drawable.getBitmap();
-        gameOptions.put("image", bitmap);
+        gameOptions.setImage(bitmap);
         startGame();
         imageSelectDialog.dismiss();
     }
@@ -234,26 +234,15 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
     /**
      * Add all necessary info to the intent and go to the game.
      */
-    private void startGame() {
-        int boardSize = (int) gameOptions.get("size");
+    @Override
+    public void startGame() {
+        int boardSize = gameOptions.getSize();
         Board.NUM_COLS = boardSize;
         Board.NUM_ROWS = boardSize;
         Intent intent = new Intent(SlidingTilesMenuActivity.this, SlidingTilesGameActivity.class);
         intent.putExtra("User", user);
         intent.putExtra("LoadGame", false);
-
-        int undoMoves = (int) gameOptions.get("undoMoves");
-        intent.putExtra("MaxUndoMoves", undoMoves);
-
-        Bitmap image = (Bitmap) gameOptions.get("image");
-
-        if (image != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 10, stream);
-
-            byte[] byteArray = stream.toByteArray();
-            intent.putExtra("image", byteArray);
-        }
+        intent.putExtra("GameOptions", gameOptions);
         startActivity(intent);
     }
 
@@ -266,7 +255,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                gameOptions.put("image", bitmap);
+                gameOptions.setImage(bitmap);
                 startGame();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -277,7 +266,8 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
     /**
      * Load the user's saved game if there is one.
      */
-    private void loadSavedGame() {
+    @Override
+    public void loadSavedGame() {
         if (user != null && user.hasSave("slidingtiles")) {
             Intent intent = new Intent(SlidingTilesMenuActivity.this, SlidingTilesGameActivity.class);
             intent.putExtra("User", user);
@@ -295,5 +285,6 @@ public class SlidingTilesMenuActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         user = UserManager.getUser(user.getUserName(), this); //reload the user data
+        gameOptions.setImage(null);
     }
 }

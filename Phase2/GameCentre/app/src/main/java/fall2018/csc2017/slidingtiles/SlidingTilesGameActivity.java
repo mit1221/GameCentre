@@ -132,11 +132,15 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             boardManager = new BoardManager(savedBoard);
             populateTileImages();
         } else {
-            int maxUndoMoves = extras.getInt("MaxUndoMoves");
-            byte[] byteArray = extras.getByteArray("image");
+            SlidingTilesGameOptions gameOptions = (SlidingTilesGameOptions)
+                    extras.getSerializable("GameOptions");
+            int maxUndoMoves = gameOptions.getUndoMoves();
+            byte[] byteArray = gameOptions.getImage();
 
             if (byteArray != null) {
                 Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+                // Cropping the image to make it a square
                 int width = bmp.getWidth();
                 int height = bmp.getHeight();
                 Bitmap squaredImage = Bitmap.createBitmap(bmp, 0, 0, Math.min(width, height), Math.min(width, height));
@@ -156,7 +160,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
     /**
      * Adds the generated tiles to tileImages.
-     *
      */
     private void populateTileImages() {
         byte[] image = boardManager.getBoard().getImage();

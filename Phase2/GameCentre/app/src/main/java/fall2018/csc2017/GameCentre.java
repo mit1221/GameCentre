@@ -67,20 +67,6 @@ public class GameCentre extends AppCompatActivity {
         if(SettingsActivity.current_img >= 0 && SettingsActivity.current_img < SettingsActivity.imageNo.length){
             img.setImageResource(SettingsActivity.imageNo[SettingsActivity.current_img]);
         }
-        /*
-        if (SettingsActivity.current_img == 0){
-            img.setImageResource(SettingsActivity.imageNo[0]);
-        }
-        if (SettingsActivity.current_img == 1){
-            img.setImageResource(SettingsActivity.imageNo[1]);}
-        if (SettingsActivity.current_img == 2){
-            img.setImageResource(SettingsActivity.imageNo[2]);}
-        if (SettingsActivity.current_img == 3){
-            img.setImageResource(SettingsActivity.imageNo[3]);}
-        if (SettingsActivity.current_img == 4){
-            img.setImageResource(SettingsActivity.imageNo[4]);}
-        if (SettingsActivity.current_img == 5){
-            img.setImageResource(SettingsActivity.imageNo[5]);}*/
     }
 
     /**
@@ -112,7 +98,7 @@ public class GameCentre extends AppCompatActivity {
             startActivity(intent);
         }
         catch (Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
 
     }
