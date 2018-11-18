@@ -1,5 +1,6 @@
 package fall2018.csc2017.hangman;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -8,24 +9,31 @@ import java.util.regex.Pattern;
 /**
  * Represents a game of a Hangman.
  */
-public class HangmanGame {
+public class HangmanGame implements Serializable{
 
     /**
      * Represents the state of a letter in hangman.
      * Can be unused, correct, or incorrect
      */
-    public enum LETTER_STATE{
+    public enum LETTER_STATE implements Serializable{
         UNUSED, CORRECT, INCORRECT
     }
+
 
     /**
      * Answer to the game. Not case sensitive
      */
+    public String getAnswer() {
+        return answer;
+    }
     private String answer;
 
     /**
      * The category the answer belongs to.
      */
+    public String getCategory() {
+        return category;
+    }
     private String category;
 
     /**
@@ -77,7 +85,7 @@ public class HangmanGame {
     public boolean makeGuess(Character letter){
         letter = Character.toUpperCase(letter);
         if(letters.containsKey(letter)) {
-            if (answer.contains(letter.toString())) {
+            if (getAnswer().contains(letter.toString())) {
                 letters.put(letter, LETTER_STATE.CORRECT);
                 return true;
             } else {
@@ -86,6 +94,24 @@ public class HangmanGame {
             }
         }
         throw new InvalidParameterException("Alphabet letter expected");
+    }
+
+    /**
+     * Returns the state of the game, with correctly guessed letters shown, "_" otherwise
+     * @return
+     */
+    public String getGameState(){
+        StringBuilder state = new StringBuilder();
+        for(int i = 0; i < answer.length(); i++){
+            Character c = answer.charAt(i);
+            // Display letter if correctly guessed
+            if(getLetterState(c) == LETTER_STATE.CORRECT){
+                state.append(c);
+            }
+            else // keep it hidden otherwise
+                state.append("_");
+        }
+        return state.toString();
     }
 
 }

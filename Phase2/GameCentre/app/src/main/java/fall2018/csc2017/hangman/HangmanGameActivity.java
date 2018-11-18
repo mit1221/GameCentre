@@ -26,14 +26,21 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
      */
     private LettersAdapter lettersAdapter;
 
+    /**
+     *  Current game of hangman
+     */
+    private HangmanGame game;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman_game);
 
+        game = (HangmanGame)getIntent().getSerializableExtra("HangmanGame");
+
         // Setup grid views
         gridLetters = findViewById(R.id.gridLetters);
-        lettersAdapter = new LettersAdapter("adsfadf");
+        lettersAdapter = new LettersAdapter(game.getGameState());
         gridLetters.setAdapter(lettersAdapter);
 
         GridView gridLetterButtons = findViewById(R.id.gridLetterButtons);
@@ -50,7 +57,10 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         Log.wtf("asdf", "Hangman onItemClick occurred");
         String letter = ((Button)(v)).getText().toString();
         Toast.makeText(this, letter, Toast.LENGTH_SHORT).show();
-        lettersAdapter.setLetters("abc" + letter);
+
+        game.makeGuess(letter.charAt(0));
+
+        lettersAdapter.setLetters(game.getGameState());
         gridLetters.invalidateViews();
     }
 }
