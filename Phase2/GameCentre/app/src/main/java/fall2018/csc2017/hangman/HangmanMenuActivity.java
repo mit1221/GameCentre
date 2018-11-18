@@ -33,7 +33,7 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
      * @param view - clicked button
      */
     public void onBtnNewGameClick(View view){
-
+        gotoHangmanGameActivity();
     }
 
     /**

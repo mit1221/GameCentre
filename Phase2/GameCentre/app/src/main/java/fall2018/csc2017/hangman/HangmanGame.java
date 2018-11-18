@@ -53,6 +53,7 @@ public class HangmanGame {
         for(int i = (int)'A';  i < (int)'Z' + 1; i++){
             letters.put((char)i, LETTER_STATE.UNUSED);
         }
+
     }
 
     /**
@@ -86,6 +87,5 @@ public class HangmanGame {
         }
         throw new InvalidParameterException("Alphabet letter expected");
     }
-
 
 }
