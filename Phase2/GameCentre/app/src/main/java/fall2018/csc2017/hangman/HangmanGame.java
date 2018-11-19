@@ -53,13 +53,14 @@ public class HangmanGame implements Serializable{
      * @param answer The answer. The game will not be case sensitive; answer can only contain alphabetic letters
      */
     public HangmanGame(String answer, String category){
-        // Check if answer makes a valid game
-        Pattern p = Pattern.compile("[a-z]+");
+        // Check if answer makes a valid game (letters and space)
+        answer = answer.toUpperCase();
+        Pattern p = Pattern.compile("[A-Z ]+");
         Matcher m = p.matcher(answer);
         if (!m.find())
             throw new InvalidParameterException("Hangman game can only have alphabetic letters, and at least one letter");
 
-        this.answer = answer.toUpperCase();
+        this.answer = answer;
         this.category = category;
         letters = new HashMap<>();
 
@@ -110,8 +111,8 @@ public class HangmanGame implements Serializable{
         StringBuilder state = new StringBuilder();
         for(int i = 0; i < answer.length(); i++){
             Character c = answer.charAt(i);
-            // Display letter if correctly guessed
-            if(getLetterState(c) == LETTER_STATE.CORRECT){
+            // Display letter if correctly guessed or is just a space
+            if(c == ' ' || getLetterState(c) == LETTER_STATE.CORRECT){
                 state.append(c);
             }
             else // keep it hidden otherwise
@@ -120,4 +121,16 @@ public class HangmanGame implements Serializable{
         return state.toString();
     }
 
+    /**
+     * Return if the game has been solved.
+     */
+    public boolean isSolved(){
+        for(Character c : letters.keySet()){
+            // If the user didn't use a letter that is in the answer, not solved
+            if(getLetterState(c) == LETTER_STATE.UNUSED && answer.contains(c.toString())){
+                return false;
+            }
+        }
+        return true;
+    }
 }

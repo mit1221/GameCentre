@@ -51,6 +51,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
 
         // Setup grid views
         gridLetters = findViewById(R.id.gridLetters);
+        gridLetters.setNumColumns(Math.min(game.getAnswer().length(), 12));
         lettersAdapter = new LettersAdapter(game.getGameState());
         gridLetters.setAdapter(lettersAdapter);
 
@@ -81,6 +82,11 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
 
             // update the correct/incorrect guesses
             gridLetterButtons.invalidateViews();
+
+            // Notify user if they won on this move
+            if(game.isSolved()){
+                Toast.makeText(this, "YOU WIN !!!", Toast.LENGTH_SHORT).show();
+            }
         }
         else{ // Tell user letter has already been used
             Toast.makeText(this, "Letter has already been used", Toast.LENGTH_SHORT).show();

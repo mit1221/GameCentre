@@ -1,6 +1,7 @@
 package fall2018.csc2017.hangman;
 
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -49,6 +50,7 @@ public class LetterButtonsAdapter extends BaseAdapter {
         Button btnLetter = new Button(parent.getContext());
         btnLetter.setOnClickListener(listener);
         btnLetter.setText(letter.toString());
+        btnLetter.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
         // Color the button if its correct/incorrect
         HangmanGame.LETTER_STATE letterState = letters.get(letter);
