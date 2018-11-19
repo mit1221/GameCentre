@@ -7,9 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Represents a game of a Hangman.
+ * Represents the state of a game of Hangman.
  */
-public class HangmanGame implements Serializable{
+public class HangmanState implements Serializable{
 
     /**
      * Represents the state of a letter in hangman.
@@ -18,7 +18,6 @@ public class HangmanGame implements Serializable{
     public enum LETTER_STATE implements Serializable{
         UNUSED, CORRECT, INCORRECT
     }
-
 
     /**
      * Answer to the game. Not case sensitive
@@ -49,10 +48,15 @@ public class HangmanGame implements Serializable{
     }
 
     /**
-     * Create a new HangmanGame
+     * Keep track of the number of times the user tries to guess the entire word/answer
+     */
+    private int numAnswerGuesses;
+
+    /**
+     * Create a new HangmanState
      * @param answer The answer. The game will not be case sensitive; answer can only contain alphabetic letters
      */
-    public HangmanGame(String answer, String category){
+    public HangmanState(String answer, String category){
         // Check if answer makes a valid game (letters and space)
         answer = answer.toUpperCase();
         Pattern p = Pattern.compile("[A-Z ]+");
@@ -63,16 +67,16 @@ public class HangmanGame implements Serializable{
         this.answer = answer;
         this.category = category;
         letters = new HashMap<>();
+        numAnswerGuesses = 0;
 
         // put all the letters as unused
         for(int i = (int)'A';  i < (int)'Z' + 1; i++){
             letters.put((char)i, LETTER_STATE.UNUSED);
         }
-
     }
 
     /**
-     * Retrieves the state of the letter in the HangmanGame
+     * Retrieves the state of the letter in the HangmanState
      * @param letter Letter to check. Must be alphabetic letter
      * @return The state of the letter
      */
@@ -101,6 +105,22 @@ public class HangmanGame implements Serializable{
             }
         }
         throw new InvalidParameterException("Alphabet letter expected");
+    }
+
+    /**
+     * Make a guess for the entire solution
+     * @param guess
+     * @return is the guess correct
+     */
+    public boolean makeAnswerGuess(String guess){
+        numAnswerGuesses += 1;
+        if(guess.toUpperCase().equals(answer)){
+
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**
@@ -133,4 +153,5 @@ public class HangmanGame implements Serializable{
         }
         return true;
     }
+
 }

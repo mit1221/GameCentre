@@ -2,11 +2,10 @@ package fall2018.csc2017.hangman;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import fall2018.csc2017.slidingtiles.R;
@@ -40,14 +39,14 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
     /**
      *  Current game of hangman
      */
-    private HangmanGame game;
+    private HangmanState game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman_game);
 
-        game = (HangmanGame)getIntent().getSerializableExtra("HangmanGame");
+        game = (HangmanState)getIntent().getSerializableExtra("HangmanState");
 
         // Setup grid views
         gridLetters = findViewById(R.id.gridLetters);
@@ -58,6 +57,11 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         gridLetterButtons = findViewById(R.id.gridLetterButtons);
         letterButtonsAdapter = new LetterButtonsAdapter(this, game.getLetters());
         gridLetterButtons.setAdapter(letterButtonsAdapter);
+
+        // display the category
+        TextView tvCategory = findViewById(R.id.tvCategory);
+        tvCategory.setText(game.getCategory());
+
     }
 
 
@@ -73,7 +77,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         Character letter = btn.getText().toString().charAt(0);
 
         // Let user make the guess if letter was never used
-        if(game.getLetterState(letter) == HangmanGame.LETTER_STATE.UNUSED){
+        if(game.getLetterState(letter) == HangmanState.LETTER_STATE.UNUSED){
             game.makeGuess(letter);
 
             // update the solved/unsolved letters

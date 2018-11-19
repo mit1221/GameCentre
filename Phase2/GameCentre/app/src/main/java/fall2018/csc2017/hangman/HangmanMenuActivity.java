@@ -33,7 +33,7 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
      * @param view - clicked button
      */
     public void onBtnNewGameClick(View view){
-        HangmanGame game = new HangmanGame("hang man game something moretext", "Some category");
+        HangmanState game = new HangmanState("hang man game something moretext", "Some category");
         gotoHangmanGameActivity(game);
     }
 
@@ -49,9 +49,9 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
      * Start the hangman game with the given game
      * @param game game to use
      */
-    private void gotoHangmanGameActivity(HangmanGame game){
+    private void gotoHangmanGameActivity(HangmanState game){
         Intent intent = new Intent(this, HangmanGameActivity.class);
-        intent.putExtra("HangmanGame", game);
+        intent.putExtra("HangmanState", game);
         startActivity(intent);
     }
 
