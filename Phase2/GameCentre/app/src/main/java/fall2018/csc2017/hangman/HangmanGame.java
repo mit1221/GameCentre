@@ -41,6 +41,12 @@ public class HangmanGame implements Serializable{
      */
     private HashMap<Character, LETTER_STATE> letters;
 
+    /**
+     * Returns a hashmap mapping each letter to its state(i.e. if unused or guess was correct)
+     */
+    public HashMap<Character, LETTER_STATE> getLetters() {
+        return letters;
+    }
 
     /**
      * Create a new HangmanGame

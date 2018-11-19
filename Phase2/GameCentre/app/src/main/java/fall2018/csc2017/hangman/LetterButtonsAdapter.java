@@ -1,9 +1,15 @@
 package fall2018.csc2017.hangman;
 
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Set;
+
 /**
  * An adapter to create a grid of alphabet letter buttons in a GridView
  */
@@ -15,25 +21,47 @@ public class LetterButtonsAdapter extends BaseAdapter {
     private View.OnClickListener listener;
 
     /**
+     * Hashmap keeping track of the state of each letter
+     */
+    private HashMap<Character, HangmanGame.LETTER_STATE> letters;
+
+    /**
      * Create a new LetterButtonsAdapter
      * @param listener Listener who is interested in the letter button clicks
      */
-    public LetterButtonsAdapter(View.OnClickListener listener){
+    public LetterButtonsAdapter(View.OnClickListener listener,
+                                HashMap<Character, HangmanGame.LETTER_STATE> letters){
+        this.letters = letters;
         this.listener = listener;
     }
 
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        // Retrieve the correct letter to display (in alphabetic order)
+        Set<Character> chars = letters.keySet();
+        Character[] arrChars = chars.toArray(new Character[chars.size()]);
+        Arrays.sort(arrChars);
+        Character letter = arrChars[position];
+
+        // Setup the button for the letter
         Button btnLetter = new Button(parent.getContext());
         btnLetter.setOnClickListener(listener);
-        Character letter = (char)('A' + position);
         btnLetter.setText(letter.toString());
+
+        // Color the button if its correct/incorrect
+        HangmanGame.LETTER_STATE letterState = letters.get(letter);
+        if(letterState != HangmanGame.LETTER_STATE.UNUSED){
+            btnLetter.setTextColor(Color.WHITE);
+            btnLetter.setBackgroundColor(letterState == HangmanGame.LETTER_STATE.CORRECT ? Color.GREEN : Color.MAGENTA);
+        }
         return btnLetter;
     }
 
     @Override
     public int getCount() {
-        return 26;
+        return letters.size();
     }
 
     @Override

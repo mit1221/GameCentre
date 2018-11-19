@@ -27,6 +27,17 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
     private LettersAdapter lettersAdapter;
 
     /**
+     * Grid for displaying the unused/correct/incorrect letter guesses
+     */
+    private GridView gridLetterButtons;
+
+    /**
+     * Adapter for gridLetterButtons
+     */
+    private LetterButtonsAdapter letterButtonsAdapter;
+
+
+    /**
      *  Current game of hangman
      */
     private HangmanGame game;
@@ -43,8 +54,9 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         lettersAdapter = new LettersAdapter(game.getGameState());
         gridLetters.setAdapter(lettersAdapter);
 
-        GridView gridLetterButtons = findViewById(R.id.gridLetterButtons);
-        gridLetterButtons.setAdapter(new LetterButtonsAdapter(this));
+        gridLetterButtons = findViewById(R.id.gridLetterButtons);
+        letterButtonsAdapter = new LetterButtonsAdapter(this, game.getLetters());
+        gridLetterButtons.setAdapter(letterButtonsAdapter);
     }
 
 
@@ -54,13 +66,24 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
      */
     @Override
     public void onClick(View v) {
-        Log.wtf("asdf", "Hangman onItemClick occurred");
-        String letter = ((Button)(v)).getText().toString();
-        Toast.makeText(this, letter, Toast.LENGTH_SHORT).show();
+        Button btn = (Button)v;
 
-        game.makeGuess(letter.charAt(0));
+        // Get the letter that was clicked on
+        Character letter = btn.getText().toString().charAt(0);
 
-        lettersAdapter.setLetters(game.getGameState());
-        gridLetters.invalidateViews();
+        // Let user make the guess if letter was never used
+        if(game.getLetterState(letter) == HangmanGame.LETTER_STATE.UNUSED){
+            game.makeGuess(letter);
+
+            // update the solved/unsolved letters
+            lettersAdapter.setLetters(game.getGameState());
+            gridLetters.invalidateViews();
+
+            // update the correct/incorrect guesses
+            gridLetterButtons.invalidateViews();
+        }
+        else{ // Tell user letter has already been used
+            Toast.makeText(this, "Letter has already been used", Toast.LENGTH_SHORT).show();
+        }
     }
 }
