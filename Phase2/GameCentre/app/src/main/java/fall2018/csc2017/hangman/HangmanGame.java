@@ -3,6 +3,8 @@ package fall2018.csc2017.hangman;
 import java.io.Serializable;
 import java.util.Map;
 
+import fall2018.csc2017.slidingtiles.R;
+
 /**
  * Represents a game of hangman
  * Keep track of number of guesses made by user and return score if game is over
@@ -12,7 +14,7 @@ public class HangmanGame implements Serializable{
     /**
      * Current state of letters in the game
      */
-    private HangmanLetters hgLetters;
+    private HangmanLetters hmLetters;
 
     /**
      * The category the answer belongs to.
@@ -40,16 +42,17 @@ public class HangmanGame implements Serializable{
     /**
      * The number of lives the user has
      */
+    public int getNumLives(){return numLives;}
     private int numLives;
 
     /**
      * Create a new Hangman game
      */
     public HangmanGame(String answer, String category){
-        hgLetters = new HangmanLetters(answer);
+        hmLetters = new HangmanLetters(answer);
         this.category = category;
         numAnswerGuesses = 0;
-        numLives = 5;
+        numLives = 3;
     }
 
     /**
@@ -58,10 +61,13 @@ public class HangmanGame implements Serializable{
      * @return is the guess correct
      */
     public boolean makeAnswerGuess(String guess){
-        numAnswerGuesses += 1;
-        boolean isGuessCorrect =  guess.toUpperCase().equals(hgLetters.getAnswer());
+        boolean isGuessCorrect =  guess.toUpperCase().equals(hmLetters.getAnswer());
         if(isGuessCorrect){
             revealAnswer();
+        }
+        else{
+            numLives -= 1;
+            numAnswerGuesses += 1;
         }
         return isGuessCorrect;
     }
@@ -72,9 +78,9 @@ public class HangmanGame implements Serializable{
      * @return If the guess was valid (not used before)
      */
     public boolean makeLetterGuess(Character guess){
-        boolean unused = hgLetters.getLetterState(guess) == HangmanLetters.LETTER_STATE.UNUSED;
+        boolean unused = hmLetters.getLetterState(guess) == HangmanLetters.LETTER_STATE.UNUSED;
         if(unused){
-            if(hgLetters.makeGuess(guess)){
+            if(hmLetters.makeGuess(guess)){
                 numCorrectLetters += 1;
             }
             else{
@@ -86,19 +92,19 @@ public class HangmanGame implements Serializable{
     }
 
     /**
-     * Returns a hashmap mapping each letter to its hgLetters(i.e. if unused or guess was correct)
+     * Returns a hashmap mapping each letter to its hmLetters(i.e. if unused or guess was correct)
      */
     public Map<Character, HangmanLetters.LETTER_STATE> getLetters() {
-        return hgLetters.getLetters();
+        return hmLetters.getLetters();
     }
 
     /**
-     * Sets all correct letters in the game hgLetters to reveal the answer
+     * Sets all correct letters in the game to reveal the answer
      */
     private void revealAnswer(){
-        for(Character letter : hgLetters.getLetters().keySet()){
-            if(hgLetters.getAnswer().indexOf(letter) != -1){
-                hgLetters.makeGuess(letter);
+        for(Character letter : hmLetters.getLetters().keySet()){
+            if(hmLetters.getAnswer().indexOf(letter) != -1){
+                hmLetters.makeGuess(letter);
             }
         }
     }
@@ -107,18 +113,18 @@ public class HangmanGame implements Serializable{
      * Return the answer to the game
      */
     public String getAnswer(){
-        return hgLetters.getAnswer();
+        return hmLetters.getAnswer();
     }
 
     /**
-     * Returns the hgLetters of the game, with correctly guessed letters shown, "_" otherwise
+     * Returns the state of letters in the game, with correctly guessed letters shown, "_" otherwise
      */
     public String getGameState(){
         StringBuilder strState = new StringBuilder();
-        for(int i = 0; i < hgLetters.getAnswer().length(); i++){
-            Character c = hgLetters.getAnswer().charAt(i);
+        for(int i = 0; i < hmLetters.getAnswer().length(); i++){
+            Character c = hmLetters.getAnswer().charAt(i);
             // Display letter if correctly guessed or is just a space
-            if(c == ' ' || hgLetters.getLetterState(c) == HangmanLetters.LETTER_STATE.CORRECT){
+            if(c == ' ' || hmLetters.getLetterState(c) == HangmanLetters.LETTER_STATE.CORRECT){
                 strState.append(c);
             }
             else // keep it hidden otherwise
@@ -131,16 +137,15 @@ public class HangmanGame implements Serializable{
      * Return if the user has won
      */
     public boolean didUserWin(){
-        return numLives > 0 && hgLetters.isSolved();
+        return numLives > 0 && hmLetters.isSolved();
     }
 
     /**
      * Return if the game is over
      */
     public boolean isGameOver(){
-        return didUserWin() || numLives == 0;
+        return didUserWin() || numLives <= 0;
     }
-
 
     /**
      * Returns the score of the game if it is over.
@@ -149,7 +154,7 @@ public class HangmanGame implements Serializable{
      */
     public int getScore(){
         if(isGameOver()){
-            return getAnswer().length()*2 - numWrongLetters * 2 - numCorrectLetters;
+            return getAnswer().length()*2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses;
         }
         return -1;
     }
