@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -22,16 +22,16 @@ public class LetterButtonsAdapter extends BaseAdapter {
     private View.OnClickListener listener;
 
     /**
-     * Hashmap keeping track of the state of each letter
+     * Map keeping track of the state of each letter
      */
-    private HashMap<Character, HangmanLetters.LETTER_STATE> letters;
+    private Map<Character, HangmanLetters.LETTER_STATE> letters;
 
     /**
      * Create a new LetterButtonsAdapter
      * @param listener Listener who is interested in the letter button clicks
      */
     public LetterButtonsAdapter(View.OnClickListener listener,
-                                HashMap<Character, HangmanLetters.LETTER_STATE> letters){
+                                Map<Character, HangmanLetters.LETTER_STATE> letters){
         this.letters = letters;
         this.listener = listener;
     }

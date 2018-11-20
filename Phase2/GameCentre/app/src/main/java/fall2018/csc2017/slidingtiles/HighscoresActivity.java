@@ -10,8 +10,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fall2018.csc2017.GameScoreboard;
@@ -99,7 +99,7 @@ public class HighscoresActivity extends AppCompatActivity implements AdapterView
         boolean allUsers = btnUser.getText() == btnUser.getTextOff();
         Integer selectedOption = gameOptions.get(spinGameOptions.getSelectedItem().toString());
         String fileName = Board.getHighScoreFile(selectedOption);
-        ArrayList<Score> scores = allUsers?
+        List<Score> scores = allUsers?
                 GameScoreboard.getScores(this, fileName, Board.getComparator()) :
                 GameScoreboard.getScoresByUser(this, fileName, user,Board.getComparator());
         String userDisplay = "User";

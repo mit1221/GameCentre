@@ -3,6 +3,7 @@ package fall2018.csc2017.hangman;
 import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,12 +31,12 @@ public class HangmanLetters implements Serializable{
     /**
      * Keep track of letters and their state
      */
-    private HashMap<Character, LETTER_STATE> letters;
+    private Map<Character, LETTER_STATE> letters;
 
     /**
      * Returns a hashmap mapping each letter to its state(i.e. if unused or guess was correct)
      */
-    public HashMap<Character, LETTER_STATE> getLetters() {
+    public Map<Character, LETTER_STATE> getLetters() {
         return letters;
     }
 
