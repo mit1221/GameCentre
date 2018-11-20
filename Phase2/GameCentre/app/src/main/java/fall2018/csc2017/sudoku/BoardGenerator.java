@@ -161,14 +161,14 @@ public class BoardGenerator {
         int count = K;
         while (count != 0)
         {
-            int cellId = randomGenerator(N*N);
+            int cellId = randomGenerator(N*N) - 1;
 
             // System.out.println(cellId);
             // extract coordinates i and j
             int i = (cellId/N);
             int j = cellId%9;
-            if (j != 0)
-                j = j - 1;
+//            if (j != 0)
+//                j = j - 1;
 
             // System.out.println(i+" "+j);
             if (mat[i][j] != 0)
@@ -194,7 +194,7 @@ public class BoardGenerator {
     // Driver code
     public static void main(String[] args)
     {
-        int N = 9, K = 14;
+        int N = 9, K = 60;
         BoardGenerator sudoku = new BoardGenerator(N, K);
         sudoku.fillValues();
         sudoku.printSudoku();
