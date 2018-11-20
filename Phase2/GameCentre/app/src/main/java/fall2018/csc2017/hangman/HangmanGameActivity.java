@@ -39,14 +39,14 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
     /**
      *  Current game of hangman
      */
-    private HangmanState game;
+    private HangmanGame game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman_game);
 
-        game = (HangmanState)getIntent().getSerializableExtra("HangmanState");
+        game = (HangmanGame)getIntent().getSerializableExtra("HangmanLetters");
 
         // Setup grid views
         gridLetters = findViewById(R.id.gridLetters);
@@ -77,8 +77,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         Character letter = btn.getText().toString().charAt(0);
 
         // Let user make the guess if letter was never used
-        if(game.getLetterState(letter) == HangmanState.LETTER_STATE.UNUSED){
-            game.makeGuess(letter);
+        if(game.makeLetterGuess(letter)){
 
             // update the solved/unsolved letters
             lettersAdapter.setLetters(game.getGameState());
@@ -88,8 +87,13 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
             gridLetterButtons.invalidateViews();
 
             // Notify user if they won on this move
-            if(game.isSolved()){
-                Toast.makeText(this, "YOU WIN !!!", Toast.LENGTH_SHORT).show();
+            if(game.isGameOver()){
+                if(game.didUserWin()) {
+                    Toast.makeText(this, "YOU WIN !!!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                }
             }
         }
         else{ // Tell user letter has already been used

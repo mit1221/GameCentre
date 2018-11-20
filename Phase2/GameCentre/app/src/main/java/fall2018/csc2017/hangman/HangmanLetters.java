@@ -7,9 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Represents the state of a game of Hangman.
+ * Represents the state of letters in a game of Hangman.
  */
-public class HangmanState implements Serializable{
+public class HangmanLetters implements Serializable{
 
     /**
      * Represents the state of a letter in hangman.
@@ -28,14 +28,6 @@ public class HangmanState implements Serializable{
     private String answer;
 
     /**
-     * The category the answer belongs to.
-     */
-    public String getCategory() {
-        return category;
-    }
-    private String category;
-
-    /**
      * Keep track of letters and their state
      */
     private HashMap<Character, LETTER_STATE> letters;
@@ -48,15 +40,10 @@ public class HangmanState implements Serializable{
     }
 
     /**
-     * Keep track of the number of times the user tries to guess the entire word/answer
-     */
-    private int numAnswerGuesses;
-
-    /**
-     * Create a new HangmanState
+     * Create a new HangmanLetters
      * @param answer The answer. The game will not be case sensitive; answer can only contain alphabetic letters
      */
-    public HangmanState(String answer, String category){
+    public HangmanLetters(String answer){
         // Check if answer makes a valid game (letters and space)
         answer = answer.toUpperCase();
         Pattern p = Pattern.compile("[A-Z ]+");
@@ -65,9 +52,7 @@ public class HangmanState implements Serializable{
             throw new InvalidParameterException("Hangman game can only have alphabetic letters, and at least one letter");
 
         this.answer = answer;
-        this.category = category;
         letters = new HashMap<>();
-        numAnswerGuesses = 0;
 
         // put all the letters as unused
         for(int i = (int)'A';  i < (int)'Z' + 1; i++){
@@ -76,7 +61,7 @@ public class HangmanState implements Serializable{
     }
 
     /**
-     * Retrieves the state of the letter in the HangmanState
+     * Retrieves the state of the letter in the HangmanLetters
      * @param letter Letter to check. Must be alphabetic letter
      * @return The state of the letter
      */
@@ -108,46 +93,12 @@ public class HangmanState implements Serializable{
     }
 
     /**
-     * Make a guess for the entire solution
-     * @param guess
-     * @return is the guess correct
-     */
-    public boolean makeAnswerGuess(String guess){
-        numAnswerGuesses += 1;
-        if(guess.toUpperCase().equals(answer)){
-
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    /**
-     * Returns the state of the game, with correctly guessed letters shown, "_" otherwise
-     * @return
-     */
-    public String getGameState(){
-        StringBuilder state = new StringBuilder();
-        for(int i = 0; i < answer.length(); i++){
-            Character c = answer.charAt(i);
-            // Display letter if correctly guessed or is just a space
-            if(c == ' ' || getLetterState(c) == LETTER_STATE.CORRECT){
-                state.append(c);
-            }
-            else // keep it hidden otherwise
-                state.append("_");
-        }
-        return state.toString();
-    }
-
-    /**
      * Return if the game has been solved.
      */
     public boolean isSolved(){
         for(Character c : letters.keySet()){
             // If the user didn't use a letter that is in the answer, not solved
-            if(getLetterState(c) == LETTER_STATE.UNUSED && answer.contains(c.toString())){
+            if(getLetterState(c) == HangmanLetters.LETTER_STATE.UNUSED && answer.contains(c.toString())){
                 return false;
             }
         }
