@@ -1,7 +1,7 @@
 package fall2018.csc2017.hangman;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a game of hangman
@@ -88,7 +88,7 @@ public class HangmanGame implements Serializable{
     /**
      * Returns a hashmap mapping each letter to its hgLetters(i.e. if unused or guess was correct)
      */
-    public HashMap<Character, HangmanLetters.LETTER_STATE> getLetters() {
+    public Map<Character, HangmanLetters.LETTER_STATE> getLetters() {
         return hgLetters.getLetters();
     }
 
