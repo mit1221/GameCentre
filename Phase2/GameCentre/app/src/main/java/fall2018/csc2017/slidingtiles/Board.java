@@ -1,5 +1,7 @@
 package fall2018.csc2017.slidingtiles;
 
+import android.support.annotation.NonNull;
+
 import java.util.Comparator;
 import java.util.Observable;
 
@@ -220,7 +222,7 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
                 '}';
     }
 
-    @Override
+    @NonNull @Override
     public Iterator<Tile> iterator(){
         return new TileIterator();
     }

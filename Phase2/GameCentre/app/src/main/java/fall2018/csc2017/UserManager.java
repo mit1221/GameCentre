@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -12,8 +11,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import fall2018.csc2017.User;
-import fall2018.csc2017.UserException;
 import fall2018.csc2017.slidingtiles.EmptyFieldException;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -67,10 +64,10 @@ public class UserManager implements Serializable {
         return null;
     }
 
-
     /**
-     * @param userName
-     * @param password
+     * @param userName the username of the user trying to login
+     * @param password the password of the user trying to login
+     * @param c        the context from which to login.
      * @return the user if the login was successful, else null.
      */
     public static User login(String userName, String password, Context c) {
@@ -86,7 +83,7 @@ public class UserManager implements Serializable {
     /**
      * Saves users to text file.
      *
-     * @param c
+     * @param c the context in which to save users
      */
     private static void saveUsers(Context c) {
         try {
@@ -102,7 +99,7 @@ public class UserManager implements Serializable {
     /**
      * Loads users from text file.
      *
-     * @param c
+     * @param c the context in which to load users
      */
     private static void loadUsers(Context c) {
 
