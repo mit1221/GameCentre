@@ -51,7 +51,7 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
      */
     private void gotoHangmanGameActivity(HangmanGame game){
         Intent intent = new Intent(this, HangmanGameActivity.class);
-        intent.putExtra("HangmanGame", game);
+        intent.putExtra("HangmanLetters", game);
         startActivity(intent);
     }
 

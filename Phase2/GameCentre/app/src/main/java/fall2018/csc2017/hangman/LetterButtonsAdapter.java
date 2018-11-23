@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -22,16 +22,16 @@ public class LetterButtonsAdapter extends BaseAdapter {
     private View.OnClickListener listener;
 
     /**
-     * Hashmap keeping track of the state of each letter
+     * Map keeping track of the state of each letter
      */
-    private HashMap<Character, HangmanGame.LETTER_STATE> letters;
+    private Map<Character, HangmanLetters.LETTER_STATE> letters;
 
     /**
      * Create a new LetterButtonsAdapter
      * @param listener Listener who is interested in the letter button clicks
      */
     public LetterButtonsAdapter(View.OnClickListener listener,
-                                HashMap<Character, HangmanGame.LETTER_STATE> letters){
+                                Map<Character, HangmanLetters.LETTER_STATE> letters){
         this.letters = letters;
         this.listener = listener;
     }
@@ -53,10 +53,10 @@ public class LetterButtonsAdapter extends BaseAdapter {
         btnLetter.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
         // Color the button if its correct/incorrect
-        HangmanGame.LETTER_STATE letterState = letters.get(letter);
-        if(letterState != HangmanGame.LETTER_STATE.UNUSED){
+        HangmanLetters.LETTER_STATE letterState = letters.get(letter);
+        if(letterState != HangmanLetters.LETTER_STATE.UNUSED){
             btnLetter.setTextColor(Color.WHITE);
-            btnLetter.setBackgroundColor(letterState == HangmanGame.LETTER_STATE.CORRECT ? Color.GREEN : Color.MAGENTA);
+            btnLetter.setBackgroundColor(letterState == HangmanLetters.LETTER_STATE.CORRECT ? Color.GREEN : Color.MAGENTA);
         }
         return btnLetter;
     }

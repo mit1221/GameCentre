@@ -1,32 +1,20 @@
 package fall2018.csc2017.hangman;
 
 import java.io.Serializable;
-import java.security.InvalidParameterException;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map;
+
+import fall2018.csc2017.slidingtiles.R;
 
 /**
- * Represents a game of a Hangman.
+ * Represents a game of hangman
+ * Keep track of number of guesses made by user and return score if game is over
  */
+
 public class HangmanGame implements Serializable{
-
     /**
-     * Represents the state of a letter in hangman.
-     * Can be unused, correct, or incorrect
+     * Current state of letters in the game
      */
-    public enum LETTER_STATE implements Serializable{
-        UNUSED, CORRECT, INCORRECT
-    }
-
-
-    /**
-     * Answer to the game. Not case sensitive
-     */
-    public String getAnswer() {
-        return answer;
-    }
-    private String answer;
+    private HangmanLetters hmLetters;
 
     /**
      * The category the answer belongs to.
@@ -37,100 +25,137 @@ public class HangmanGame implements Serializable{
     private String category;
 
     /**
-     * Keep track of letters and their state
+     * Keep track of the number of times the user tries to guess the entire word/answer
      */
-    private HashMap<Character, LETTER_STATE> letters;
+    private int numAnswerGuesses;
 
     /**
-     * Returns a hashmap mapping each letter to its state(i.e. if unused or guess was correct)
+     * Number of times the user guessed the wrong letter
      */
-    public HashMap<Character, LETTER_STATE> getLetters() {
-        return letters;
-    }
+    private int numWrongLetters;
 
     /**
-     * Create a new HangmanGame
-     * @param answer The answer. The game will not be case sensitive; answer can only contain alphabetic letters
+     * Number of times user guessed correct letter
+     */
+    private int numCorrectLetters;
+
+    /**
+     * The number of lives the user has
+     */
+    public int getNumLives(){return numLives;}
+    private int numLives;
+
+    /**
+     * Create a new Hangman game
      */
     public HangmanGame(String answer, String category){
-        // Check if answer makes a valid game (letters and space)
-        answer = answer.toUpperCase();
-        Pattern p = Pattern.compile("[A-Z ]+");
-        Matcher m = p.matcher(answer);
-        if (!m.find())
-            throw new InvalidParameterException("Hangman game can only have alphabetic letters, and at least one letter");
-
-        this.answer = answer;
+        hmLetters = new HangmanLetters(answer);
         this.category = category;
-        letters = new HashMap<>();
-
-        // put all the letters as unused
-        for(int i = (int)'A';  i < (int)'Z' + 1; i++){
-            letters.put((char)i, LETTER_STATE.UNUSED);
-        }
-
+        numAnswerGuesses = 0;
+        numLives = 3;
     }
 
     /**
-     * Retrieves the state of the letter in the HangmanGame
-     * @param letter Letter to check. Must be alphabetic letter
-     * @return The state of the letter
+     * Make a guess for the entire solution
+     * @param guess
+     * @return is the guess correct
      */
-    public LETTER_STATE getLetterState(Character letter){
-        letter = Character.toUpperCase(letter);
-        if(letters.containsKey(letter)){
-            return letters.get(letter);
+    public boolean makeAnswerGuess(String guess){
+        boolean isGuessCorrect =  guess.toUpperCase().equals(hmLetters.getAnswer());
+        if(isGuessCorrect){
+            revealAnswer();
         }
-        throw new InvalidParameterException("Alphabet letter expected");
+        else{
+            numLives -= 1;
+            numAnswerGuesses += 1;
+        }
+        return isGuessCorrect;
     }
 
     /**
-     * Make a letter guess in hangman
-     * @param letter The user's guess
-     * @return returns if the user makes a correct guess.
+     * Make a letter guess.
+     * @param guess
+     * @return If the guess was valid (not used before)
      */
-    public boolean makeGuess(Character letter){
-        letter = Character.toUpperCase(letter);
-        if(letters.containsKey(letter)) {
-            if (getAnswer().contains(letter.toString())) {
-                letters.put(letter, LETTER_STATE.CORRECT);
-                return true;
-            } else {
-                letters.put(letter, LETTER_STATE.INCORRECT);
-                return false;
+    public boolean makeLetterGuess(Character guess){
+        boolean unused = hmLetters.getLetterState(guess) == HangmanLetters.LETTER_STATE.UNUSED;
+        if(unused){
+            if(hmLetters.makeGuess(guess)){
+                numCorrectLetters += 1;
+            }
+            else{
+                numWrongLetters += 1;
+                numLives -= 1;
             }
         }
-        throw new InvalidParameterException("Alphabet letter expected");
+        return unused;
     }
 
     /**
-     * Returns the state of the game, with correctly guessed letters shown, "_" otherwise
-     * @return
+     * Returns a hashmap mapping each letter to its hmLetters(i.e. if unused or guess was correct)
+     */
+    public Map<Character, HangmanLetters.LETTER_STATE> getLetters() {
+        return hmLetters.getLetters();
+    }
+
+    /**
+     * Sets all correct letters in the game to reveal the answer
+     */
+    private void revealAnswer(){
+        for(Character letter : hmLetters.getLetters().keySet()){
+            if(hmLetters.getAnswer().indexOf(letter) != -1){
+                hmLetters.makeGuess(letter);
+            }
+        }
+    }
+
+    /**
+     * Return the answer to the game
+     */
+    public String getAnswer(){
+        return hmLetters.getAnswer();
+    }
+
+    /**
+     * Returns the state of letters in the game, with correctly guessed letters shown, "_" otherwise
      */
     public String getGameState(){
-        StringBuilder state = new StringBuilder();
-        for(int i = 0; i < answer.length(); i++){
-            Character c = answer.charAt(i);
+        StringBuilder strState = new StringBuilder();
+        for(int i = 0; i < hmLetters.getAnswer().length(); i++){
+            Character c = hmLetters.getAnswer().charAt(i);
             // Display letter if correctly guessed or is just a space
-            if(c == ' ' || getLetterState(c) == LETTER_STATE.CORRECT){
-                state.append(c);
+            if(c == ' ' || hmLetters.getLetterState(c) == HangmanLetters.LETTER_STATE.CORRECT){
+                strState.append(c);
             }
             else // keep it hidden otherwise
-                state.append("_");
+                strState.append("_");
         }
-        return state.toString();
+        return strState.toString();
     }
 
     /**
-     * Return if the game has been solved.
+     * Return if the user has won
      */
-    public boolean isSolved(){
-        for(Character c : letters.keySet()){
-            // If the user didn't use a letter that is in the answer, not solved
-            if(getLetterState(c) == LETTER_STATE.UNUSED && answer.contains(c.toString())){
-                return false;
-            }
+    public boolean didUserWin(){
+        return numLives > 0 && hmLetters.isSolved();
+    }
+
+    /**
+     * Return if the game is over
+     */
+    public boolean isGameOver(){
+        return didUserWin() || numLives <= 0;
+    }
+
+    /**
+     * Returns the score of the game if it is over.
+     * If it is not over, then returns -1
+     *
+     */
+    public int getScore(){
+        if(isGameOver()){
+            return getAnswer().length()*2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses;
         }
-        return true;
+        return -1;
     }
 }
