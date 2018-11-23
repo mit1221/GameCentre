@@ -15,8 +15,6 @@ public class User implements Serializable {
      * this user's hashed password
      */
     private int password;
-
-    // private Board board; // this user's saves. keeping around incase we need to revert
     /**
      * This user's saves (k, v) = (game name, save)
      */
@@ -41,7 +39,7 @@ public class User implements Serializable {
 
 
     /**
-     * @param game
+     * @param game the s
      * @return if this user has a save for game
      */
     public boolean hasSave(String game) {
@@ -57,7 +55,7 @@ public class User implements Serializable {
     }
 
     /**
-     * @param game
+     * @param game the game whose save is being set
      * @return the save for game.
      */
     public Object getSave(String game) {
@@ -75,18 +73,6 @@ public class User implements Serializable {
     public boolean checkCredentials(String userName, String password) {
         return userName.equals(this.getUserName()) && password.hashCode() == this.getPassword();
     }
-
-
-    /**  keeping this around in case we need to revert
-     public boolean hasSavedGame(){return board != null;}
-
-
-     public void setBoard(Board board){ this.board = board;}
-
-
-
-     public Board getBoard(){return board;}
-     **/
 
 
 }
