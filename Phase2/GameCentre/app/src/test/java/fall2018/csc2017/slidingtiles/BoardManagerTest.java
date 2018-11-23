@@ -20,10 +20,10 @@ import fall2018.csc2017.UndoMoveList;
 import static org.junit.Assert.*;
 
 
-public class BoardTest {
+public class BoardManagerTest {
 
-    /** The board for testing. */
-    Board board;
+    /** The board manager for testing. */
+    BoardManager boardManager;
 
     /**
      * Make a set of tiles that are in order.
@@ -41,39 +41,18 @@ public class BoardTest {
 
     /**
      * Make a solved Board.
-     * @param size the size of the board (number of rows/cols).
+     * @param size size of the board (number of rows/cols).
      */
     private void setUpCorrect(int size) {
         Board.NUM_ROWS = Board.NUM_COLS = size;
         List<Tile> tiles = makeTiles();
-        board = new Board(tiles);
+        Board board = new Board(tiles);
+        boardManager = new BoardManager(board);
     }
+
 
     @Test
-    public void testMakeMove() {
-        setUpCorrect(4);
-        Tile tile0 = board.getTile(0,0);
-        Tile tile1 = board.getTile(0,1);
-        board.makeMove(0,0,0,1);
-
-
-        Assert.assertEquals(board.getTile(0,0), tile1);
-        Assert.assertEquals(board.getTile(0,1), tile0);
-        Assert.assertEquals(board.getMovesMade(), 1);
+    public void testSolved(){
 
     }
-
-    @Test
-    public void testUndoMove(){
-        setUpCorrect(3);
-        Tile tile0 = board.getTile(0,0);
-        Tile tile1 = board.getTile(0,1);
-        board.makeMove(0,0,0,1);
-        board.undoLastMove();
-
-        Assert.assertEquals(board.getTile(0,0), tile0);
-        Assert.assertEquals(board.getTile(0,1), tile1);
-        Assert.assertEquals(board.getMovesMade(), 2);
-    }
-
 }
