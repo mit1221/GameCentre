@@ -7,61 +7,95 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class BoardGenerator implements Iterable<Integer> {
+
+    /**
+     * An array representing the the Sudoku Board.
+     */
     private int[] mat[];
-    private int N; // number of columns/rows.
-    private int SRN; // square root of N
-    private int K; // No. Of missing digits
 
-    // Constructor
-    BoardGenerator(int N, int K) {
-        this.N = N;
-        this.K = K;
+    /**
+     * The dimensions of the board.
+     */
+    private int rows;
 
-        // Compute square root of N
-        Double SRNd = Math.sqrt(N);
-        SRN = SRNd.intValue();
+    /**
+     * Dimensions of each sub-grid in the board, or the square-root of rows.
+     */
+    private int root;
 
-        mat = new int[N][N];
+    /**
+     * The number of blanks to be initialised upon creation of the board.
+     */
+    private int blanks;
+
+    /**
+     * Initialises an empty sudoku board.
+     * @param rows dimensions of the board.
+     * @param blanks the number of blanks in the board.
+     */
+    BoardGenerator(int rows, int blanks) {
+        this.rows = rows;
+        this.blanks = blanks;
+
+        // Compute square root of rows
+        Double SRNd = Math.sqrt(rows);
+        root = SRNd.intValue();
+
+        mat = new int[rows][rows];
     }
 
-    // Sudoku Generator
-    public void fillValues() {
-        // Fill the diagonal of SRN x SRN matrices
+    /**
+     * Populates the board with the appropriate number of values.
+     */
+    void fillValues() {
+        // Fill the diagonal of root x root matrices
         fillDiagonal();
 
         // Fill remaining blocks
-        fillRemaining(0, SRN);
+        fillRemaining(0, root);
 
-        // Remove Randomly K digits to make game
+        // Remove Randomly blanks digits to make game
         removeKDigits();
     }
 
-    // Fill the diagonal SRN number of SRN x SRN matrices
+    /**
+     * Diagonally populates the grids of the board.
+     */
     void fillDiagonal() {
 
-        for (int i = 0; i < N; i = i + SRN)
+        for (int i = 0; i < rows; i = i + root)
 
             // for diagonal box, start coordinates->i==j
             fillBox(i, i);
     }
 
-    // Returns false if given 3 x 3 block contains num.
+    /**
+     * Checks for a duplicate value in a given root x root sub-grid.
+     * @param rowStart the first row-coordinate of the mentioned grid.
+     * @param colStart the first col-coordinate of the mentioned grid.
+     * @param num the number to be checked for.
+     * @return the boolean representing whether num is already in the given grid.
+     */
     boolean unUsedInBox(int rowStart, int colStart, int num) {
-        for (int i = 0; i < SRN; i++)
-            for (int j = 0; j < SRN; j++)
+        for (int i = 0; i < root; i++)
+            for (int j = 0; j < root; j++)
                 if (mat[rowStart + i][colStart + j] == num)
                     return false;
 
         return true;
     }
 
-    // Fill a 3 x 3 matrix.
+    /**
+     * Fills a given root x root sub-grid with values.
+     * @param row the first row-coordinate of the mentioned grid.
+     * @param col colStart the first col-coordinate of the mentioned grid.
+     */
     void fillBox(int row, int col) {
         int num;
-        for (int i = 0; i < SRN; i++) {
-            for (int j = 0; j < SRN; j++) {
+        for (int i = 0; i < root; i++) {
+            for (int j = 0; j < root; j++) {
                 do {
-                    num = randomGenerator(N);
+                    num = randomGenerator(this.rows);
                 }
                 while (!unUsedInBox(row, col, num));
 
@@ -70,61 +104,86 @@ public class BoardGenerator implements Iterable<Integer> {
         }
     }
 
-    // Random generator
+    /**
+     * Returns a random integer value from 1-9.
+     * @param num A value restricting the range of possible return values.
+     * @return a random integer.
+     */
     int randomGenerator(int num) {
         return (int) Math.floor((Math.random() * num + 1));
     }
 
-    // Check if safe to put in cell
+    /**
+     * Determines whether it is safe to place a num into given cell.
+     * @param i x-coordinate of the cell
+     * @param j y-coordinate of the cell
+     * @param num input value
+     * @return bool determining safety of input value.
+     */
     boolean CheckIfSafe(int i, int j, int num) {
         return (unUsedInRow(i, num) &&
                 unUsedInCol(j, num) &&
-                unUsedInBox(i - i % SRN, j - j % SRN, num));
+                unUsedInBox(i - i % root, j - j % root, num));
     }
 
-    // check in the row for existence
+    /**
+     * Determines whether it is safe to place a value in a given row.
+     * @param i coordinate denoting the entire row in the board.
+     * @param num input value
+     * @return bool determining safety of input value.
+     */
     boolean unUsedInRow(int i, int num) {
-        for (int j = 0; j < N; j++)
+        for (int j = 0; j < rows; j++)
             if (mat[i][j] == num)
                 return false;
         return true;
     }
 
-    // check in the row for existence
+    /**
+     * Determines whether it is safe to place a value in a given column.
+     * @param j coordinate denoting the entire column in the board.
+     * @param num input value.
+     * @return bool determining safety of input value.
+     */
     boolean unUsedInCol(int j, int num) {
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < rows; i++)
             if (mat[i][j] == num)
                 return false;
         return true;
     }
 
-    // A recursive function to fill remaining
-    // matrix
+    /**
+     * Recursively fills the remaining matrices.
+     * @param i x-coordinate of grid.
+     * @param j y-coordinate of grid.
+     * @return boolean determining if board has been populated.
+     */
     boolean fillRemaining(int i, int j) {
         // System.out.println(i+" "+j);
-        if (j >= N && i < N - 1) {
+        if (j >= rows && i < rows - 1) {
             i = i + 1;
             j = 0;
         }
-        if (i >= N && j >= N)
+        //finished filling matrices.
+        if (i >= rows && j >= rows)
             return true;
 
-        if (i < SRN) {
-            if (j < SRN)
-                j = SRN;
-        } else if (i < N - SRN) {
-            if (j == (int) (i / SRN) * SRN)
-                j = j + SRN;
+        if (i < root) {
+            if (j < root)
+                j = root;
+        } else if (i < rows - root) {
+            if (j == (int) (i / root) * root)
+                j = j + root;
         } else {
-            if (j == N - SRN) {
+            if (j == rows - root) {
                 i = i + 1;
                 j = 0;
-                if (i >= N)
+                if (i >= rows)
                     return true;
             }
         }
 
-        for (int num = 1; num <= N; num++) {
+        for (int num = 1; num <= rows; num++) {
             if (CheckIfSafe(i, j, num)) {
                 mat[i][j] = num;
                 if (fillRemaining(i, j + 1))
@@ -136,16 +195,17 @@ public class BoardGenerator implements Iterable<Integer> {
         return false;
     }
 
-    // Remove the K no. of digits to
-    // complete game
-    public void removeKDigits() {
-        int count = K;
+    /**
+     * Replaces a specified number of digits in the board with 0's.
+     */
+    void removeKDigits() {
+        int count = blanks;
         while (count != 0) {
-            int cellId = randomGenerator(N * N) - 1;
+            int cellId = randomGenerator(rows * rows) - 1;
 
             // System.out.println(cellId);
             // extract coordinates i and j
-            int i = (cellId / N);
+            int i = (cellId / rows);
             int j = cellId % 9;
 //            if (j != 0)
 //                j = j - 1;
@@ -156,27 +216,6 @@ public class BoardGenerator implements Iterable<Integer> {
                 mat[i][j] = 0;
             }
         }
-    }
-
-    // Print sudoku
-    public void printSudoku() {
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++)
-                System.out.print(mat[i][j] + " | ");
-            System.out.println();
-        }
-        System.out.println();
-//        System.out.println(String.valueOf(81).length());
-    }
-
-    // Driver code
-    public static void main(String[] args) {
-        int N = 9, K = 60;
-        BoardGenerator sudoku = new BoardGenerator(N, K);
-        sudoku.fillValues();
-        sudoku.printSudoku();
-        System.out.println(Arrays.deepToString(sudoku.mat));
-
     }
 
     @NonNull
@@ -196,13 +235,13 @@ public class BoardGenerator implements Iterable<Integer> {
 
         @Override
         public boolean hasNext() {
-            return nextIndex < Math.pow(N, 2);
+            return nextIndex < Math.pow(rows, 2);
         }
 
         @Override
         public Integer next() {
             if (hasNext()) {
-                Integer nextNumber = mat[nextIndex / N][nextIndex % N];
+                Integer nextNumber = mat[nextIndex / rows][nextIndex % rows];
                 nextIndex++;
                 return nextNumber;
             }
