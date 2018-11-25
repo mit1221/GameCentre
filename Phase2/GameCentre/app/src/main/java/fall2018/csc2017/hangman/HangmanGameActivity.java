@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fall2018.csc2017.Game;
+import fall2018.csc2017.User;
+import fall2018.csc2017.UserManager;
 import fall2018.csc2017.slidingtiles.R;
 
 /**
@@ -43,6 +46,11 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
     private HangmanGame game;
 
     /**
+     * The current logged in user
+     */
+    private User user;
+
+    /**
      * Images related to display for the number of hangman lives the user has.
      * EX hangmanImages[0] => image for 0 lives ....
      */
@@ -58,7 +66,11 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman_game);
 
-        game = (HangmanGame)getIntent().getSerializableExtra("HangmanLetters");
+        game = (HangmanGame)getIntent().getSerializableExtra("HangmanGame");
+        user = (User)getIntent().getSerializableExtra("User");
+
+        //test
+        //game = (HangmanGame)user.getSave(Game.HANGMAN);
 
         // Setup grid views
         gridLetters = findViewById(R.id.gridLetters);
@@ -97,7 +109,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
 
         // Let user make the guess if letter was never used
         if(game.makeLetterGuess(letter)){
-            // Notify user if they won on this move
+            // Notify user if they won/lost on this move
             if(game.isGameOver()){
                 if(game.didUserWin()) {
                     Toast.makeText(this, "YOU WIN !!!", Toast.LENGTH_SHORT).show();
@@ -116,6 +128,10 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
 
             // update the image
             imgHangman.setImageResource(hangmanImages[game.getNumLives()]);
+
+            // Save the game
+            user.setSave(Game.HANGMAN, game);
+            UserManager.saveUserState(user, this);
         }
         else{ // Tell user letter has already been used
             Toast.makeText(this, "Letter has already been used", Toast.LENGTH_SHORT).show();
