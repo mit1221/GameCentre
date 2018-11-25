@@ -13,6 +13,7 @@ public class SlidingTilesMove implements Move {
 
     /**
      * Set the required values for a sliding tiles move.
+     *
      * @param row1 Row of first tile to swap
      * @param col1 Column of first tile to swap
      * @param row2 Row of second tile to swap
@@ -25,19 +26,19 @@ public class SlidingTilesMove implements Move {
         this.col2 = col2;
     }
 
-    public int getRow1() {
+    int getRow1() {
         return row1;
     }
 
-    public int getRow2() {
+    int getRow2() {
         return row2;
     }
 
-    public int getCol1() {
+    int getCol1() {
         return col1;
     }
 
-    public int getCol2() {
+    int getCol2() {
         return col2;
     }
 

@@ -7,42 +7,53 @@ import fall2018.csc2017.Move;
 import fall2018.csc2017.Tile;
 
 /**
- * The sliding tiles board.
+ * The Sudoku board.
  */
 public class SudokuBoard extends Board {
 
     /**
-     * Returns the string filename to store highscores for certain boards
+     * Returns the string filename to store highscores for the Sudoku board
+     *
      * @return file name
      */
-    static String getHighScoreFile(){
+    static String getHighScoreFile() {
         return "sudoku.txt";
     }
 
-    SudokuBoard(int size, List<Tile> tiles) {
-        super(size, tiles);
+    /**
+     * Create a Sudoku board object with maximum of 3 undos. Its size is always 9.
+     *
+     * @param tiles tiles for the board
+     */
+    SudokuBoard(List<Tile> tiles) {
+        super(9, tiles);
     }
 
-    SudokuBoard(int size, List<Tile> tiles, int maxUndoMoves) {
-        super(size, tiles, maxUndoMoves);
+    /**
+     * Create a Sudoku board object with specified maximum number of undos. Its size is always 9.
+     *
+     * @param tiles        tiles for the board
+     * @param maxUndoMoves the maximum undos that the user can do
+     */
+    SudokuBoard(List<Tile> tiles, int maxUndoMoves) {
+        super(9, tiles, maxUndoMoves);
     }
 
     @Override
     public void gameMove(Move m) {
-        swap((SudokuMove) m);
+        insertNumber((SudokuMove) m);
     }
 
-    /** Switch two tiles in the board
+    /**
+     * Insert number at the given tile
+     *
      * @param move move to make
      */
-    private void swap(SudokuMove move){
-        int row1 = move.getRow1();
-        int row2 = move.getRow2();
-        int col1 = move.getCol1();
-        int col2 = move.getCol2();
+    private void insertNumber(SudokuMove move) {
+        int row = move.getRow();
+        int col = move.getCol();
+        int number = move.getNewNumber();
 
-        Tile temp = tiles[row1][col1];
-        tiles[row1][col1] = tiles[row2][col2];
-        tiles[row2][col2] = temp;
+        tiles[row][col] = new Tile(number);
     }
 }

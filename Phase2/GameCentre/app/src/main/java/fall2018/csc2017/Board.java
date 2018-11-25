@@ -14,11 +14,11 @@ import java.util.Observable;
  */
 public abstract class Board extends Observable implements Serializable, Iterable<Tile> {
 
-    public static Comparator<Score> getComparator(){
+    public static Comparator<Score> getComparator() {
         return new Comparator<Score>() {
             @Override
             public int compare(Score o1, Score o2) {
-                return  o1.getValue() - o2.getValue();
+                return o1.getValue() - o2.getValue();
             }
         };
     }
@@ -45,12 +45,16 @@ public abstract class Board extends Observable implements Serializable, Iterable
 
     /**
      * Return the number of moves made
+     *
      * @return number of moves made
      */
-    public int getMovesMade(){return movesMade;}
+    public int getMovesMade() {
+        return movesMade;
+    }
 
     /**
      * Get the size of the board
+     *
      * @return size of the board
      */
     public int getSize() {
@@ -59,6 +63,7 @@ public abstract class Board extends Observable implements Serializable, Iterable
 
     /**
      * The game specific move to make
+     *
      * @param m the move to make
      */
     public abstract void gameMove(Move m);
@@ -95,7 +100,7 @@ public abstract class Board extends Observable implements Serializable, Iterable
     /**
      * A new board of tiles with a maximum of 3 moves that can be undone.
      *
-     * @param size the size of the board
+     * @param size  the size of the board
      * @param tiles the tiles for the board
      */
     public Board(int size, List<Tile> tiles) {
@@ -107,8 +112,8 @@ public abstract class Board extends Observable implements Serializable, Iterable
     /**
      * A new board of tiles with maxUndoMoves moves that can be undone.
      *
-     * @param size the size of the board
-     * @param tiles the tiles for the board
+     * @param size         the size of the board
+     * @param tiles        the tiles for the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
     public Board(int size, List<Tile> tiles, int maxUndoMoves) {
@@ -119,6 +124,7 @@ public abstract class Board extends Observable implements Serializable, Iterable
 
     /**
      * Return the number of tiles on the board.
+     *
      * @return the number of tiles on the board
      */
     public int numTiles() {
@@ -138,6 +144,7 @@ public abstract class Board extends Observable implements Serializable, Iterable
 
     /**
      * Make move and add it to the moves made.
+     *
      * @param m move to make
      */
     public void makeMove(Move m) {
@@ -148,7 +155,7 @@ public abstract class Board extends Observable implements Serializable, Iterable
     /**
      * Undo the last move made.
      */
-    public void undoLastMove(){
+    public void undoLastMove() {
         move(moves.popLastMove().reverseMove());
     }
 
@@ -159,14 +166,16 @@ public abstract class Board extends Observable implements Serializable, Iterable
                 '}';
     }
 
-    @NonNull @Override
-    public Iterator<Tile> iterator(){
+    @NonNull
+    @Override
+    public Iterator<Tile> iterator() {
         return new TileIterator();
     }
 
     private class TileIterator implements Iterator<Tile> {
         int nextRowIndex = 0;
         int nextColIndex = 0;
+
         @Override
         public boolean hasNext() {
             return nextRowIndex + nextColIndex != (2 * size) - 2;
@@ -175,9 +184,9 @@ public abstract class Board extends Observable implements Serializable, Iterable
         @Override
         public Tile next() {
             Tile next = getTile(nextRowIndex, nextColIndex);
-            if(nextRowIndex != size - 1){
+            if (nextRowIndex != size - 1) {
                 nextRowIndex++;
-            }else{
+            } else {
                 nextRowIndex = 0;
                 nextColIndex++;
             }
