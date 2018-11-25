@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import fall2018.csc2017.Board;
+import fall2018.csc2017.Game;
 import fall2018.csc2017.GameScoreboard;
 import fall2018.csc2017.Score;
 import fall2018.csc2017.User;
@@ -99,7 +100,7 @@ public class HighscoresActivity extends AppCompatActivity implements AdapterView
     private void updateDisplayedScores(){
         boolean allUsers = btnUser.getText() == btnUser.getTextOff();
         Integer selectedOption = gameOptions.get(spinGameOptions.getSelectedItem().toString());
-        String fileName = SlidingTilesBoard.getHighScoreFile(selectedOption);
+        String fileName = Board.getHighScoreFile(Game.SLIDING_TILES, selectedOption);
         List<Score> scores = allUsers?
                 GameScoreboard.getScores(this, fileName, Board.getComparator()) :
                 GameScoreboard.getScoresByUser(this, fileName, user, Board.getComparator());

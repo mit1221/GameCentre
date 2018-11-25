@@ -12,16 +12,6 @@ import fall2018.csc2017.Tile;
 public class SlidingTilesBoard extends Board {
 
     /**
-     * Returns the string filename to store highscores for certain boards
-     *
-     * @param size Size of the game
-     * @return file name
-     */
-    static String getHighScoreFile(int size) {
-        return "slidingTiles" + size + "x" + size + ".txt";
-    }
-
-    /**
      * The image for the tiles of the board. If null, numbered tiles are used.
      */
     private byte[] image = null;

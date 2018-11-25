@@ -19,6 +19,8 @@ import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
 
+import fall2018.csc2017.Board;
+import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.CustomAdapter;
 import fall2018.csc2017.Game;
 import fall2018.csc2017.GameScoreboard;
@@ -130,7 +132,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
         if (shouldLoad) {
             SlidingTilesBoard savedBoard = (SlidingTilesBoard) user.getSave(Game.SLIDING_TILES);
-            boardManager = new BoardManager(savedBoard);
+            boardManager = new SlidingTilesBoardManager(savedBoard);
             populateTileImages();
         } else {
             SlidingTilesGameOptions gameOptions = (SlidingTilesGameOptions)
@@ -150,10 +152,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 squaredImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
-                boardManager = new BoardManager(boardSize, maxUndoMoves, stream.toByteArray());
+                boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves, stream.toByteArray());
                 populateTileImages();
             } else {
-                boardManager = new BoardManager(boardSize, maxUndoMoves);
+                boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves);
             }
 
             user.setSave(Game.SLIDING_TILES, boardManager.getBoard());
@@ -164,7 +166,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Adds the generated tiles to tileImages.
      */
     private void populateTileImages() {
-        byte[] image = boardManager.getBoard().getImage();
+        SlidingTilesBoard board = (SlidingTilesBoard) boardManager.getBoard();
+        byte[] image = board.getImage();
         if (image != null) {
             Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
             ArrayList<Bitmap> bitmapImages = generateTiles(bmp);
@@ -215,7 +218,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        SlidingTilesBoard board = boardManager.getBoard();
+        Board board = boardManager.getBoard();
         tileButtons = new ArrayList<>();
 
         if (tileImages != null) {
@@ -242,7 +245,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        SlidingTilesBoard board = boardManager.getBoard();
+        Board board = boardManager.getBoard();
         int boardSize = board.getSize();
         int nextPos = 0;
 
@@ -278,7 +281,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     public void update(Observable o, Object arg) {
         display();
-        SlidingTilesBoard board = (SlidingTilesBoard) o;
+        Board board = (SlidingTilesBoard) o;
         // save the state of the board when it changes
         if (user != null) {
             user.setSave(Game.SLIDING_TILES, board);
@@ -288,7 +291,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         // save score if game is finished
         if (boardManager.puzzleSolved()) {
             Score score = new Score(user.getUserName(), board.getMovesMade());
-            GameScoreboard.addScore(this, SlidingTilesBoard.getHighScoreFile(board.getSize()), score);
+            GameScoreboard.addScore(this, Board.getHighScoreFile(
+                    Game.SLIDING_TILES, board.getSize()), score);
         }
     }
 

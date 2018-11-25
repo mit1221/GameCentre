@@ -62,6 +62,26 @@ public abstract class Board extends Observable implements Serializable, Iterable
     }
 
     /**
+     * Returns the string filename to store highscores for certain boards
+     *
+     * @param boardGame game to get highscore for
+     * @param size      Size of the game
+     * @return file name
+     */
+    public static String getHighScoreFile(Game boardGame, int size) {
+        String filename = "";
+        switch (boardGame) {
+            case SLIDING_TILES:
+                filename = "slidingTiles" + size + "x" + size + ".txt";
+                break;
+            case SUDOKU:
+                filename = "sudoku" + size + "x" + size + ".txt";
+                break;
+        }
+        return filename;
+    }
+
+    /**
      * The game specific move to make
      *
      * @param m the move to make

@@ -12,13 +12,16 @@ import java.util.List;
 import fall2018.csc2017.Tile;
 
 
-public class BoardManagerTest {
+public class SlidingTilesBoardManagerTest {
 
-    /** The board manager for testing. */
-    BoardManager boardManager;
+    /**
+     * The board manager for testing.
+     */
+    SlidingTilesBoardManager slidingTilesBoardManager;
 
     /**
      * Make a set of tiles that are in order.
+     *
      * @return a set of tiles that are in order
      */
     private List<Tile> makeTiles() {
@@ -33,18 +36,19 @@ public class BoardManagerTest {
 
     /**
      * Make a solved Board.
+     *
      * @param size size of the board (number of rows/cols).
      */
     private void setUpCorrect(int size) {
         Board.NUM_ROWS = Board.NUM_COLS = size;
         List<Tile> tiles = makeTiles();
         Board board = new Board(tiles);
-        boardManager = new BoardManager(board);
+        slidingTilesBoardManager = new SlidingTilesBoardManager(board);
     }
 
 
     @Test
-    public void testSolved(){
+    public void testSolved() {
 
     }
 }

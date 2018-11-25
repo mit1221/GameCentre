@@ -1,16 +1,16 @@
 package fall2018.csc2017.slidingtiles;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Tile;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable {
+class SlidingTilesBoardManager implements BoardManager {
 
     /**
      * The board being managed.
@@ -22,14 +22,12 @@ class BoardManager implements Serializable {
      *
      * @param board the board
      */
-    BoardManager(SlidingTilesBoard board) {
+    SlidingTilesBoardManager(SlidingTilesBoard board) {
         this.board = board;
     }
 
-    /**
-     * Return the current board.
-     */
-    SlidingTilesBoard getBoard() {
+    @Override
+    public SlidingTilesBoard getBoard() {
         return board;
     }
 
@@ -52,7 +50,7 @@ class BoardManager implements Serializable {
         Tile t = tiles.remove(tiles.size() - 2);
         tiles.add(t);
 
-//        Collections.shuffle(tiles);
+        Collections.shuffle(tiles);
         makeSolvable(size, tiles);  // make sure the board is solvable
         return tiles;
     }
@@ -63,7 +61,7 @@ class BoardManager implements Serializable {
      * @param size         size of the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    BoardManager(int size, int maxUndoMoves) {
+    SlidingTilesBoardManager(int size, int maxUndoMoves) {
         this.board = new SlidingTilesBoard(size, generateTiles(size), maxUndoMoves);
     }
 
@@ -73,7 +71,7 @@ class BoardManager implements Serializable {
      * @param size         size of the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    BoardManager(int size, int maxUndoMoves, byte[] image) {
+    SlidingTilesBoardManager(int size, int maxUndoMoves, byte[] image) {
         this.board = new SlidingTilesBoard(size, generateTiles(size), maxUndoMoves, image);
     }
 
@@ -109,7 +107,8 @@ class BoardManager implements Serializable {
      *
      * @return whether the tiles are in row-major order
      */
-    boolean puzzleSolved() {
+    @Override
+    public boolean puzzleSolved() {
         int counter = 0;
         for (int row = 0; row < board.getSize(); row++) {
             for (int col = 0; col < board.getSize(); col++) {
@@ -128,7 +127,8 @@ class BoardManager implements Serializable {
      * @param position the tile to check
      * @return whether the tile at position is surrounded by a blank tile
      */
-    boolean isValidTap(int position) {
+    @Override
+    public boolean isValidTap(int position) {
         int row = position / board.getSize();
         int col = position % board.getSize();
         int blankId = board.numTiles();
@@ -148,7 +148,8 @@ class BoardManager implements Serializable {
      *
      * @param position the position
      */
-    void touchMove(int position) {
+    @Override
+    public void touchMove(int position) {
         if (this.puzzleSolved()) { // don't let user shift tiles if game is finished
             return;
         }

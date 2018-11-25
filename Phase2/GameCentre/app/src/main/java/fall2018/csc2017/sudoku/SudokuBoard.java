@@ -12,15 +12,6 @@ import fall2018.csc2017.Tile;
 public class SudokuBoard extends Board {
 
     /**
-     * Returns the string filename to store highscores for the Sudoku board
-     *
-     * @return file name
-     */
-    static String getHighScoreFile() {
-        return "sudoku.txt";
-    }
-
-    /**
      * Create a Sudoku board object with maximum of 3 undos. Its size is always 9.
      *
      * @param tiles tiles for the board
