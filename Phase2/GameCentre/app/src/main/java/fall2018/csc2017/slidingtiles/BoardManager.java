@@ -13,20 +13,20 @@ class BoardManager implements Serializable {
     /**
      * The board being managed.
      */
-    private Board board;
+    private SlidingTilesBoard board;
 
     /**
      * Manage a board that has been pre-populated.
      * @param board the board
      */
-    BoardManager(Board board) {
+    BoardManager(SlidingTilesBoard board) {
         this.board = board;
     }
 
     /**
      * Return the current board.
      */
-    Board getBoard() {
+    SlidingTilesBoard getBoard() {
         return board;
     }
 
@@ -61,7 +61,7 @@ class BoardManager implements Serializable {
      * @param maxUndoMoves the maximum undos that the user can do
      */
     BoardManager(int size, int maxUndoMoves) {
-        this.board = new Board(size, generateTiles(size), maxUndoMoves);
+        this.board = new SlidingTilesBoard(size, generateTiles(size), maxUndoMoves);
     }
 
     /**
@@ -71,7 +71,7 @@ class BoardManager implements Serializable {
      * @param maxUndoMoves the maximum undos that the user can do
      */
     BoardManager(int size, int maxUndoMoves, byte[] image) {
-        this.board = new Board(size, generateTiles(size), maxUndoMoves, image);
+        this.board = new SlidingTilesBoard(size, generateTiles(size), maxUndoMoves, image);
     }
 
     /**
@@ -160,7 +160,8 @@ class BoardManager implements Serializable {
                 int adjRow = adjRowCol[0];
                 int adjCol = adjRowCol[1];
                 if (board.getTile(adjRow,adjCol).getId() == blankId) {
-                    board.makeMove(row, col, adjRow, adjCol);
+                    SlidingTilesMove move = new SlidingTilesMove(row, col, adjRow, adjCol);
+                    board.makeMove(move);
                     break;
                 }
             }

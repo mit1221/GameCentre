@@ -129,7 +129,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            Board savedBoard = (Board) user.getSave(Game.SLIDING_TILES);
+            SlidingTilesBoard savedBoard = (SlidingTilesBoard) user.getSave(Game.SLIDING_TILES);
             boardManager = new BoardManager(savedBoard);
             populateTileImages();
         } else {
@@ -215,7 +215,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        Board board = boardManager.getBoard();
+        SlidingTilesBoard board = boardManager.getBoard();
         tileButtons = new ArrayList<>();
 
         if (tileImages != null) {
@@ -242,7 +242,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        Board board = boardManager.getBoard();
+        SlidingTilesBoard board = boardManager.getBoard();
         int boardSize = board.getSize();
         int nextPos = 0;
 
@@ -278,7 +278,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     public void update(Observable o, Object arg) {
         display();
-        Board board = (Board) o;
+        SlidingTilesBoard board = (SlidingTilesBoard) o;
         // save the state of the board when it changes
         if (user != null) {
             user.setSave(Game.SLIDING_TILES, board);
@@ -288,7 +288,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         // save score if game is finished
         if (boardManager.puzzleSolved()) {
             Score score = new Score(user.getUserName(), board.getMovesMade());
-            GameScoreboard.addScore(this, Board.getHighScoreFile(board.getSize()), score);
+            GameScoreboard.addScore(this, SlidingTilesBoard.getHighScoreFile(board.getSize()), score);
         }
     }
 
