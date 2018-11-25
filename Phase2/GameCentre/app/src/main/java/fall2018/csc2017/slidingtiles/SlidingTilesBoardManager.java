@@ -109,16 +109,17 @@ class SlidingTilesBoardManager implements BoardManager {
      */
     @Override
     public boolean puzzleSolved() {
-        int counter = 0;
-        for (int row = 0; row < board.getSize(); row++) {
-            for (int col = 0; col < board.getSize(); col++) {
-                counter++;
-                if (board.getTile(row, col).getId() != counter) {
-                    return false;
-                }
+        boolean solved = true;
+
+        Tile lastTile = null;
+        for (Tile tile : board) {
+            if (lastTile != null && lastTile.compareTo(tile) <= 0) {
+                solved = false;
+                break;
             }
+            lastTile = tile;
         }
-        return true;
+        return solved;
     }
 
     /**

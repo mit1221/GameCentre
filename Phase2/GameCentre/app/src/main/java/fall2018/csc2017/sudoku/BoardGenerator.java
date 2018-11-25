@@ -1,9 +1,13 @@
 package fall2018.csc2017.sudoku;
 
-import java.util.Arrays;
+import android.support.annotation.NonNull;
 
-public class BoardGenerator {
-    public int[] mat[];
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class BoardGenerator implements Iterable<Integer> {
+    private int[] mat[];
     private int N; // number of columns/rows.
     private int SRN; // square root of N
     private int K; // No. Of missing digits
@@ -173,5 +177,36 @@ public class BoardGenerator {
         sudoku.printSudoku();
         System.out.println(Arrays.deepToString(sudoku.mat));
 
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Integer> iterator() {
+        return new SudokuIterator();
+    }
+
+    /**
+     * Iterate over the tiles of the board.
+     */
+    private class SudokuIterator implements Iterator<Integer> {
+        /**
+         * The location of the next number.
+         */
+        private int nextIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return nextIndex < Math.pow(N, 2);
+        }
+
+        @Override
+        public Integer next() {
+            if (hasNext()) {
+                Integer nextNumber = mat[nextIndex / N][nextIndex % N];
+                nextIndex++;
+                return nextNumber;
+            }
+            throw new NoSuchElementException("Out of range.");
+        }
     }
 }

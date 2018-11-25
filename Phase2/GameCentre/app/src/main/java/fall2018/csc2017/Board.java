@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Observable;
 
 /**
@@ -118,18 +119,6 @@ public abstract class Board extends Observable implements Serializable, Iterable
     }
 
     /**
-     * A new board of tiles with a maximum of 3 moves that can be undone.
-     *
-     * @param size  the size of the board
-     * @param tiles the tiles for the board
-     */
-    public Board(int size, List<Tile> tiles) {
-        this.size = size;
-        setTiles(tiles);
-        moves = new UndoMoveList<>(3);
-    }
-
-    /**
      * A new board of tiles with maxUndoMoves moves that can be undone.
      *
      * @param size         the size of the board
@@ -189,28 +178,31 @@ public abstract class Board extends Observable implements Serializable, Iterable
     @NonNull
     @Override
     public Iterator<Tile> iterator() {
-        return new TileIterator();
+        return new BoardIterator();
     }
 
-    private class TileIterator implements Iterator<Tile> {
-        int nextRowIndex = 0;
-        int nextColIndex = 0;
+    /**
+     * Iterate over the tiles of the board.
+     */
+    private class BoardIterator implements Iterator<Tile> {
+        /**
+         * The location of the next tile in the board.
+         */
+        private int nextIndex = 0;
 
         @Override
         public boolean hasNext() {
-            return nextRowIndex + nextColIndex != (2 * size) - 2;
+            return nextIndex < Math.pow(size, 2);
         }
 
         @Override
         public Tile next() {
-            Tile next = getTile(nextRowIndex, nextColIndex);
-            if (nextRowIndex != size - 1) {
-                nextRowIndex++;
-            } else {
-                nextRowIndex = 0;
-                nextColIndex++;
+            if (hasNext()) {
+                Tile nextTile = tiles[nextIndex / size][nextIndex % size];
+                nextIndex++;
+                return nextTile;
             }
-            return next;
+            throw new NoSuchElementException("Out of range.");
         }
     }
 }

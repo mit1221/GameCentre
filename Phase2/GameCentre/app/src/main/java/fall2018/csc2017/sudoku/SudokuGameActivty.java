@@ -48,7 +48,7 @@ public class SudokuGameActivty extends AppCompatActivity implements Observer {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 EditText tmp = new EditText(context);
-                tmp.setText(sudoku.mat[row][col]);
+//                tmp.setText(sudoku.mat[row][col]);
                 this.tiles.add(tmp);
             }
         }

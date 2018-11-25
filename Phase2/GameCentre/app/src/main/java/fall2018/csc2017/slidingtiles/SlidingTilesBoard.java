@@ -16,10 +16,6 @@ public class SlidingTilesBoard extends Board {
      */
     private byte[] image = null;
 
-    SlidingTilesBoard(int size, List<Tile> tiles) {
-        super(size, tiles);
-    }
-
     SlidingTilesBoard(int size, List<Tile> tiles, int maxUndoMoves) {
         super(size, tiles, maxUndoMoves);
     }

@@ -12,14 +12,14 @@ public class SudokuMove implements Move {
     private int newNumber;
 
     /**
-     * Set the required values for a sliding tiles move.
+     * Set the required values for a Sudoku move.
      *
      * @param row Row of tile
      * @param col Column of tile
      * @param currentNumber The number currently at the tile on (row, column)
      * @param newNumber The number to put at the tile on (row, column)
      */
-    public SudokuMove(int row, int col, int currentNumber, int newNumber) {
+    SudokuMove(int row, int col, int currentNumber, int newNumber) {
         this.row = row;
         this.col = col;
         this.currentNumber = currentNumber;

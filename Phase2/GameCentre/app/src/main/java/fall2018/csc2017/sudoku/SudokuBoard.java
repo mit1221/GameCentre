@@ -12,15 +12,6 @@ import fall2018.csc2017.Tile;
 public class SudokuBoard extends Board {
 
     /**
-     * Create a Sudoku board object with maximum of 3 undos. Its size is always 9.
-     *
-     * @param tiles tiles for the board
-     */
-    SudokuBoard(List<Tile> tiles) {
-        super(9, tiles);
-    }
-
-    /**
      * Create a Sudoku board object with specified maximum number of undos. Its size is always 9.
      *
      * @param tiles        tiles for the board

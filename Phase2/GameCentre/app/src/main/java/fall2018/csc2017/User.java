@@ -50,6 +50,7 @@ public class User implements Serializable {
      * @param game the game whose save is being set
      * @param save the save to be saved for game.
      */
+    // TODO: change save from Object to GameState
     public void setSave(Game game, Object save) {
         this.saves.put(game, save);
     }
@@ -58,6 +59,7 @@ public class User implements Serializable {
      * @param game the game whose save is being set
      * @return the save for game.
      */
+    // TODO: return a GameState
     public Object getSave(Game game) {
         return this.saves.get(game);
     }
