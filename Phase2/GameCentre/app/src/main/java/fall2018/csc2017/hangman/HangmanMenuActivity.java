@@ -63,6 +63,16 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
     }
 
     /**
+     * Handle what happens when user clicks Highscores
+     * @param view - clicked button
+     */
+    public void onBtnHighScoresClick(View view){
+        Intent intent = new Intent(this, HangmanHSActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    /**
      * Start the hangman game with the given game
      * @param game game to use
      */

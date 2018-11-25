@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fall2018.csc2017.Board;
 import fall2018.csc2017.Game;
+import fall2018.csc2017.GameScoreboard;
+import fall2018.csc2017.Score;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
 import fall2018.csc2017.slidingtiles.R;
@@ -18,6 +21,8 @@ import fall2018.csc2017.slidingtiles.R;
  * Activity for playing Hangman
  */
 public class HangmanGameActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static final String HANGMAN_HS_FILE = "Hangman.txt";
 
     /**
      * Grid for displaying the solved/unknown letters
@@ -113,6 +118,8 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
             if(game.isGameOver()){
                 if(game.didUserWin()) {
                     Toast.makeText(this, "YOU WIN !!!", Toast.LENGTH_SHORT).show();
+                    Score score = new Score(user.getUserName(), game.getScore());
+                    GameScoreboard.addScore(this, HANGMAN_HS_FILE, score);
                 }
                 else{
                     Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();

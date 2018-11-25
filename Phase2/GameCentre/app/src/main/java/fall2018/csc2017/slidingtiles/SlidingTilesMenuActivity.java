@@ -93,7 +93,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      * @param view View that was clicked
      */
     public void onBtnHighscoresClick(View view) {
-        Intent intent = new Intent(this, HighscoresActivity.class);
+        Intent intent = new Intent(this, SlidingTilesHSActivity.class);
         intent.putExtra("User", user);
         startActivity(intent);
     }
