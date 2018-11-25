@@ -1,9 +1,13 @@
 package fall2018.csc2017.hangman;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,9 +78,6 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         game = (HangmanGame)getIntent().getSerializableExtra("HangmanGame");
         user = (User)getIntent().getSerializableExtra("User");
 
-        //test
-        //game = (HangmanGame)user.getSave(Game.HANGMAN);
-
         // Setup grid views
         gridLetters = findViewById(R.id.gridLetters);
         gridLetters.setNumColumns(Math.min(game.getAnswer().length(), 12));
@@ -108,40 +109,73 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
             return;
         }
         Button btn = (Button)v;
-
         // Get the letter that was clicked on
         Character letter = btn.getText().toString().charAt(0);
 
         // Let user make the guess if letter was never used
-        if(game.makeLetterGuess(letter)){
-            // Notify user if they won/lost on this move
-            if(game.isGameOver()){
-                if(game.didUserWin()) {
-                    Toast.makeText(this, "YOU WIN !!!", Toast.LENGTH_SHORT).show();
-                    Score score = new Score(user.getUserName(), game.getScore());
-                    GameScoreboard.addScore(this, HANGMAN_HS_FILE, score);
-                }
-                else{
-                    Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            // update the solved/unsolved letters
-            lettersAdapter.setLetters(game.getGameState());
-            gridLetters.invalidateViews();
-
-            // update the correct/incorrect guesses
-            gridLetterButtons.invalidateViews();
-
-            // update the image
-            imgHangman.setImageResource(hangmanImages[game.getNumLives()]);
-
-            // Save the game
-            user.setSave(Game.HANGMAN, game);
-            UserManager.saveUserState(user, this);
-        }
-        else{ // Tell user letter has already been used
+        if (game.makeLetterGuess(letter)) {
+            updateViews();
+        } else { // Tell user letter has already been used
             Toast.makeText(this, "Letter has already been used", Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    private void updateViews(){
+        // Notify user if they won/lost on this move
+        if(game.isGameOver()){
+            if(game.didUserWin()) {
+                Toast.makeText(this, "YOU WIN !!!", Toast.LENGTH_SHORT).show();
+                Score score = new Score(user.getUserName(), game.getScore());
+                GameScoreboard.addScore(this, HANGMAN_HS_FILE, score);
+            }
+            else{
+                Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        // update the solved/unsolved letters
+        lettersAdapter.setLetters(game.getGameState());
+        gridLetters.invalidateViews();
+
+        // update the correct/incorrect guesses
+        gridLetterButtons.invalidateViews();
+
+        // update the image
+        imgHangman.setImageResource(hangmanImages[game.getNumLives()]);
+
+        // Save the game
+        user.setSave(Game.HANGMAN, game);
+        UserManager.saveUserState(user, this);
+    }
+
+    /**
+     * Create a dialog when user clicks on Make a Guess
+     */
+    public void onBtnMakeGuessClick(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // input in the dialog for specifying max # of undos allowed
+        final EditText input = new EditText(this);
+        input.setText("");
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        // setup the alert builder
+        builder.setView(input);
+        builder.setTitle("Make a guess");
+
+        // add Next and Cancel buttons
+        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if(!game.makeAnswerGuess(input.getText().toString())){
+                    Toast.makeText(HangmanGameActivity.this, "Wrong answer", Toast.LENGTH_SHORT).show();
+                }
+                updateViews();
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
