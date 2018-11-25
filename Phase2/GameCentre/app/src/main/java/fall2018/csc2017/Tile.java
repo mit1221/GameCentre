@@ -1,8 +1,10 @@
-package fall2018.csc2017.slidingtiles;
+package fall2018.csc2017;
 
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+
+import fall2018.csc2017.slidingtiles.R;
 
 /**
  * A Tile in a sliding tiles puzzle.
@@ -50,7 +52,7 @@ public class Tile implements Comparable<Tile>, Serializable {
      * @param id         the id
      * @param background the background
      */
-    Tile(int id, int background) {
+    public Tile(int id, int background) {
         this.id = id;
         this.background = background;
     }
@@ -60,7 +62,7 @@ public class Tile implements Comparable<Tile>, Serializable {
      *
      * @param backgroundId background id
      */
-    Tile(int backgroundId) {
+    public Tile(int backgroundId) {
         id = backgroundId + 1;
         int[] drawables = {R.drawable.tile_1, R.drawable.tile_2, R.drawable.tile_3,
                 R.drawable.tile_4, R.drawable.tile_5, R.drawable.tile_6, R.drawable.tile_7,

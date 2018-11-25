@@ -3,21 +3,15 @@ package fall2018.csc2017.slidingtiles;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fall2018.csc2017.UndoMoveList;
-
-import static org.junit.Assert.*;
+import fall2018.csc2017.Tile;
 
 
 public class BoardTest {

@@ -9,14 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
-import fall2018.csc2017.slidingtiles.Tile;
-
 /**
  * A general board.
  */
 public abstract class Board extends Observable implements Serializable, Iterable<Tile> {
 
-    static Comparator<Score> getComparator(){
+    public static Comparator<Score> getComparator(){
         return new Comparator<Score>() {
             @Override
             public int compare(Score o1, Score o2) {
@@ -60,10 +58,23 @@ public abstract class Board extends Observable implements Serializable, Iterable
     }
 
     /**
-     * Apply the move to the board
+     * The game specific move to make
      * @param m the move to make
      */
-    public abstract void move(Move m);
+    public abstract void gameMove(Move m);
+
+    /**
+     * Apply the move to the board
+     * Note: this method is called for both a forward move and an undo move
+     *
+     * @param m the move to make
+     */
+    private void move(Move m) {
+        gameMove(m);
+        movesMade += 1;
+        setChanged();
+        notifyObservers();
+    }
 
     /**
      * Helper method for setting the tiles for the board.
@@ -126,22 +137,19 @@ public abstract class Board extends Observable implements Serializable, Iterable
     }
 
     /**
-     * Make move to swap tiles at the given positions
+     * Make move and add it to the moves made.
      * @param m move to make
      */
     public void makeMove(Move m) {
         move(m);
-        movesMade += 1;
         moves.addMove(m);
     }
 
     /**
-     * Undo the last move made
+     * Undo the last move made.
      */
     public void undoLastMove(){
-        Move lastMove = moves.popLastMove();
-        move(lastMove.reverseMove());
-        movesMade += 1;
+        move(moves.popLastMove().reverseMove());
     }
 
     @Override

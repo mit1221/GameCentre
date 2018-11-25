@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fall2018.csc2017.Tile;
+
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
@@ -49,7 +51,7 @@ class BoardManager implements Serializable {
         Tile t = tiles.remove(tiles.size()-2);
         tiles.add(t);
 
-        Collections.shuffle(tiles);
+//        Collections.shuffle(tiles);
         makeSolvable(size, tiles);  // make sure the board is solvable
         return tiles;
     }

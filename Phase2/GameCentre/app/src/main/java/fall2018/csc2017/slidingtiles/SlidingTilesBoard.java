@@ -4,6 +4,7 @@ import java.util.List;
 
 import fall2018.csc2017.Board;
 import fall2018.csc2017.Move;
+import fall2018.csc2017.Tile;
 
 /**
  * The sliding tiles board.
@@ -48,7 +49,7 @@ public class SlidingTilesBoard extends Board {
 
 
     @Override
-    public void move(Move m) {
+    public void gameMove(Move m) {
         swap((SlidingTilesMove) m);
     }
 
@@ -64,7 +65,5 @@ public class SlidingTilesBoard extends Board {
         Tile temp = tiles[row1][col1];
         tiles[row1][col1] = tiles[row2][col2];
         tiles[row2][col2] = temp;
-        setChanged();
-        notifyObservers();
     }
 }
