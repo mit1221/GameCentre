@@ -180,7 +180,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
     /**
      * Creates tiles from a square image based on size of board.
-     *
+     * <p>
      * Adapted from: http://androidattop.blogspot.com/2012/05/splitting-image-into-smaller-chunks-in.html
      *
      * @param image the image to split

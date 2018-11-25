@@ -3,46 +3,43 @@ package fall2018.csc2017.sudoku;
 import fall2018.csc2017.Move;
 
 /**
- * Represents a move for the sudoku game.
+ * Represents a move for the Sudoku game.
  */
 public class SudokuMove implements Move {
-    private int row1;
-    private int row2;
-    private int col1;
-    private int col2;
+    private int row;
+    private int col;
+    private int currentNumber;
+    private int newNumber;
 
     /**
      * Set the required values for a sliding tiles move.
-     * @param row1 Row of first tile to swap
-     * @param col1 Column of first tile to swap
-     * @param row2 Row of second tile to swap
-     * @param col2 Column of second tile to swap
+     *
+     * @param row Row of tile
+     * @param col Column of tile
+     * @param currentNumber The number currently at the tile on (row, column)
+     * @param newNumber The number to put at the tile on (row, column)
      */
-    SudokuMove(int row1, int col1, int row2, int col2) {
-        this.row1 = row1;
-        this.row2 = row2;
-        this.col1 = col1;
-        this.col2 = col2;
+    public SudokuMove(int row, int col, int currentNumber, int newNumber) {
+        this.row = row;
+        this.col = col;
+        this.currentNumber = currentNumber;
+        this.newNumber = newNumber;
     }
 
-    public int getRow1() {
-        return row1;
+    int getRow() {
+        return row;
     }
 
-    public int getRow2() {
-        return row2;
+    int getCol() {
+        return col;
     }
 
-    public int getCol1() {
-        return col1;
-    }
-
-    public int getCol2() {
-        return col2;
+    int getNewNumber() {
+        return newNumber;
     }
 
     @Override
     public Move reverseMove() {
-        return new SudokuMove(row2, col2, row1, col1);
+        return new SudokuMove(row, col, newNumber, currentNumber);
     }
 }

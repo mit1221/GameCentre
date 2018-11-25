@@ -19,6 +19,7 @@ class BoardManager implements Serializable {
 
     /**
      * Manage a board that has been pre-populated.
+     *
      * @param board the board
      */
     BoardManager(SlidingTilesBoard board) {
@@ -48,7 +49,7 @@ class BoardManager implements Serializable {
         // set the last tile to a blank tile
         tiles.get(tiles.size() - 1).setToBlankTile();
 
-        Tile t = tiles.remove(tiles.size()-2);
+        Tile t = tiles.remove(tiles.size() - 2);
         tiles.add(t);
 
 //        Collections.shuffle(tiles);
@@ -59,7 +60,7 @@ class BoardManager implements Serializable {
     /**
      * Manage a new shuffled board with numbered tiles.
      *
-     * @param size size of the board
+     * @param size         size of the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
     BoardManager(int size, int maxUndoMoves) {
@@ -69,7 +70,7 @@ class BoardManager implements Serializable {
     /**
      * Manage a new shuffled board with image tiles.
      *
-     * @param size size of the board
+     * @param size         size of the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
     BoardManager(int size, int maxUndoMoves, byte[] image) {
@@ -80,7 +81,7 @@ class BoardManager implements Serializable {
      * Change the tiles so that it is solvable if it isn't. Leave it alone otherwise.
      * source: wikipedia https://en.wikipedia.org/wiki/15_puzzle
      *
-     * @param size size of the board
+     * @param size  size of the board
      * @param tiles a list of tiles
      */
     private void makeSolvable(int size, List<Tile> tiles) {
@@ -95,11 +96,11 @@ class BoardManager implements Serializable {
                 }
             }
             if (tiles.get(i).getId() == tiles.size()) {
-                rowDist = size - 1 - i/size;
+                rowDist = size - 1 - i / size;
             }
         }
-        if ((inv+rowDist) % 2 == 1) {
-            Collections.swap(tiles, tiles.size()-1, tiles.size()-3);
+        if ((inv + rowDist) % 2 == 1) {
+            Collections.swap(tiles, tiles.size() - 1, tiles.size() - 3);
         }
     }
 
@@ -148,20 +149,20 @@ class BoardManager implements Serializable {
      * @param position the position
      */
     void touchMove(int position) {
-        if(this.puzzleSolved()){ // don't let user shift tiles if game is finished
+        if (this.puzzleSolved()) { // don't let user shift tiles if game is finished
             return;
         }
         int row = position / board.getSize();
         int col = position % board.getSize();
         int blankId = board.numTiles();
 
-        int[][] adjRowCols = {{row-1, col}, {row+1, col}, {row, col-1}, {row, col+1}};
-        for (int[] adjRowCol: adjRowCols){
+        int[][] adjRowCols = {{row - 1, col}, {row + 1, col}, {row, col - 1}, {row, col + 1}};
+        for (int[] adjRowCol : adjRowCols) {
             if (0 <= adjRowCol[0] && adjRowCol[0] < board.getSize() &&
-                    0 <= adjRowCol[1] && adjRowCol[1] < board.getSize()){
+                    0 <= adjRowCol[1] && adjRowCol[1] < board.getSize()) {
                 int adjRow = adjRowCol[0];
                 int adjCol = adjRowCol[1];
-                if (board.getTile(adjRow,adjCol).getId() == blankId) {
+                if (board.getTile(adjRow, adjCol).getId() == blankId) {
                     SlidingTilesMove move = new SlidingTilesMove(row, col, adjRow, adjCol);
                     board.makeMove(move);
                     break;

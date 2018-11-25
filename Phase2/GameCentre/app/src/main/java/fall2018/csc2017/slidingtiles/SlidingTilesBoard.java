@@ -13,10 +13,11 @@ public class SlidingTilesBoard extends Board {
 
     /**
      * Returns the string filename to store highscores for certain boards
+     *
      * @param size Size of the game
      * @return file name
      */
-    static String getHighScoreFile(int size){
+    static String getHighScoreFile(int size) {
         return "slidingTiles" + size + "x" + size + ".txt";
     }
 
@@ -53,10 +54,12 @@ public class SlidingTilesBoard extends Board {
         swap((SlidingTilesMove) m);
     }
 
-    /** Switch two tiles in the board
+    /**
+     * Switch two tiles in the board
+     *
      * @param move move to make
      */
-    private void swap(SlidingTilesMove move){
+    private void swap(SlidingTilesMove move) {
         int row1 = move.getRow1();
         int row2 = move.getRow2();
         int col1 = move.getCol1();
