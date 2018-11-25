@@ -20,13 +20,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import fall2018.csc2017.CustomAdapter;
+import fall2018.csc2017.Game;
 import fall2018.csc2017.GameScoreboard;
 import fall2018.csc2017.Score;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
 
 /**
- * The game activity.
+ * The Sliding Tiles game activity.
  */
 public class SlidingTilesGameActivity extends AppCompatActivity implements Observer {
 
@@ -126,7 +127,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            Board savedBoard = (Board) user.getSave("slidingtiles");
+            Board savedBoard = (Board) user.getSave(Game.SLIDING_TILES);
             Board.NUM_ROWS = savedBoard.getBoardHeight();
             Board.NUM_COLS = savedBoard.getBoardWidth();
             boardManager = new BoardManager(savedBoard);
@@ -154,7 +155,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                 boardManager = new BoardManager(maxUndoMoves);
             }
 
-            user.setSave("slidingtiles", boardManager.getBoard());
+            user.setSave(Game.SLIDING_TILES, boardManager.getBoard());
         }
     }
 
@@ -278,7 +279,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         Board board = (Board) o;
         // save the state of the board when it changes
         if (user != null) {
-            user.setSave("slidingtiles", board);
+            user.setSave(Game.SLIDING_TILES, board);
             UserManager.saveUserState(user, this);
         }
 

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import fall2018.csc2017.Game;
 import fall2018.csc2017.MenuActivity;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
@@ -268,7 +269,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     @Override
     public void loadSavedGame() {
-        if (user != null && user.hasSave("slidingtiles")) {
+        if (user != null && user.hasSave(Game.SLIDING_TILES)) {
             Intent intent = new Intent(SlidingTilesMenuActivity.this, SlidingTilesGameActivity.class);
             intent.putExtra("User", user);
             intent.putExtra("LoadGame", true);
