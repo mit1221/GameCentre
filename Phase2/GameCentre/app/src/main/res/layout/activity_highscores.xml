@@ -5,7 +5,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -19,8 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="81dp"
-        android:layout_toEndOf="@+id/textView"
+        android:layout_alignStart="@+id/tvScores"
+        android:layout_marginTop="75dp"
         android:checked="false"
         android:onClick="onBtnUserClick"
         android:text="ToggleButton"

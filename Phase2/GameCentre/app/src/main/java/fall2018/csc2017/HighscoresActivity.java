@@ -56,6 +56,10 @@ public abstract class HighscoresActivity extends AppCompatActivity{
         tvScores = findViewById(R.id.tvScores);
         tvUsers = findViewById(R.id.tvUsers);
 
+        // Set the title
+        TextView title = findViewById(R.id.tvTitle);
+        title.setText(getTitleText());
+
         // Get the current user
         user = (User)getIntent().getSerializableExtra("User");
     }
@@ -95,4 +99,8 @@ public abstract class HighscoresActivity extends AppCompatActivity{
      */
     protected abstract List<Score> getScoresToDisplay();
 
+    /**
+     * Return the text to display for title, i.e. "Hangman Highscores"
+     */
+    protected abstract String getTitleText();
 }

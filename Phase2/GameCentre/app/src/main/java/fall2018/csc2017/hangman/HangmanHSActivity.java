@@ -21,4 +21,9 @@ public class HangmanHSActivity extends HighscoresActivity{
                 GameScoreboard.getScores(this, fileName, HangmanGame.getComparator()) :
                 GameScoreboard.getScoresByUser(this, fileName, user, HangmanGame.getComparator());
     }
+
+    @Override
+    protected String getTitleText() {
+        return "Hangman Highscores";
+    }
 }

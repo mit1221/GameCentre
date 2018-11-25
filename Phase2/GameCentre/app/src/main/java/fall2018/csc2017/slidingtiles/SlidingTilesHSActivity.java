@@ -77,6 +77,11 @@ public class SlidingTilesHSActivity extends HighscoresActivity implements Adapte
     }
 
     @Override
+    protected String getTitleText() {
+        return "Sliding Tiles Highscores";
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         updateDisplayedScores();
     }
