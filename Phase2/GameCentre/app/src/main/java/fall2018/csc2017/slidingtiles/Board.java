@@ -32,24 +32,19 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
      * @param size Size of the game
      * @return file name
      */
-    public static String getHighScoreFile(int size){
+    static String getHighScoreFile(int size){
         return "slidingTiles" + size + "x" + size + ".txt";
     }
 
     /**
-     * The number of rows.
+     * The size of the board. The board is square so # rows = # columns.
      */
-    static int NUM_ROWS;
-
-    /**
-     * The number of columns.
-     */
-    static int NUM_COLS;
+    private int size;
 
     /**
      * The tiles on the board in row-major order.
      */
-    private Tile[][] tiles = new Tile[NUM_ROWS][NUM_COLS];
+    private Tile[][] tiles;
 
     /**
      * Keep track of moves made
@@ -57,26 +52,9 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
     private UndoMoveList<int[]> moves;
 
     /**
-     * Returns the width of the board instance
-     * @return the board width
-     */
-    public int getBoardWidth(){return tiles[0].length;}
-
-    /**
-     * Returns the height of the board instance
-     * @return the board height
-     */
-    public int getBoardHeight(){return tiles.length;}
-
-    /**
      * The number of moves made
      */
     private int movesMade;
-
-    /**
-     * The name of this game
-     */
-    private String gameName;
 
     /**
      * The image for the tiles of the board. If null, numbered tiles are used.
@@ -90,40 +68,54 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
     public int getMovesMade(){return movesMade;}
 
     /**
-     * A new board of tiles in row-major order with a maximum of 3 moves that can be undone.
-     * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
+     * Get the size of the board
+     * @return size of the board
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * Helper method for setting the sliding tiles for the board.
      *
      * @param tiles the tiles for the board
      */
-    Board(List<Tile> tiles) {
+    private void setTiles(List<Tile> tiles) {
+        this.tiles = new Tile[size][size];
         Iterator<Tile> iter = tiles.iterator();
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != size; row++) {
+            for (int col = 0; col != size; col++) {
                 this.tiles[row][col] = iter.next();
             }
         }
+        this.movesMade = 0;
+    }
+
+    /**
+     * A new board of tiles in row-major order with a maximum of 3 moves that can be undone.
+     * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
+     *
+     * @param size the size of the board
+     * @param tiles the tiles for the board
+     */
+    Board(int size, List<Tile> tiles) {
+        this.size = size;
+        setTiles(tiles);
         moves = new UndoMoveList<>(3);
-        movesMade = 0;
-        gameName = "Sliding Tiles";
     }
 
     /**
      * A new board of tiles in row-major order with maxUndoMoves moves that can be undone.
      * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
      *
+     * @param size the size of the board
      * @param tiles the tiles for the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    Board(List<Tile> tiles, int maxUndoMoves) {
-        Iterator<Tile> iter = tiles.iterator();
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
-                this.tiles[row][col] = iter.next();
-            }
-        }
+    Board(int size, List<Tile> tiles, int maxUndoMoves) {
+        this.size = size;
+        setTiles(tiles);
         moves = new UndoMoveList<>(maxUndoMoves);
-        movesMade = 0;
-        gameName = "Sliding Tiles";
     }
 
     /**
@@ -131,20 +123,15 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
      * .
      * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
      *
+     * @param size the size of the board
      * @param tiles        the tiles for the board
      * @param maxUndoMoves the maximum undos that the user can do
      * @param image      byte array of the background image of the board
      */
-    Board(List<Tile> tiles, int maxUndoMoves, byte[] image) {
-        Iterator<Tile> iter = tiles.iterator();
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
-                this.tiles[row][col] = iter.next();
-            }
-        }
+    Board(int size, List<Tile> tiles, int maxUndoMoves, byte[] image) {
+        this.size = size;
+        setTiles(tiles);
         moves = new UndoMoveList<>(maxUndoMoves);
-        movesMade = 0;
-        gameName = "Sliding Tiles";
         this.image = image;
     }
 
@@ -152,12 +139,8 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
      * Return the number of tiles on the board.
      * @return the number of tiles on the board
      */
-    static int numTiles() {
-        return NUM_ROWS * NUM_COLS;
-    }
-
-    public String getGameName() {
-        return gameName;
+    int numTiles() {
+        return (int) Math.pow(this.size, 2);
     }
 
     /**
@@ -210,7 +193,7 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
     /**
      * Undo the last move made
      */
-    public void undoLastMove(){
+    void undoLastMove(){
         int[] lastMove = moves.popLastMove();
         swap(lastMove[2], lastMove[3], lastMove[0], lastMove[1]);
     }
@@ -232,13 +215,13 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
         int nextColIndex = 0;
         @Override
         public boolean hasNext() {
-            return nextRowIndex + nextColIndex != NUM_ROWS + NUM_COLS - 2;
+            return nextRowIndex + nextColIndex != (2 * size) - 2;
         }
 
         @Override
         public Tile next() {
             Tile next = getTile(nextRowIndex, nextColIndex);
-            if(nextRowIndex != NUM_ROWS-1){
+            if(nextRowIndex != size - 1){
                 nextRowIndex++;
             }else{
                 nextRowIndex = 0;

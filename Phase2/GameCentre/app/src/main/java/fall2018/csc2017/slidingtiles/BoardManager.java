@@ -31,50 +31,57 @@ class BoardManager implements Serializable {
     }
 
     /**
-     * Manage a new shuffled board with numbered tiles.
+     * Helper method for generating all the tiles for the board.
      *
-     * @param maxUndoMoves the maximum undos that the user can do
+     * @param size size of the board
+     * @return the generated shuffled tiles
      */
-    BoardManager(int maxUndoMoves) {
+    private List<Tile> generateTiles(int size) {
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        int numTiles = (int) Math.pow(size, 2);
         for (int tileNum = 0; tileNum < numTiles; tileNum++) {
             tiles.add(new Tile(tileNum));
         }
+
+        // set the last tile to a blank tile
+        tiles.get(tiles.size() - 1).setToBlankTile();
+
         Tile t = tiles.remove(tiles.size()-2);
         tiles.add(t);
 
         Collections.shuffle(tiles);
-        makeSolvable(tiles);  // make sure the board is solvable
-        this.board = new Board(tiles, maxUndoMoves);
+        makeSolvable(size, tiles);  // make sure the board is solvable
+        return tiles;
+    }
+
+    /**
+     * Manage a new shuffled board with numbered tiles.
+     *
+     * @param size size of the board
+     * @param maxUndoMoves the maximum undos that the user can do
+     */
+    BoardManager(int size, int maxUndoMoves) {
+        this.board = new Board(size, generateTiles(size), maxUndoMoves);
     }
 
     /**
      * Manage a new shuffled board with image tiles.
      *
+     * @param size size of the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    BoardManager(int maxUndoMoves, byte[] image) {
-        List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
-        for (int tileNum = 0; tileNum < numTiles; tileNum++) {
-            tiles.add(new Tile(tileNum));
-        }
-        Tile t = tiles.remove(tiles.size() - 2);
-        tiles.add(t);
-
-        Collections.shuffle(tiles);
-        makeSolvable(tiles);  // make sure the board is solvable
-        this.board = new Board(tiles, maxUndoMoves, image);
+    BoardManager(int size, int maxUndoMoves, byte[] image) {
+        this.board = new Board(size, generateTiles(size), maxUndoMoves, image);
     }
 
     /**
      * Change the tiles so that it is solvable if it isn't. Leave it alone otherwise.
      * source: wikipedia https://en.wikipedia.org/wiki/15_puzzle
      *
+     * @param size size of the board
      * @param tiles a list of tiles
      */
-    private void makeSolvable(List<Tile> tiles) {
+    private void makeSolvable(int size, List<Tile> tiles) {
         int inv = 0;
         int rowDist = 0;
         for (int i = 0; i < tiles.size(); i++) {
@@ -86,7 +93,7 @@ class BoardManager implements Serializable {
                 }
             }
             if (tiles.get(i).getId() == tiles.size()) {
-                rowDist = Board.NUM_ROWS - 1 - i/Board.NUM_ROWS;
+                rowDist = size - 1 - i/size;
             }
         }
         if ((inv+rowDist) % 2 == 1) {
@@ -101,8 +108,8 @@ class BoardManager implements Serializable {
      */
     boolean puzzleSolved() {
         int counter = 0;
-        for (int row = 0; row < Board.NUM_ROWS; row++) {
-            for (int col = 0; col < Board.NUM_COLS; col++) {
+        for (int row = 0; row < board.getSize(); row++) {
+            for (int col = 0; col < board.getSize(); col++) {
                 counter++;
                 if (board.getTile(row, col).getId() != counter) {
                     return false;
@@ -119,14 +126,14 @@ class BoardManager implements Serializable {
      * @return whether the tile at position is surrounded by a blank tile
      */
     boolean isValidTap(int position) {
-        int row = position / Board.NUM_COLS;
-        int col = position % Board.NUM_COLS;
-        int blankId = Board.numTiles();
+        int row = position / board.getSize();
+        int col = position % board.getSize();
+        int blankId = board.numTiles();
         // Are any of the 4 the blank tile?
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
+        Tile below = row == board.getSize() - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
+        Tile right = col == board.getSize() - 1 ? null : board.getTile(row, col + 1);
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
@@ -142,14 +149,14 @@ class BoardManager implements Serializable {
         if(this.puzzleSolved()){ // don't let user shift tiles if game is finished
             return;
         }
-        int row = position / Board.NUM_ROWS;
-        int col = position % Board.NUM_COLS;
-        int blankId = Board.numTiles();
+        int row = position / board.getSize();
+        int col = position % board.getSize();
+        int blankId = board.numTiles();
 
         int[][] adjRowCols = {{row-1, col}, {row+1, col}, {row, col-1}, {row, col+1}};
         for (int[] adjRowCol: adjRowCols){
-            if (0 <= adjRowCol[0] && adjRowCol[0] < Board.NUM_ROWS &&
-                    0 <= adjRowCol[1] && adjRowCol[1] < Board.NUM_COLS){
+            if (0 <= adjRowCol[0] && adjRowCol[0] < board.getSize() &&
+                    0 <= adjRowCol[1] && adjRowCol[1] < board.getSize()){
                 int adjRow = adjRowCol[0];
                 int adjCol = adjRowCol[1];
                 if (board.getTile(adjRow,adjCol).getId() == blankId) {

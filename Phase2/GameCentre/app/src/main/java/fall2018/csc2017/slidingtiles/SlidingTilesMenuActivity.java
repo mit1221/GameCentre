@@ -237,9 +237,6 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     @Override
     public void startGame() {
-        int boardSize = gameOptions.getSize();
-        Board.NUM_COLS = boardSize;
-        Board.NUM_ROWS = boardSize;
         Intent intent = new Intent(SlidingTilesMenuActivity.this, SlidingTilesGameActivity.class);
         intent.putExtra("User", user);
         intent.putExtra("LoadGame", false);
