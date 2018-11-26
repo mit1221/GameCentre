@@ -26,7 +26,7 @@ public class SudokuBoard extends Board {
      * @param tiles        tiles for the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    SudokuBoard(List<Tile> tiles, int maxUndoMoves) {
+    SudokuBoard(List<SudokuTile> tiles, int maxUndoMoves) {
         super(9, tiles, maxUndoMoves);
     }
 
@@ -42,7 +42,8 @@ public class SudokuBoard extends Board {
         int col = move.getCol();
         int number = move.getNewNumber();
 
-        tiles[row][col] = new Tile(number);
+        SudokuEditableTile tile = (SudokuEditableTile) getTile(row, col);
+        tile.setValue(number);
     }
 
     /**

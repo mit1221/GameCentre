@@ -37,13 +37,21 @@ class SudokuBoardManager implements BoardManager {
      * @param size size of the board
      * @return the generated shuffled tiles
      */
-    private List<Tile> generateTiles(int size) {
-        List<Tile> tiles = new ArrayList<>();
+    private List<SudokuTile> generateTiles(int size) {
+        List<SudokuTile> tiles = new ArrayList<>();
         BoardGenerator generator = new BoardGenerator(size, 14);
         generator.fillValues();
 
+        int id = 0;
         for (int number : generator) {
-            tiles.add(new Tile(number));
+            SudokuTile tile;
+            if (number == 0) {
+                tile = new SudokuEditableTile(id);
+            } else {
+                tile = new SudokuLockedTile(id, number);
+            }
+            tiles.add(tile);
+            id++;
         }
         return tiles;
     }
@@ -78,7 +86,7 @@ class SudokuBoardManager implements BoardManager {
         int row = position / board.getSize();
         int col = position % board.getSize();
 
-        return !(getBoard().getTile(row, col) instanceof LockedTile);
+        return !(getBoard().getTile(row, col) instanceof SudokuLockedTile);
     }
 
     /**
