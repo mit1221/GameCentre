@@ -34,18 +34,14 @@ public class SlidingTilesBoard extends Board {
         return image;
     }
 
-
-    @Override
-    public void gameMove(Move m) {
-        swap((SlidingTilesMove) m);
-    }
-
     /**
      * Switch two tiles in the board
      *
-     * @param move move to make
+     * @param m move to make
      */
-    private void swap(SlidingTilesMove move) {
+    @Override
+    public void gameMove(Move m) {
+        SlidingTilesMove move = (SlidingTilesMove) m;
         int row1 = move.getRow1();
         int row2 = move.getRow2();
         int col1 = move.getCol1();

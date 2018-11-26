@@ -182,6 +182,15 @@ public abstract class Board extends Observable implements Serializable, Iterable
     }
 
     /**
+     * Return the board.
+     *
+     * @return the board
+     */
+    public Tile[][] getTiles() {
+        return tiles;
+    }
+
+    /**
      * Iterate over the tiles of the board.
      */
     private class BoardIterator implements Iterator<Tile> {

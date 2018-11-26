@@ -1,9 +1,9 @@
 package fall2018.csc2017.sudoku;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import fall2018.csc2017.Board;
 import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Tile;
 
@@ -64,8 +64,7 @@ class SudokuBoardManager implements BoardManager {
      */
     @Override
     public boolean puzzleSolved() {
-        return true;
-//        return rowsFilled() && columnsFilled() && squaresFilled();
+        return board.allRowsSolved() && board.allColumnsSolved() && board.allSubSquaresSolved();
     }
 
     /**
@@ -90,6 +89,16 @@ class SudokuBoardManager implements BoardManager {
             return;
         }
 
+    }
+
+    public static void main(String[] args) {
+        SudokuBoardManager manager = new SudokuBoardManager(2);
+        Board board = manager.getBoard();
+        int counter = 0;
+        for (Tile tile : board) {
+            System.out.println(++counter);
+
+        }
     }
 
 }
