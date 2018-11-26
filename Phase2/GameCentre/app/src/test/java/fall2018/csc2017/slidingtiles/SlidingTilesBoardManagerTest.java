@@ -25,14 +25,13 @@ public class SlidingTilesBoardManagerTest {
 
     /**
      * Make a set of tiles that are in order.
-     *
      * @return a set of tiles that are in order
      */
-    private List<Tile> makeTiles(int size) {
-        List<Tile> tiles = new ArrayList<>();
+    private List<SlidingTile> makeTiles(int size) {
+        List<SlidingTile> tiles = new ArrayList<>();
         final int numTiles = size * size;
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
-            tiles.add(new Tile(tileNum + 1, tileNum));
+            tiles.add(new SlidingTile(tileNum));
         }
 
         return tiles;
@@ -44,7 +43,7 @@ public class SlidingTilesBoardManagerTest {
      * @param size the size of the board (number of rows/cols).
      */
     private void setUpCorrect(int size) {
-        List<Tile> tiles = makeTiles(size);
+        List<SlidingTile> tiles = makeTiles(size);
         SlidingTilesBoard board = new SlidingTilesBoard(size, tiles, 3);
         boardManager = new SlidingTilesBoardManager(board);
     }
@@ -55,7 +54,7 @@ public class SlidingTilesBoardManagerTest {
      * @param size the size of the board (number of rows/cols).
      */
     private void setUpIncorrect(int size) {
-        List<Tile> tiles = makeTiles(size);
+        List<SlidingTile> tiles = makeTiles(size);
         Collections.reverse(tiles);
         SlidingTilesBoard board = new SlidingTilesBoard(size, tiles, 3);
         boardManager = new SlidingTilesBoardManager(board);
