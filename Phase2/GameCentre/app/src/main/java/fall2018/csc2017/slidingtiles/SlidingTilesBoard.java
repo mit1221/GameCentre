@@ -4,7 +4,6 @@ import java.util.List;
 
 import fall2018.csc2017.Board;
 import fall2018.csc2017.Move;
-import fall2018.csc2017.Tile;
 
 /**
  * The sliding tiles board.
@@ -16,13 +15,17 @@ public class SlidingTilesBoard extends Board {
      */
     private byte[] image = null;
 
-    SlidingTilesBoard(int size, List<Tile> tiles, int maxUndoMoves) {
+    SlidingTilesBoard(int size, List<SlidingTile> tiles, int maxUndoMoves) {
         super(size, tiles, maxUndoMoves);
     }
 
-    SlidingTilesBoard(int size, List<Tile> tiles, int maxUndoMoves, byte[] image) {
+    SlidingTilesBoard(int size, List<SlidingTile> tiles, int maxUndoMoves, byte[] image) {
         super(size, tiles, maxUndoMoves);
         this.image = image;
+    }
+
+    int getBlankTileId() {
+        return numTiles() - 1;
     }
 
     /**
@@ -47,7 +50,7 @@ public class SlidingTilesBoard extends Board {
         int col1 = move.getCol1();
         int col2 = move.getCol2();
 
-        Tile temp = tiles[row1][col1];
+        SlidingTile temp = (SlidingTile) tiles[row1][col1];
         tiles[row1][col1] = tiles[row2][col2];
         tiles[row2][col2] = temp;
     }

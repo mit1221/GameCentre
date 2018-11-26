@@ -32,25 +32,25 @@ class SlidingTilesBoardManager implements BoardManager {
     }
 
     /**
-     * Helper method for generating all the tiles for the board.
+     * Helper method for generating all the sliding tiles for the board.
      *
      * @param size size of the board
      * @return the generated shuffled tiles
      */
-    private List<Tile> generateTiles(int size) {
-        List<Tile> tiles = new ArrayList<>();
+    private List<SlidingTile> generateTiles(int size) {
+        List<SlidingTile> tiles = new ArrayList<>();
         int numTiles = (int) Math.pow(size, 2);
         for (int tileNum = 0; tileNum < numTiles; tileNum++) {
-            tiles.add(new Tile(tileNum));
+            tiles.add(new SlidingTile(tileNum));
         }
 
         // set the last tile to a blank tile
         tiles.get(tiles.size() - 1).setToBlankTile();
 
-        Tile t = tiles.remove(tiles.size() - 2);
+        SlidingTile t = tiles.remove(tiles.size() - 2);
         tiles.add(t);
 
-        Collections.shuffle(tiles);
+//        Collections.shuffle(tiles);
         makeSolvable(size, tiles);  // make sure the board is solvable
         return tiles;
     }
@@ -82,18 +82,18 @@ class SlidingTilesBoardManager implements BoardManager {
      * @param size  size of the board
      * @param tiles a list of tiles
      */
-    private void makeSolvable(int size, List<Tile> tiles) {
+    private void makeSolvable(int size, List<SlidingTile> tiles) {
         int inv = 0;
         int rowDist = 0;
         for (int i = 0; i < tiles.size(); i++) {
             for (int j = i + 1; j < tiles.size(); j++) {
                 if (tiles.get(j).getId() < tiles.get(i).getId()
-                        && tiles.get(j).getId() != tiles.size()
-                        && tiles.get(i).getId() != tiles.size()) {
+                        && tiles.get(j).getId() != tiles.size() - 1
+                        && tiles.get(i).getId() != tiles.size() - 1) {
                     inv++;
                 }
             }
-            if (tiles.get(i).getId() == tiles.size()) {
+            if (tiles.get(i).getId() == tiles.size() - 1) {
                 rowDist = size - 1 - i / size;
             }
         }
@@ -132,7 +132,8 @@ class SlidingTilesBoardManager implements BoardManager {
     public boolean isValidTap(int position) {
         int row = position / board.getSize();
         int col = position % board.getSize();
-        int blankId = board.numTiles();
+        int blankId = board.getBlankTileId();
+
         // Are any of the 4 the blank tile?
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
         Tile below = row == board.getSize() - 1 ? null : board.getTile(row + 1, col);
@@ -156,7 +157,7 @@ class SlidingTilesBoardManager implements BoardManager {
         }
         int row = position / board.getSize();
         int col = position % board.getSize();
-        int blankId = board.numTiles();
+        int blankId = board.getBlankTileId();
 
         int[][] adjRowCols = {{row - 1, col}, {row + 1, col}, {row, col - 1}, {row, col + 1}};
         for (int[] adjRowCol : adjRowCols) {
