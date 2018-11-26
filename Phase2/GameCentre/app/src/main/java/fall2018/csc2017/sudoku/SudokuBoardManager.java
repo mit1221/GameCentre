@@ -75,7 +75,10 @@ class SudokuBoardManager implements BoardManager {
      */
     @Override
     public boolean isValidTap(int position) {
-        return true;
+        int row = position / board.getSize();
+        int col = position % board.getSize();
+
+        return !(getBoard().getTile(row, col) instanceof LockedTile);
     }
 
     /**
@@ -94,11 +97,14 @@ class SudokuBoardManager implements BoardManager {
     public static void main(String[] args) {
         SudokuBoardManager manager = new SudokuBoardManager(2);
         Board board = manager.getBoard();
-        int counter = 0;
-        for (Tile tile : board) {
-            System.out.println(++counter);
 
+        for (Tile tile : board) {
+            System.out.println(tile.getId());
         }
+
+        System.out.println(((SudokuBoard) board).allColumnsSolved());
+        System.out.println(((SudokuBoard) board).allRowsSolved());
+        System.out.println(((SudokuBoard) board).allSubSquaresSolved());
     }
 
 }

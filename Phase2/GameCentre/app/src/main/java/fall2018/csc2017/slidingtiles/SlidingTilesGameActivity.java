@@ -218,14 +218,14 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        Board board = boardManager.getBoard();
+        SlidingTilesBoard board = (SlidingTilesBoard) boardManager.getBoard();
         tileButtons = new ArrayList<>();
 
         if (tileImages != null) {
             for (int row = 0; row < board.getSize(); row++) {
                 for (int col = 0; col < board.getSize(); col++) {
                     Button tmp = new Button(context);
-                    tmp.setBackground(tileImages.get(board.getTile(row, col).getId() - 1));
+                    tmp.setBackground(tileImages.get(board.getTile(row, col).getId()));
                     this.tileButtons.add(tmp);
                 }
             }
@@ -233,7 +233,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             for (int row = 0; row < board.getSize(); row++) {
                 for (int col = 0; col < board.getSize(); col++) {
                     Button tmp = new Button(context);
-                    tmp.setBackgroundResource(board.getTile(row, col).getBackground());
+                    tmp.setBackgroundResource(((SlidingTile) board.getTile(row, col)).getBackground());
                     this.tileButtons.add(tmp);
                 }
             }
@@ -245,7 +245,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        Board board = boardManager.getBoard();
+        SlidingTilesBoard board = (SlidingTilesBoard) boardManager.getBoard();
         int boardSize = board.getSize();
         int nextPos = 0;
 
@@ -253,14 +253,14 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             for (Button b : tileButtons) {
                 int row = nextPos / boardSize;
                 int col = nextPos % boardSize;
-                b.setBackground(tileImages.get(board.getTile(row, col).getId() - 1));
+                b.setBackground(tileImages.get(board.getTile(row, col).getId()));
                 nextPos++;
             }
         } else {
             for (Button b : tileButtons) {
                 int row = nextPos / boardSize;
                 int col = nextPos % boardSize;
-                b.setBackgroundResource(board.getTile(row, col).getBackground());
+                b.setBackgroundResource(((SlidingTile) board.getTile(row, col)).getBackground());
                 nextPos++;
             }
         }
