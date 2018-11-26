@@ -24,19 +24,36 @@ public class ImageFromUrlTask extends AsyncTask<String, Void, Bitmap> {
      */
     private AsyncResponse delegate;
 
+    /**
+     * Initialize task to get image from url.
+     *
+     * @param delegate method to execute once task is finished
+     */
     ImageFromUrlTask(AsyncResponse delegate) {
         this.delegate = delegate;
     }
 
+    /**
+     * Download the image in the background.
+     */
     @Override
     protected Bitmap doInBackground(String... params) {
         return getBitmapFromURL(params[0]);
     }
 
+    /**
+     * Called once the image is downloaded.
+     * @param result image
+     */
     protected void onPostExecute(Bitmap result) {
         delegate.processFinish(result);
     }
 
+    /**
+     * Return a Bitmap object representing the image at src.
+     * @param src url to get image from
+     * @return bitmap of image
+     */
     private static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);

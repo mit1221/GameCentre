@@ -18,7 +18,7 @@ public class User implements Serializable {
     /**
      * This user's saves (k, v) = (game name, save)
      */
-    private HashMap<String, Object> saves = new HashMap<>();
+    private HashMap<Game, Object> saves = new HashMap<>();
 
 
     public User(String userName, int password) {
@@ -42,7 +42,7 @@ public class User implements Serializable {
      * @param game the s
      * @return if this user has a save for game
      */
-    public boolean hasSave(String game) {
+    public boolean hasSave(Game game) {
         return this.saves.get(game) != null;
     }
 
@@ -50,7 +50,8 @@ public class User implements Serializable {
      * @param game the game whose save is being set
      * @param save the save to be saved for game.
      */
-    public void setSave(String game, Object save) {
+    // TODO: change save from Object to GameState
+    public void setSave(Game game, Object save) {
         this.saves.put(game, save);
     }
 
@@ -58,7 +59,8 @@ public class User implements Serializable {
      * @param game the game whose save is being set
      * @return the save for game.
      */
-    public Object getSave(String game) {
+    // TODO: return a GameState
+    public Object getSave(Game game) {
         return this.saves.get(game);
     }
 

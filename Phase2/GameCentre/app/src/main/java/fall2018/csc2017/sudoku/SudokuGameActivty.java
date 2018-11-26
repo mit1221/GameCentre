@@ -10,14 +10,23 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import fall2018.csc2017.User;
 import fall2018.csc2017.slidingtiles.R;
 
+/**
+ * The Sudoku game activity.
+ */
 public class SudokuGameActivty extends AppCompatActivity implements Observer {
 
     /**
      * The buttons to display.
      */
     private ArrayList<EditText> tiles;
+
+    /**
+     * Current user
+     */
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +48,7 @@ public class SudokuGameActivty extends AppCompatActivity implements Observer {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 EditText tmp = new EditText(context);
-                tmp.setText(sudoku.mat[row][col]);
+//                tmp.setText(sudoku.mat[row][col]);
                 this.tiles.add(tmp);
             }
         }

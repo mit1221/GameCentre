@@ -35,4 +35,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="233dp"
         android:text="Load Game" />
+
+    <Button
+        android:id="@+id/btnHighscores"
+        android:onClick="onBtnHighScoresClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="158dp"
+        android:text="Highscores" />
 </RelativeLayout>

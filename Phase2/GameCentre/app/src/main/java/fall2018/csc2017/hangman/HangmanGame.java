@@ -1,8 +1,10 @@
 package fall2018.csc2017.hangman;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Map;
 
+import fall2018.csc2017.Score;
 import fall2018.csc2017.slidingtiles.R;
 
 /**
@@ -157,5 +159,17 @@ public class HangmanGame implements Serializable{
             return getAnswer().length()*2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses;
         }
         return -1;
+    }
+
+    /**
+     * Returns the comparator used to compare hangman scores
+     */
+    public static Comparator<Score> getComparator() {
+        return new Comparator<Score>() {
+            @Override
+            public int compare(Score o1, Score o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        };
     }
 }

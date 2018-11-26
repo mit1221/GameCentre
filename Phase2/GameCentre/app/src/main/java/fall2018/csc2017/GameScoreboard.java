@@ -12,8 +12,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import fall2018.csc2017.slidingtiles.Board;
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**

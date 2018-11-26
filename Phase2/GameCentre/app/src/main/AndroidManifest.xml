@@ -22,12 +22,13 @@
         <activity android:name="fall2018.csc2017.GameCentre" />
         <activity android:name=".SlidingTilesMenuActivity" />
         <activity android:name="fall2018.csc2017.RegisterActivity" />
-        <activity android:name=".HighscoresActivity" />
+        <activity android:name=".SlidingTilesHSActivity" />
         <activity android:name="fall2018.csc2017.SettingsActivity" />
         <activity android:name="fall2018.csc2017.sudoku.SudokuMenuActivity" />
         <activity android:name="fall2018.csc2017.sudoku.SudokuGameActivty" />
         <activity android:name="fall2018.csc2017.hangman.HangmanGameActivity" />
-        <activity android:name="fall2018.csc2017.hangman.HangmanMenuActivity"></activity>
+        <activity android:name="fall2018.csc2017.hangman.HangmanMenuActivity"/>
+        <activity android:name="fall2018.csc2017.hangman.HangmanHSActivity" />
     </application>
 
 </manifest>

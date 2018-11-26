@@ -33,7 +33,7 @@ public class SudokuMenuActivity extends AppCompatActivity implements MenuActivit
      * Starts Sudoku.
      * @param game game to use
      */
-    private void launchSudoku(SudokuGame game){
+    private void launchSudoku(SudokuBoard game){
         Intent intent = new Intent(this, SudokuGameActivty.class);
         startActivity(intent);
     }
@@ -43,8 +43,8 @@ public class SudokuMenuActivity extends AppCompatActivity implements MenuActivit
      * @param view - clicked button
      */
     public void onBtnNewGameClick(View view){
-        SudokuGame game = new SudokuGame();
-        launchSudoku(game);
+//        SudokuBoard game = new SudokuBoard();
+//        launchSudoku(game);
     }
 
     /**

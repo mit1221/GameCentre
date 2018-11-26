@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import java.util.Random;
+
+import fall2018.csc2017.Game;
 import fall2018.csc2017.MenuActivity;
 import fall2018.csc2017.User;
+import fall2018.csc2017.UserManager;
 import fall2018.csc2017.slidingtiles.R;
 
 /**
@@ -33,16 +38,38 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
      * @param view - clicked button
      */
     public void onBtnNewGameClick(View view){
-        HangmanGame game = new HangmanGame("hang man game something moretext", "Some category");
+        // Choose a random category and word
+        /*
+        Object[] cateogories = WordManager.getCategories().toArray();
+        Random rand = new Random();
+        String category = (String)cateogories[rand.nextInt(cateogories.length)];
+        String answer = WordManager.getWord(category);
+        HangmanGame game = new HangmanGame(answer, category);*/
+        HangmanGame game = new HangmanGame("Some more text asdf", "A category");
         gotoHangmanGameActivity(game);
     }
 
     /**
-     * Handle what happens when user clicks New Game
+     * Handle what happens when user clicks Load Game
      * @param view - clicked button
      */
     public void onBtnLoadGameClick(View view){
+        if(user.hasSave(Game.HANGMAN)){
+            gotoHangmanGameActivity((HangmanGame)user.getSave(Game.HANGMAN));
+        }
+        else{
+            Toast.makeText(this, "No game to load",Toast.LENGTH_SHORT ).show();
+        }
+    }
 
+    /**
+     * Handle what happens when user clicks Highscores
+     * @param view - clicked button
+     */
+    public void onBtnHighScoresClick(View view){
+        Intent intent = new Intent(this, HangmanHSActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
     }
 
     /**
@@ -51,7 +78,8 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
      */
     private void gotoHangmanGameActivity(HangmanGame game){
         Intent intent = new Intent(this, HangmanGameActivity.class);
-        intent.putExtra("HangmanLetters", game);
+        intent.putExtra("HangmanGame", game);
+        intent.putExtra("User", user);
         startActivity(intent);
     }
 
@@ -63,5 +91,14 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
     @Override
     public void loadSavedGame() {
 
+    }
+
+    /**
+     * When activity resumes, reload the user's data in case it has changed
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        user = UserManager.getUser(user.getUserName(), this); //reload the user data
     }
 }

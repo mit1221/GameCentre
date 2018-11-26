@@ -43,5 +43,11 @@
         android:padding="10dp"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
-
+    <Button android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Make a Guess"
+        android:onClick="onBtnMakeGuessClick"
+        android:id="@+id/btnMakeGuess"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 </RelativeLayout>

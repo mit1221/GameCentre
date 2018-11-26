@@ -19,14 +19,17 @@ import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
 
+import fall2018.csc2017.Board;
+import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.CustomAdapter;
+import fall2018.csc2017.Game;
 import fall2018.csc2017.GameScoreboard;
 import fall2018.csc2017.Score;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
 
 /**
- * The game activity.
+ * The Sliding Tiles game activity.
  */
 public class SlidingTilesGameActivity extends AppCompatActivity implements Observer {
 
@@ -75,7 +78,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         setContentView(R.layout.activity_main);
 
         // Add an undo button to the game
-        Button undoButton = (Button) findViewById(R.id.undoButton);
+        Button undoButton = findViewById(R.id.undoButton);
         undoButton.setGravity(Gravity.BOTTOM);
         undoButton.setText("Undo");
         undoButton.setOnClickListener(new View.OnClickListener() {
@@ -91,9 +94,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             }
         });
 
+        int boardSize = boardManager.getBoard().getSize();
         // Add View to activity
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(Board.NUM_COLS);
+        gridView.setNumColumns(boardSize);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -106,9 +110,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = displayWidth / Board.NUM_COLS;
+                        columnWidth = displayWidth / boardManager.getBoard().getSize();
                         // Leave some space for display at the top
-                        columnHeight = ((int) (displayHeight * 0.7)) / Board.NUM_ROWS;
+                        columnHeight = ((int) (displayHeight * 0.7)) /
+                                boardManager.getBoard().getSize();
 
                         display();
                     }
@@ -126,15 +131,14 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            Board savedBoard = (Board) user.getSave("slidingtiles");
-            Board.NUM_ROWS = savedBoard.getBoardHeight();
-            Board.NUM_COLS = savedBoard.getBoardWidth();
-            boardManager = new BoardManager(savedBoard);
+            SlidingTilesBoard savedBoard = (SlidingTilesBoard) user.getSave(Game.SLIDING_TILES);
+            boardManager = new SlidingTilesBoardManager(savedBoard);
             populateTileImages();
         } else {
             SlidingTilesGameOptions gameOptions = (SlidingTilesGameOptions)
                     extras.getSerializable("GameOptions");
             int maxUndoMoves = gameOptions.getUndoMoves();
+            int boardSize = gameOptions.getSize();
             byte[] byteArray = gameOptions.getImage();
 
             if (byteArray != null) {
@@ -148,13 +152,13 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 squaredImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
-                boardManager = new BoardManager(maxUndoMoves, stream.toByteArray());
+                boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves, stream.toByteArray());
                 populateTileImages();
             } else {
-                boardManager = new BoardManager(maxUndoMoves);
+                boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves);
             }
 
-            user.setSave("slidingtiles", boardManager.getBoard());
+            user.setSave(Game.SLIDING_TILES, boardManager.getBoard());
         }
     }
 
@@ -162,12 +166,13 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Adds the generated tiles to tileImages.
      */
     private void populateTileImages() {
-        byte[] image = boardManager.getBoard().getImage();
+        SlidingTilesBoard board = (SlidingTilesBoard) boardManager.getBoard();
+        byte[] image = board.getImage();
         if (image != null) {
             Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
             ArrayList<Bitmap> bitmapImages = generateTiles(bmp);
 
-            tileImages = new ArrayList<>(Board.numTiles());
+            tileImages = new ArrayList<>(boardManager.getBoard().numTiles());
             // convert Bitmap tiles to Drawable so they can be used as backgrounds for the buttons
             for (Bitmap tile : bitmapImages) {
                 Drawable drawable = new BitmapDrawable(getResources(), tile);
@@ -178,17 +183,17 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
     /**
      * Creates tiles from a square image based on size of board.
-     *
+     * <p>
      * Adapted from: http://androidattop.blogspot.com/2012/05/splitting-image-into-smaller-chunks-in.html
      *
      * @param image the image to split
      * @return returns an ArrayList of the tiles as Bitmaps
      */
     private ArrayList<Bitmap> generateTiles(Bitmap image) {
-        ArrayList<Bitmap> tiles = new ArrayList<>(Board.numTiles());
+        ArrayList<Bitmap> tiles = new ArrayList<>(boardManager.getBoard().numTiles());
 
-        int rows = Board.NUM_ROWS;
-        int cols = Board.NUM_COLS;
+        int rows, cols;
+        rows = cols = boardManager.getBoard().getSize();
 
         // width and height of each tile
         int chunkWidth, chunkHeight;
@@ -217,16 +222,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         tileButtons = new ArrayList<>();
 
         if (tileImages != null) {
-            for (int row = 0; row < Board.NUM_ROWS; row++) {
-                for (int col = 0; col < Board.NUM_COLS; col++) {
+            for (int row = 0; row < board.getSize(); row++) {
+                for (int col = 0; col < board.getSize(); col++) {
                     Button tmp = new Button(context);
                     tmp.setBackground(tileImages.get(board.getTile(row, col).getId() - 1));
                     this.tileButtons.add(tmp);
                 }
             }
         } else {
-            for (int row = 0; row < Board.NUM_ROWS; row++) {
-                for (int col = 0; col < Board.NUM_COLS; col++) {
+            for (int row = 0; row < board.getSize(); row++) {
+                for (int col = 0; col < board.getSize(); col++) {
                     Button tmp = new Button(context);
                     tmp.setBackgroundResource(board.getTile(row, col).getBackground());
                     this.tileButtons.add(tmp);
@@ -241,19 +246,20 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      */
     private void updateTileButtons() {
         Board board = boardManager.getBoard();
+        int boardSize = board.getSize();
         int nextPos = 0;
 
         if (tileImages != null) {
             for (Button b : tileButtons) {
-                int row = nextPos / Board.NUM_ROWS;
-                int col = nextPos % Board.NUM_COLS;
+                int row = nextPos / boardSize;
+                int col = nextPos % boardSize;
                 b.setBackground(tileImages.get(board.getTile(row, col).getId() - 1));
                 nextPos++;
             }
         } else {
             for (Button b : tileButtons) {
-                int row = nextPos / Board.NUM_ROWS;
-                int col = nextPos % Board.NUM_COLS;
+                int row = nextPos / boardSize;
+                int col = nextPos % boardSize;
                 b.setBackgroundResource(board.getTile(row, col).getBackground());
                 nextPos++;
             }
@@ -275,17 +281,18 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     public void update(Observable o, Object arg) {
         display();
-        Board board = (Board) o;
+        Board board = (SlidingTilesBoard) o;
         // save the state of the board when it changes
         if (user != null) {
-            user.setSave("slidingtiles", board);
+            user.setSave(Game.SLIDING_TILES, board);
             UserManager.saveUserState(user, this);
         }
 
         // save score if game is finished
         if (boardManager.puzzleSolved()) {
             Score score = new Score(user.getUserName(), board.getMovesMade());
-            GameScoreboard.addScore(this, Board.getHighScoreFile(board.getBoardWidth()), score);
+            GameScoreboard.addScore(this, Board.getHighScoreFile(
+                    Game.SLIDING_TILES, board.getSize()), score);
         }
     }
 
