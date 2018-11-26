@@ -107,9 +107,9 @@ public abstract class Board extends Observable implements Serializable, Iterable
      *
      * @param tiles the tiles for the board
      */
-    private void setTiles(List<Tile> tiles) {
+    private void setTiles(List<? extends Tile> tiles) {
         this.tiles = new Tile[size][size];
-        Iterator<Tile> iter = tiles.iterator();
+        Iterator<? extends Tile> iter = tiles.iterator();
         for (int row = 0; row != size; row++) {
             for (int col = 0; col != size; col++) {
                 this.tiles[row][col] = iter.next();
@@ -125,7 +125,7 @@ public abstract class Board extends Observable implements Serializable, Iterable
      * @param tiles        the tiles for the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    public Board(int size, List<Tile> tiles, int maxUndoMoves) {
+    public Board(int size, List<? extends Tile> tiles, int maxUndoMoves) {
         this.size = size;
         setTiles(tiles);
         moves = new UndoMoveList<>(maxUndoMoves);
@@ -175,12 +175,6 @@ public abstract class Board extends Observable implements Serializable, Iterable
                 '}';
     }
 
-    @NonNull
-    @Override
-    public Iterator<Tile> iterator() {
-        return new BoardIterator();
-    }
-
     /**
      * Return the board.
      *
@@ -188,6 +182,12 @@ public abstract class Board extends Observable implements Serializable, Iterable
      */
     public Tile[][] getTiles() {
         return tiles;
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Tile> iterator() {
+        return new BoardIterator();
     }
 
     /**

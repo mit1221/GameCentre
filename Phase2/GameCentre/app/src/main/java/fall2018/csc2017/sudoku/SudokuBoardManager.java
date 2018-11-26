@@ -75,7 +75,10 @@ class SudokuBoardManager implements BoardManager {
      */
     @Override
     public boolean isValidTap(int position) {
-        return true;
+        int row = position / board.getSize();
+        int col = position % board.getSize();
+
+        return !(getBoard().getTile(row, col) instanceof LockedTile);
     }
 
     /**
