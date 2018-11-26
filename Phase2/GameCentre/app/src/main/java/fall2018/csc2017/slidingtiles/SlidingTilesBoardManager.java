@@ -50,7 +50,7 @@ class SlidingTilesBoardManager implements BoardManager {
         SlidingTile t = tiles.remove(tiles.size() - 2);
         tiles.add(t);
 
-//        Collections.shuffle(tiles);
+        Collections.shuffle(tiles);
         makeSolvable(size, tiles);  // make sure the board is solvable
         return tiles;
     }
