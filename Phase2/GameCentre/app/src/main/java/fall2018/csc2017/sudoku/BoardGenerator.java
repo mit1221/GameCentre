@@ -60,7 +60,7 @@ public class BoardGenerator implements Iterable<Integer> {
     /**
      * Diagonally populates the grids of the board.
      */
-    void fillDiagonal() {
+    private void fillDiagonal() {
 
         for (int i = 0; i < rows; i = i + root)
 
@@ -75,7 +75,7 @@ public class BoardGenerator implements Iterable<Integer> {
      * @param num the number to be checked for.
      * @return the boolean representing whether num is already in the given grid.
      */
-    boolean unUsedInBox(int rowStart, int colStart, int num) {
+    private boolean unUsedInBox(int rowStart, int colStart, int num) {
         for (int i = 0; i < root; i++)
             for (int j = 0; j < root; j++)
                 if (mat[rowStart + i][colStart + j] == num)
@@ -89,7 +89,7 @@ public class BoardGenerator implements Iterable<Integer> {
      * @param row the first row-coordinate of the mentioned grid.
      * @param col colStart the first col-coordinate of the mentioned grid.
      */
-    void fillBox(int row, int col) {
+    private void fillBox(int row, int col) {
         int num;
         for (int i = 0; i < root; i++) {
             for (int j = 0; j < root; j++) {
@@ -108,7 +108,7 @@ public class BoardGenerator implements Iterable<Integer> {
      * @param num A value restricting the range of possible return values.
      * @return a random integer.
      */
-    int randomGenerator(int num) {
+    private int randomGenerator(int num) {
         return (int) Math.floor((Math.random() * num + 1));
     }
 
@@ -119,7 +119,7 @@ public class BoardGenerator implements Iterable<Integer> {
      * @param num input value
      * @return bool determining safety of input value.
      */
-    boolean CheckIfSafe(int i, int j, int num) {
+    private boolean CheckIfSafe(int i, int j, int num) {
         return (unUsedInRow(i, num) &&
                 unUsedInCol(j, num) &&
                 unUsedInBox(i - i % root, j - j % root, num));
@@ -131,7 +131,7 @@ public class BoardGenerator implements Iterable<Integer> {
      * @param num input value
      * @return bool determining safety of input value.
      */
-    boolean unUsedInRow(int i, int num) {
+    private boolean unUsedInRow(int i, int num) {
         for (int j = 0; j < rows; j++)
             if (mat[i][j] == num)
                 return false;
@@ -144,7 +144,7 @@ public class BoardGenerator implements Iterable<Integer> {
      * @param num input value.
      * @return bool determining safety of input value.
      */
-    boolean unUsedInCol(int j, int num) {
+    private boolean unUsedInCol(int j, int num) {
         for (int i = 0; i < rows; i++)
             if (mat[i][j] == num)
                 return false;
@@ -157,7 +157,7 @@ public class BoardGenerator implements Iterable<Integer> {
      * @param j y-coordinate of grid.
      * @return boolean determining if board has been populated.
      */
-    boolean fillRemaining(int i, int j) {
+    private boolean fillRemaining(int i, int j) {
         // System.out.println(i+" "+j);
         if (j >= rows && i < rows - 1) {
             i = i + 1;
@@ -197,7 +197,7 @@ public class BoardGenerator implements Iterable<Integer> {
     /**
      * Replaces a specified number of digits in the board with 0's.
      */
-    void removeKDigits() {
+    private void removeKDigits() {
         int count = blanks;
         while (count != 0) {
             int cellId = randomGenerator(rows * rows) - 1;

@@ -14,33 +14,32 @@ import java.util.List;
 import fall2018.csc2017.Tile;
 
 
-public class BoardTest {
+public class SlidingTilesBoardTest {
 
     /** The board for testing. */
-    Board board;
+    SlidingTilesBoard board;
 
     /**
      * Make a set of tiles that are in order.
      * @return a set of tiles that are in order
      */
-    private List<Tile> makeTiles() {
-        List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+    private List<SlidingTile> makeTiles(int size) {
+        List<SlidingTile> tiles = new ArrayList<>();
+        final int numTiles = size * size;
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
-            tiles.add(new Tile(tileNum + 1, tileNum));
+            tiles.add(new SlidingTile(tileNum));
         }
 
         return tiles;
     }
 
     /**
-     * Make a solved Board.
+     * Make a solved board.
      * @param size the size of the board (number of rows/cols).
      */
     private void setUpCorrect(int size) {
-        Board.NUM_ROWS = Board.NUM_COLS = size;
-        List<Tile> tiles = makeTiles();
-        board = new Board(tiles);
+        List<SlidingTile> tiles = makeTiles(size);
+        board = new SlidingTilesBoard(size, tiles,3);
     }
 
     @Test
@@ -48,7 +47,7 @@ public class BoardTest {
         setUpCorrect(4);
         Tile tile0 = board.getTile(0,0);
         Tile tile1 = board.getTile(0,1);
-        board.makeMove(0,0,0,1);
+        board.makeMove(new SlidingTilesMove(0,0,0,1));
 
 
         Assert.assertEquals(board.getTile(0,0), tile1);
@@ -62,7 +61,7 @@ public class BoardTest {
         setUpCorrect(3);
         Tile tile0 = board.getTile(0,0);
         Tile tile1 = board.getTile(0,1);
-        board.makeMove(0,0,0,1);
+        board.makeMove(new SlidingTilesMove(0,0,0,1));
         board.undoLastMove();
 
         Assert.assertEquals(board.getTile(0,0), tile0);

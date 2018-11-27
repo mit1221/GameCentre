@@ -62,9 +62,6 @@ public class LettersAdapter extends BaseAdapter{
         if(c != ' ' && c!= '_'){ // Underline the text
             tvLetter.setPaintFlags(tvLetter.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         }
-        /*if(c == '_'){
-            tvLetter.setText(" "); // don't draw both underline and underscore
-        }*/
         return  tvLetter;
     }
 }

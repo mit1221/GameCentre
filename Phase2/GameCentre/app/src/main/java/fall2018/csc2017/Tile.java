@@ -8,7 +8,7 @@ import fall2018.csc2017.slidingtiles.R;
 /**
  * A general Tile for a board.
  */
-public class Tile implements Serializable, Comparable<Tile> {
+public abstract class Tile implements Serializable, Comparable<Tile> {
 
     /**
      * The unique id.

@@ -19,3 +19,8 @@ Nov 13 meeting:
 
 - Made sure Phase 2 repository was up and running for everyone
 
+Nov. 26 meeting:
+
+- Finalized tile properties/designs
+- Split unit testing between members
+- Discussed the reusability of Board and HighscoresActivity classes
