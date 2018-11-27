@@ -47,7 +47,7 @@ public class HangmanLetters implements Serializable{
     public HangmanLetters(String answer){
         // Check if answer makes a valid game (letters and space)
         answer = answer.toUpperCase();
-        Pattern p = Pattern.compile("[A-Z ]+");
+        Pattern p = Pattern.compile("^[A-Z ]+$");
         Matcher m = p.matcher(answer);
         if (!m.find())
             throw new InvalidParameterException("Hangman game can only have alphabetic letters, and at least one letter");
