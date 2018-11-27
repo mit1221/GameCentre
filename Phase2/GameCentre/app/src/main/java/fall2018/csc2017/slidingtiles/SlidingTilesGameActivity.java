@@ -75,7 +75,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         handleExtras();
 
         createTileButtons(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_slidingtiles_game);
 
         // Add an undo button to the game
         Button undoButton = findViewById(R.id.undoButton);

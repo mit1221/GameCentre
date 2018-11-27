@@ -50,7 +50,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
         super.onCreate(savedInstanceState);
         // Retrieve the user who is currently logged in
         user = (User) getIntent().getSerializableExtra("User");
-        setContentView(R.layout.activity_starting);
+        setContentView(R.layout.activity_slidingtiles_menu);
     }
 
     /**
