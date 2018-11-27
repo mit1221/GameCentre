@@ -132,19 +132,7 @@ class SlidingTilesBoardManager implements BoardManager {
     @Override
     public boolean isValidMove(Move m) {
         SlidingTilesMove move = (SlidingTilesMove) m;
-        int row = move.getRow1();
-        int col = move.getCol1();
-        int blankId = board.getBlankTileId();
-
-        // Are any of the 4 the blank tile?
-        Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == board.getSize() - 1 ? null : board.getTile(row + 1, col);
-        Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == board.getSize() - 1 ? null : board.getTile(row, col + 1);
-        return (below != null && below.getId() == blankId)
-                || (above != null && above.getId() == blankId)
-                || (left != null && left.getId() == blankId)
-                || (right != null && right.getId() == blankId);
+        return move.getRow1() != move.getRow2() || move.getCol1() != move.getCol2();
     }
 
     /**
