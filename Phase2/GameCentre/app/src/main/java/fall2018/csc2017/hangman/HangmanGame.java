@@ -81,8 +81,7 @@ public class HangmanGame extends Observable implements Serializable {
             numLives -= 1;
             numAnswerGuesses += 1;
         }
-        setChanged();
-        notifyObservers();
+        afterMoveMade();
         return isGuessCorrect;
     }
 
@@ -101,8 +100,7 @@ public class HangmanGame extends Observable implements Serializable {
                 numWrongLetters += 1;
                 numLives -= 1;
             }
-            setChanged();
-            notifyObservers();
+            afterMoveMade();
         }
         return unused;
     }
@@ -117,11 +115,20 @@ public class HangmanGame extends Observable implements Serializable {
     /**
      * Sets all correct letters in the game to reveal the answer
      */
-    public void revealAnswer(){
+    private void revealAnswer(){
         for(Character letter : hmLetters.getLetters().keySet()){
             if(hmLetters.getAnswer().indexOf(letter) != -1){
                 hmLetters.makeGuess(letter);
             }
+        }
+    }
+
+    /**
+     * Nofify observers and reveal answer if game is over
+     */
+    private void afterMoveMade(){
+        if(isGameOver() && !didUserWin()) {
+            revealAnswer();
         }
         setChanged();
         notifyObservers();
