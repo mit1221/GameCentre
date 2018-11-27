@@ -130,7 +130,6 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
             }
             else{
                 Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
-                game.revealAnswer();
             }
         }
 
