@@ -17,7 +17,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class UserManager implements Serializable {
     private static ArrayList<User> users = new ArrayList<>();
-    private static String saveDirectory = "users.txt";
+
+    /**
+     * A default directory for saving/loading to/from.
+     */
+    private static String defaultDir = "users.txt";
 
     /**
      * Register a new user with the given userName and password.
@@ -84,11 +88,12 @@ public class UserManager implements Serializable {
      * Saves users to text file.
      *
      * @param c the context in which to save users
+     * @param dir the directory to save users to
      */
-    private static void saveUsers(Context c) {
+    private static void saveUsers(Context c, String dir) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
-                    c.openFileOutput(saveDirectory, MODE_PRIVATE));
+                    c.openFileOutput(dir, MODE_PRIVATE));
             outputStream.writeObject(users);
             outputStream.close();
         } catch (IOException e) {
@@ -97,14 +102,23 @@ public class UserManager implements Serializable {
     }
 
     /**
+     * Save users to default text file
+     * @param c the context in which to save users
+     */
+    private static void saveUsers(Context c) {
+        saveUsers(c, defaultDir);
+    }
+
+    /**
      * Loads users from text file.
      *
      * @param c the context in which to load users
+     * @param dir the directory to load users from
      */
-    private static void loadUsers(Context c) {
+    private static void loadUsers(Context c, String dir) {
 
         try {
-            InputStream inputStream = c.openFileInput(saveDirectory);
+            InputStream inputStream = c.openFileInput(dir);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 users = (ArrayList<User>) input.readObject();
@@ -117,6 +131,14 @@ public class UserManager implements Serializable {
         } catch (ClassNotFoundException e) {
             Log.e("login activity", "File contained unexpected data type: " + e.toString());
         }
+    }
+
+    /**
+     * Loads users from default text file.
+     * @param c the context in which to load users
+     */
+    private static void loadUsers(Context c){
+        loadUsers(c, defaultDir);
     }
 
     /**
