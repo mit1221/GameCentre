@@ -5,6 +5,7 @@ import android.util.Pair;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Observable;
 
 import fall2018.csc2017.Score;
 import fall2018.csc2017.slidingtiles.R;
@@ -14,7 +15,7 @@ import fall2018.csc2017.slidingtiles.R;
  * Keep track of number of guesses made by user and return score if game is over
  */
 
-public class HangmanGame implements Serializable{
+public class HangmanGame extends Observable implements Serializable {
     /**
      * Current state of letters in the game
      */
@@ -80,6 +81,7 @@ public class HangmanGame implements Serializable{
             numLives -= 1;
             numAnswerGuesses += 1;
         }
+        afterMoveMade();
         return isGuessCorrect;
     }
 
@@ -98,6 +100,7 @@ public class HangmanGame implements Serializable{
                 numWrongLetters += 1;
                 numLives -= 1;
             }
+            afterMoveMade();
         }
         return unused;
     }
@@ -112,12 +115,23 @@ public class HangmanGame implements Serializable{
     /**
      * Sets all correct letters in the game to reveal the answer
      */
-    public void revealAnswer(){
+    private void revealAnswer(){
         for(Character letter : hmLetters.getLetters().keySet()){
             if(hmLetters.getAnswer().indexOf(letter) != -1){
                 hmLetters.makeGuess(letter);
             }
         }
+    }
+
+    /**
+     * Nofify observers and reveal answer if game is over
+     */
+    private void afterMoveMade(){
+        if(isGameOver() && !didUserWin()) {
+            revealAnswer();
+        }
+        setChanged();
+        notifyObservers();
     }
 
     /**

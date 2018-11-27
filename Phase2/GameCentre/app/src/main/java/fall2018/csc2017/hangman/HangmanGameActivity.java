@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import fall2018.csc2017.Board;
 import fall2018.csc2017.Game;
 import fall2018.csc2017.GameScoreboard;
@@ -24,7 +27,7 @@ import fall2018.csc2017.slidingtiles.R;
 /**
  * Activity for playing Hangman
  */
-public class HangmanGameActivity extends AppCompatActivity implements View.OnClickListener {
+public class HangmanGameActivity extends AppCompatActivity implements View.OnClickListener, Observer {
 
     public static final String HANGMAN_HS_FILE = "Hangman.txt";
 
@@ -42,12 +45,6 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
      * Grid for displaying the unused/correct/incorrect letter guesses
      */
     private GridView gridLetterButtons;
-
-    /**
-     * Adapter for gridLetterButtons
-     */
-    private LetterButtonsAdapter letterButtonsAdapter;
-
 
     /**
      *  Current game of hangman
@@ -76,17 +73,17 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_hangman_game);
 
         game = (HangmanGame)getIntent().getSerializableExtra("HangmanGame");
+        game.addObserver(this);
         user = (User)getIntent().getSerializableExtra("User");
 
         // Setup grid views
         gridLetters = findViewById(R.id.gridLetters);
-        //gridLetters.setNumColumns(Math.min(game.getAnswer().length(), 12));
         gridLetters.setNumColumns(game.getLongestWordLength());
         lettersAdapter = new LettersAdapter(game.getFixedGameState(game.getLongestWordLength()));
         gridLetters.setAdapter(lettersAdapter);
 
         gridLetterButtons = findViewById(R.id.gridLetterButtons);
-        letterButtonsAdapter = new LetterButtonsAdapter(this, game.getLetters());
+        LetterButtonsAdapter letterButtonsAdapter = new LetterButtonsAdapter(this, game.getLetters());
         gridLetterButtons.setAdapter(letterButtonsAdapter);
 
         // display the category
@@ -113,15 +110,16 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         // Get the letter that was clicked on
         Character letter = btn.getText().toString().charAt(0);
 
-        // Let user make the guess if letter was never used
-        if (game.makeLetterGuess(letter)) {
-            updateViews();
-        } else { // Tell user letter has already been used
+        // Make the user's guess
+        if (!game.makeLetterGuess(letter)) { // Tell user letter has already been used
             Toast.makeText(this, "Letter has already been used", Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    /**
+     * Update the views in the game activity
+     */
     private void updateViews(){
         // Notify user if they won/lost on this move
         if(game.isGameOver()){
@@ -132,7 +130,6 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
             }
             else{
                 Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
-                game.revealAnswer();
             }
         }
 
@@ -145,14 +142,10 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
 
         // update the image
         imgHangman.setImageResource(hangmanImages[game.getNumLives()]);
-
-        // Save the game
-        user.setSave(Game.HANGMAN, game);
-        UserManager.saveUserState(user, this);
     }
 
     /**
-     * Create a dialog when user clicks on Make a Guess
+     * Create a dialog when user clicks on Make a Guess to prompt user for an answer.
      */
     public void onBtnMakeGuessClick(View view){
         if(game.isGameOver()){ // ignore button press if game is over
@@ -175,12 +168,19 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
                 if(!game.makeAnswerGuess(input.getText().toString())){
                     Toast.makeText(HangmanGameActivity.this, "Wrong answer", Toast.LENGTH_SHORT).show();
                 }
-                updateViews();
             }
         });
         builder.setNegativeButton("Cancel", null);
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        updateViews();
+        // Save the game
+        user.setSave(Game.HANGMAN, game);
+        UserManager.saveUserState(user, this);
     }
 }
