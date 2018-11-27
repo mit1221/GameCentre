@@ -32,7 +32,10 @@ public class LettersAdapter extends BaseAdapter{
      */
     public void setLetters(String letters){this.letters = letters;}
 
-
+    /**
+     * Create a new LettersAdapter with the given letters
+     * @param letters to display. Use "_" to denote unsolved characters
+     */
     public LettersAdapter(String letters){
         this.letters = letters;
     }
