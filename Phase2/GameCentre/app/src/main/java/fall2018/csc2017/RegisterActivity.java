@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import fall2018.csc2017.slidingtiles.EmptyFieldException;
 import fall2018.csc2017.slidingtiles.R;
 
 /**
