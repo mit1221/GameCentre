@@ -1,11 +1,10 @@
 package fall2018.csc2017.hangman;
 
-import android.os.Environment;
+import android.content.Context;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -21,6 +20,7 @@ public abstract class WordManager {
     static { // https://www.dummies.com/programming/java/how-to-use-static-initializers-in-java/
 
         // https://gist.github.com/atduskgreg/3cf8ef48cb0d29cf151bedad81553a54 <-- animals
+        // new text files must be stored in assets
         wordMap.put("Animals",
                 "animals.txt");
         wordMap.put("Computer Science Teaching Stream", "teaching_stream.txt");
@@ -31,38 +31,49 @@ public abstract class WordManager {
      * @param category the category from which to get the words
      * @return a list of all words for the category
      */
-    private static ArrayList<String> getFileWords(String category) {
+    public static ArrayList<String> getFileWords(String category, Context c) { // need contexzt now
         ArrayList<String> fileWords = new ArrayList<>();
 
         // adapted from https://stackoverflow.com/questions/12421814/how-can-i-read-a-text-file-in-android
-        File SDCard = Environment.getExternalStorageDirectory();
-        File txt = new File(SDCard, wordMap.get(category));
+        // and https://stackoverflow.com/questions/9544737/read-file-from-assets
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(txt));
+            BufferedReader br = new BufferedReader(new InputStreamReader(c.getAssets().open(wordMap.get(category))));
             String line;
 
             while ((line = br.readLine()) != null) {
                 fileWords.add(line);
+                System.out.println(fileWords);
             }
         } catch (IOException e) {
             System.out.print("Issue at getFileWords while trying to read from ");
             System.out.println(wordMap.get(category));
         }
+
         return fileWords;
     }
 
     /**
-     * @param category the category from which to return the random word.
-     * @return a random word from category category
+     * @param wordList the list from which the element is returned
+     * @return a random element(word) from wordList
      */
-    public static String getWord(String category) {
-        ArrayList<String> words = getFileWords(category);
+    public static String randWordFromList(ArrayList<String> wordList) {
+
         Random r = new Random();
 
-        int i = r.nextInt(words.size());
+        int i = r.nextInt(wordList.size());
+        System.out.println(i);
+        return wordList.get(i);
+    }
 
-        return words.get(i);
+    /**
+     * @param category the category from which to get the random word
+     * @return a random word from category category
+     */
+    public static String getWord(String category, Context c) {
+        ArrayList<String> words = getFileWords(category, c);
+        return randWordFromList(words);
+
     }
 
     /**
@@ -71,7 +82,6 @@ public abstract class WordManager {
     public static Set getCategories() {
         return wordMap.keySet();
     }
-
 
 }
 
