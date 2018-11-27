@@ -77,10 +77,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         user = (User)getIntent().getSerializableExtra("User");
 
         // Setup grid views
-        gridLetters = findViewById(R.id.gridLetters);
-        gridLetters.setNumColumns(game.getLongestWordLength());
-        lettersAdapter = new LettersAdapter(game.getFixedGameState(game.getLongestWordLength()));
-        gridLetters.setAdapter(lettersAdapter);
+        setupGridLetters();
 
         gridLetterButtons = findViewById(R.id.gridLetterButtons);
         LetterButtonsAdapter letterButtonsAdapter = new LetterButtonsAdapter(this, game.getLetters());
@@ -93,6 +90,13 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         // Set the image for the hangman lives
         imgHangman = findViewById(R.id.imgHangman);
         imgHangman.setImageResource(hangmanImages[game.getNumLives()]);
+    }
+
+    private void setupGridLetters() {
+        gridLetters = findViewById(R.id.gridLetters);
+        gridLetters.setNumColumns(game.getLongestWordLength());
+        lettersAdapter = new LettersAdapter(game.getFixedGameState(game.getLongestWordLength()));
+        gridLetters.setAdapter(lettersAdapter);
     }
 
 

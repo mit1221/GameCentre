@@ -25,6 +25,7 @@ import fall2018.csc2017.CustomAdapter;
 import fall2018.csc2017.Game;
 import fall2018.csc2017.GameScoreboard;
 import fall2018.csc2017.Score;
+import fall2018.csc2017.Tile;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
 
@@ -222,20 +223,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         tileButtons = new ArrayList<>();
 
         if (tileImages != null) {
-            for (int row = 0; row < board.getSize(); row++) {
-                for (int col = 0; col < board.getSize(); col++) {
-                    Button tmp = new Button(context);
-                    tmp.setBackground(tileImages.get(board.getTile(row, col).getId()));
-                    this.tileButtons.add(tmp);
-                }
+            for (Tile tile : board) {
+                Button tmp = new Button(context);
+                tmp.setBackground(tileImages.get(tile.getId()));
+                this.tileButtons.add(tmp);
             }
         } else {
-            for (int row = 0; row < board.getSize(); row++) {
-                for (int col = 0; col < board.getSize(); col++) {
-                    Button tmp = new Button(context);
-                    tmp.setBackgroundResource(((SlidingTile) board.getTile(row, col)).getBackground());
-                    this.tileButtons.add(tmp);
-                }
+            for (Tile tile : board) {
+                Button tmp = new Button(context);
+                tmp.setBackgroundResource(((SlidingTile) tile).getBackground());
+                this.tileButtons.add(tmp);
             }
         }
 
