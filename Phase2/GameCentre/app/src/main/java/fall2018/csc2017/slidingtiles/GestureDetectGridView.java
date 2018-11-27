@@ -16,6 +16,8 @@ import android.view.MotionEvent;
 import android.widget.GridView;
 
 import fall2018.csc2017.BoardManager;
+import fall2018.csc2017.Move;
+import fall2018.csc2017.MovementController;
 
 public class GestureDetectGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
@@ -58,8 +60,8 @@ public class GestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-
-                mController.processTapMovement(context, position, true);
+                Move move = SlidingTilesMove.createMove(position, boardManager.getBoard());
+                mController.processMove(context, move);
                 return true;
             }
 
