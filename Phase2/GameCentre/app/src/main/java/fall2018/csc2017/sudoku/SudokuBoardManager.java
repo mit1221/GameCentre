@@ -5,6 +5,7 @@ import java.util.List;
 
 import fall2018.csc2017.Board;
 import fall2018.csc2017.BoardManager;
+import fall2018.csc2017.Move;
 import fall2018.csc2017.Tile;
 
 /**
@@ -45,11 +46,7 @@ class SudokuBoardManager implements BoardManager {
         int id = 0;
         for (int number : generator) {
             SudokuTile tile;
-            if (number == 0) {
-                tile = new SudokuEditableTile(id);
-            } else {
-                tile = new SudokuLockedTile(id, number);
-            }
+            tile = number == 0 ? new SudokuEditableTile(id) : new SudokuLockedTile(id, number);
             tiles.add(tile);
             id++;
         }
@@ -78,41 +75,67 @@ class SudokuBoardManager implements BoardManager {
     /**
      * Return whether the tile can be changed.
      *
-     * @param position the tile to check
+     * @param m the move to check
      * @return whether the tile at position can be changed
      */
     @Override
-    public boolean isValidTap(int position) {
-        int row = position / board.getSize();
-        int col = position % board.getSize();
-
-        return !(getBoard().getTile(row, col) instanceof SudokuLockedTile);
+    public boolean isValidMove(Move m) {
+        SudokuMove move = (SudokuMove) m;
+        return board.getTile(move.getRow(), move.getCol()) instanceof SudokuEditableTile;
     }
 
     /**
-     * Process a touch at position in the board, changed the tile number as appropriate.
+     * Process a touch at position in the board, changing the tile number as appropriate.
      *
-     * @param position the position
+     * @param move the move to make
      */
     @Override
-    public void touchMove(int position) {
+    public void touchMove(Move move) {
         if (this.puzzleSolved()) { // don't let user shift tiles if game is finished
             return;
         }
-
+        board.makeMove(move);
     }
 
     public static void main(String[] args) {
-        SudokuBoardManager manager = new SudokuBoardManager(2);
-        Board board = manager.getBoard();
+        SudokuBoardManager manager = new SudokuBoardManager(3);
+        Board board = manager.board;
 
         for (Tile tile : board) {
-            System.out.println(tile.getId());
+            SudokuTile t = (SudokuTile) tile;
+            System.out.println(t.getValue());
         }
 
-        System.out.println(((SudokuBoard) board).allColumnsSolved());
-        System.out.println(((SudokuBoard) board).allRowsSolved());
-        System.out.println(((SudokuBoard) board).allSubSquaresSolved());
+        int row = 0;
+        int col = 1;
+        SudokuTile t1 = (SudokuTile) board.getTile(row, col);
+
+        SudokuMove move = new SudokuMove(row, col, t1.getValue(), 2);
+        if (manager.isValidMove(move)) {
+            manager.touchMove(move);
+
+            System.out.println("=============================");
+            for (Tile tile : board) {
+                SudokuTile t = (SudokuTile) tile;
+                System.out.println(t.getValue());
+            }
+
+            move = new SudokuMove(row, col, t1.getValue(), 6);
+            manager.touchMove(move);
+
+            System.out.println("=============================");
+            for (Tile tile : board) {
+                SudokuTile t = (SudokuTile) tile;
+                System.out.println(t.getValue());
+            }
+
+            manager.getBoard().undoLastMove();
+            System.out.println("=============================");
+            for (Tile tile : board) {
+                SudokuTile t = (SudokuTile) tile;
+                System.out.println(t.getValue());
+            }
+        }
     }
 
 }

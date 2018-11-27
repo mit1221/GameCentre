@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import fall2018.csc2017.BoardManager;
+import fall2018.csc2017.Move;
 import fall2018.csc2017.Tile;
 
 /**
@@ -125,54 +126,26 @@ class SlidingTilesBoardManager implements BoardManager {
     /**
      * Return whether any of the four surrounding tiles is the blank tile.
      *
-     * @param position the tile to check
+     * @param m the move to check
      * @return whether the tile at position is surrounded by a blank tile
      */
     @Override
-    public boolean isValidTap(int position) {
-        int row = position / board.getSize();
-        int col = position % board.getSize();
-        int blankId = board.getBlankTileId();
-
-        // Are any of the 4 the blank tile?
-        Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == board.getSize() - 1 ? null : board.getTile(row + 1, col);
-        Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == board.getSize() - 1 ? null : board.getTile(row, col + 1);
-        return (below != null && below.getId() == blankId)
-                || (above != null && above.getId() == blankId)
-                || (left != null && left.getId() == blankId)
-                || (right != null && right.getId() == blankId);
+    public boolean isValidMove(Move m) {
+        SlidingTilesMove move = (SlidingTilesMove) m;
+        return move.getRow1() != move.getRow2() || move.getCol1() != move.getCol2();
     }
 
     /**
      * Process a touch at position in the board, swapping tiles as appropriate.
      *
-     * @param position the position
+     * @param move the move to make
      */
     @Override
-    public void touchMove(int position) {
+    public void touchMove(Move move) {
         if (this.puzzleSolved()) { // don't let user shift tiles if game is finished
             return;
         }
-        int row = position / board.getSize();
-        int col = position % board.getSize();
-        int blankId = board.getBlankTileId();
-
-        int[][] adjRowCols = {{row - 1, col}, {row + 1, col}, {row, col - 1}, {row, col + 1}};
-        for (int[] adjRowCol : adjRowCols) {
-            if (0 <= adjRowCol[0] && adjRowCol[0] < board.getSize() &&
-                    0 <= adjRowCol[1] && adjRowCol[1] < board.getSize()) {
-                int adjRow = adjRowCol[0];
-                int adjCol = adjRowCol[1];
-                if (board.getTile(adjRow, adjCol).getId() == blankId) {
-                    SlidingTilesMove move = new SlidingTilesMove(row, col, adjRow, adjCol);
-                    board.makeMove(move);
-                    break;
-                }
-            }
-        }
-
+        board.makeMove(move);
     }
 
 }

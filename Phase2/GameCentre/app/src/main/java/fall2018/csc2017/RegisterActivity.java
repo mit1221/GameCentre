@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import fall2018.csc2017.slidingtiles.EmptyFieldException;
 import fall2018.csc2017.slidingtiles.R;
 
 /**
@@ -28,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Handle Click event for register button
-     * @param view
+     * @param view view
      */
     public void onRegisterClick(View view){
         String userName = Username.getText().toString(); // get input from the user

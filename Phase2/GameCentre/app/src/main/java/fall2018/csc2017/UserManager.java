@@ -11,17 +11,24 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import fall2018.csc2017.slidingtiles.EmptyFieldException;
-
 import static android.content.Context.MODE_PRIVATE;
 
-public class UserManager implements Serializable {
+/**
+ * Utility class to assist with managing users.
+ */
+public final class UserManager implements Serializable {
     private static ArrayList<User> users = new ArrayList<>();
 
     /**
      * A default directory for saving/loading to/from.
      */
     private static String defaultDir = "users.txt";
+
+    /**
+     * Prevent instantiation of the class.
+     */
+    private UserManager() {
+    }
 
     /**
      * Register a new user with the given userName and password to directory dir.
@@ -162,6 +169,7 @@ public class UserManager implements Serializable {
      * @param c the context in which to load users
      * @param dir the directory to load users from
      */
+    @SuppressWarnings("unchecked")
     private static void loadUsers(Context c, String dir) {
 
         try {

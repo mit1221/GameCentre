@@ -1,8 +1,11 @@
 package fall2018.csc2017.hangman;
 
+import android.util.Pair;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Observable;
 
 import fall2018.csc2017.Score;
 import fall2018.csc2017.slidingtiles.R;
@@ -12,11 +15,18 @@ import fall2018.csc2017.slidingtiles.R;
  * Keep track of number of guesses made by user and return score if game is over
  */
 
-public class HangmanGame implements Serializable{
+public class HangmanGame extends Observable implements Serializable {
     /**
      * Current state of letters in the game
      */
     private HangmanLetters hmLetters;
+
+    /**
+     * Return the answer to the game
+     */
+    public String getAnswer(){
+        return hmLetters.getAnswer();
+    }
 
     /**
      * The category the answer belongs to.
@@ -71,6 +81,8 @@ public class HangmanGame implements Serializable{
             numLives -= 1;
             numAnswerGuesses += 1;
         }
+        setChanged();
+        notifyObservers();
         return isGuessCorrect;
     }
 
@@ -89,6 +101,8 @@ public class HangmanGame implements Serializable{
                 numWrongLetters += 1;
                 numLives -= 1;
             }
+            setChanged();
+            notifyObservers();
         }
         return unused;
     }
@@ -103,19 +117,14 @@ public class HangmanGame implements Serializable{
     /**
      * Sets all correct letters in the game to reveal the answer
      */
-    private void revealAnswer(){
+    public void revealAnswer(){
         for(Character letter : hmLetters.getLetters().keySet()){
             if(hmLetters.getAnswer().indexOf(letter) != -1){
                 hmLetters.makeGuess(letter);
             }
         }
-    }
-
-    /**
-     * Return the answer to the game
-     */
-    public String getAnswer(){
-        return hmLetters.getAnswer();
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -155,7 +164,7 @@ public class HangmanGame implements Serializable{
      *
      */
     public int getScore(){
-        if(isGameOver()){
+        if(didUserWin()){
             return getAnswer().length()*2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses;
         }
         return -1;
@@ -171,5 +180,54 @@ public class HangmanGame implements Serializable{
                 return o2.getValue() - o1.getValue();
             }
         };
+    }
+
+    /**
+     * Returns the state of letters in the game, with correctly guessed letters shown, "_" otherwise
+     * Extra spaces are inserted to fix the string, such that words are not cut off (if possible) when displayed.
+     * @param maxWidth The maximum number of characters allowed per line
+     * @return the fixed string representing the state of the game
+     */
+    public String getFixedGameState(int maxWidth){
+        String[] words = getGameState().split(" ");
+        StringBuilder out = new StringBuilder(words[0]);
+
+        for(int i = 1; i < words.length; i++){
+            String word = words[i];
+            int available = maxWidth - (out.length() % maxWidth);
+
+            if(available == maxWidth){ // is a new line
+                out.append(word); // no need to add a space before
+            }
+            else if(word.length() + 1 <= available){ // no longer a new line; need to add a space before
+                out.append(" ").append(word);
+            }
+            else{ // word.length + 1 > available
+                // if the word is longer than maxNumColumns, just add it
+                out.append(" ");
+                if(word.length() <= maxWidth){
+                    while(out.length() % maxWidth != 0){ // add spaces until you get to a new line
+                        out.append(" ");
+                    }
+                }
+                // now at a new line, just add the word
+                out.append(word);
+            }
+        }
+        return out.toString();
+    }
+
+    /**
+     * Returns the length of the longest word in the puzzle
+     */
+    public int getLongestWordLength(){
+        int max = 0;
+        // set to max length word
+        for(String word : getAnswer().split(" ")){
+            if(word.length() > max){
+                max = word.length();
+            }
+        }
+        return max;
     }
 }

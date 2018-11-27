@@ -38,12 +38,8 @@ public class SudokuBoard extends Board {
     @Override
     public void gameMove(Move m) {
         SudokuMove move = (SudokuMove) m;
-        int row = move.getRow();
-        int col = move.getCol();
-        int number = move.getNewNumber();
-
-        SudokuEditableTile tile = (SudokuEditableTile) getTile(row, col);
-        tile.setValue(number);
+        SudokuEditableTile tile = (SudokuEditableTile) getTile(move.getRow(), move.getCol());
+        tile.setValue(move.getNewNumber());
     }
 
     /**
@@ -154,7 +150,8 @@ public class SudokuBoard extends Board {
         Set<Integer> listSet = new HashSet<>();
 
         for (Tile t : list) {
-            listSet.add(t.getId());
+            SudokuTile tile = (SudokuTile) t;
+            listSet.add(tile.getValue());
         }
 
         return !listSet.equals(digitSet);

@@ -1,5 +1,6 @@
 package fall2018.csc2017.slidingtiles;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import fall2018.csc2017.Game;
@@ -50,7 +50,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
         super.onCreate(savedInstanceState);
         // Retrieve the user who is currently logged in
         user = (User) getIntent().getSerializableExtra("User");
-        setContentView(R.layout.activity_starting);
+        setContentView(R.layout.activity_slidingtiles_menu);
     }
 
     /**
@@ -157,7 +157,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     private void openDialog2() {
         LayoutInflater factory = LayoutInflater.from(this);
-        final View imageSelectView = factory.inflate(R.layout.dialog_image_select, null);
+        @SuppressLint("InflateParams") final View imageSelectView = factory.inflate(R.layout.dialog_image_select, null);
         imageSelectDialog = new AlertDialog.Builder(this).create();
         int padding = 45;
         imageSelectView.setPadding(padding, padding, padding, padding);
@@ -166,6 +166,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
             @Override
             public void onClick(View v) {
                 EditText input = imageSelectDialog.findViewById(R.id.textURL);
+                assert input != null;
                 String url = input.getText().toString();
 
                 if (url.equals("")) {

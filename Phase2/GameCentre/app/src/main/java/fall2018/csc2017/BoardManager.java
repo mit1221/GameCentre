@@ -20,18 +20,18 @@ public interface BoardManager extends Serializable {
     boolean puzzleSolved();
 
     /**
-     * Return whether the tap at position is allowed.
+     * Return whether the move is allowed.
      *
-     * @param position the tile to check
-     * @return whether you can touch the tile or not
+     * @param move the move to check
+     * @return whether the move is allowed
      */
-    boolean isValidTap(int position);
+    boolean isValidMove(Move move);
 
     /**
-     * Process a touch at position in the board.
+     * Process a move in the board.
      *
-     * @param position the position
+     * @param move the move to make
      */
-    void touchMove(int position);
+    void touchMove(Move move);
 
 }

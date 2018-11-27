@@ -3,7 +3,6 @@ package fall2018.csc2017.sudoku;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class SudokuGameActivty extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createSudokuTiles(this);
-        setContentView(R.layout.activity_sudoku_game_activty);
+        setContentView(R.layout.activity_sudoku_game);
     }
 
     /**

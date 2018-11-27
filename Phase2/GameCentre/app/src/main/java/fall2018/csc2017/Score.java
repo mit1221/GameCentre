@@ -9,7 +9,12 @@ public class Score implements Serializable{
     private String userName;
     private Integer value;
 
-
+    /**
+     * Create a new scrore.
+     *
+     * @param userName username of the user
+     * @param value    user's score
+     */
     public Score(String userName, Integer value) {
         this.userName = userName;
         this.value = value;
