@@ -1,5 +1,7 @@
 package fall2018.csc2017.hangman;
 
+import android.util.Pair;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
@@ -171,5 +173,54 @@ public class HangmanGame implements Serializable{
                 return o2.getValue() - o1.getValue();
             }
         };
+    }
+
+    /**
+     * Returns the state of letters in the game, with correctly guessed letters shown, "_" otherwise
+     * Extra spaces are inserted to fix the string, such that words are not cut off (if possible) when displayed.
+     * @param maxWidth The maximum number of characters allowed per line
+     * @return the fixed string representing the state of the game
+     */
+    public String getFixedGameState(int maxWidth){
+        String[] words = getGameState().split(" ");
+        StringBuilder out = new StringBuilder(words[0]);
+
+        for(int i = 1; i < words.length; i++){
+            String word = words[i];
+            int available = maxWidth - (out.length() % maxWidth);
+
+            if(available == maxWidth){ // is a new line
+                out.append(word); // no need to add a space before
+            }
+            else if(word.length() + 1 <= available){ // no longer a new line; need to add a space before
+                out.append(" ").append(word);
+            }
+            else{ // word.length + 1 > available
+                // if the word is longer than maxNumColumns, just add it
+                out.append(" ");
+                if(word.length() <= maxWidth){
+                    while(out.length() % maxWidth != 0){ // add spaces until you get to a new line
+                        out.append(" ");
+                    }
+                }
+                // now at a new line, just add the word
+                out.append(word);
+            }
+        }
+        return out.toString();
+    }
+
+    /**
+     * Returns the length of the longest word in the puzzle
+     */
+    public int getLongestWordLength(){
+        int max = 0;
+        // set to max length word
+        for(String word : getAnswer().split(" ")){
+            if(word.length() > max){
+                max = word.length();
+            }
+        }
+        return max;
     }
 }

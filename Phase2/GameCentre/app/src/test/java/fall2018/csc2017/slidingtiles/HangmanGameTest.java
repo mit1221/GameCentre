@@ -42,6 +42,7 @@ public class HangmanGameTest {
         }
         catch(Exception e){
             assertEquals("Hangman game can only have alphabetic letters, and at least one letter", e.getMessage());
+            return;
         }
         fail();
     }
@@ -74,6 +75,10 @@ public class HangmanGameTest {
         String answer = "Some answer";
         setup(answer);
         int initalLives = game.getNumLives();
+        assertEquals(true, game.makeLetterGuess('z'));
+        assertEquals(initalLives-1 , game.getNumLives());
+        assertEquals("____ ______", game.getGameState());
+
         assertEquals(false, game.makeLetterGuess('z'));
         assertEquals(initalLives-1 , game.getNumLives());
         assertEquals("____ ______", game.getGameState());
@@ -98,6 +103,13 @@ public class HangmanGameTest {
         for(Character c : letters.keySet()){
             assertEquals(HangmanLetters.LETTER_STATE.UNUSED, letters.get(c));
         }
+    }
+
+    @Test
+    public void testGet(){
+        setup("ab a cdefg abc");
+        String fixed = game.getFixedGameState(5);
+        assertEquals("__ _ ________", fixed);
     }
 
 }

@@ -80,8 +80,9 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
 
         // Setup grid views
         gridLetters = findViewById(R.id.gridLetters);
-        gridLetters.setNumColumns(Math.min(game.getAnswer().length(), 12));
-        lettersAdapter = new LettersAdapter(game.getGameState());
+        //gridLetters.setNumColumns(Math.min(game.getAnswer().length(), 12));
+        gridLetters.setNumColumns(game.getLongestWordLength());
+        lettersAdapter = new LettersAdapter(game.getFixedGameState(game.getLongestWordLength()));
         gridLetters.setAdapter(lettersAdapter);
 
         gridLetterButtons = findViewById(R.id.gridLetterButtons);
@@ -136,7 +137,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         }
 
         // update the solved/unsolved letters
-        lettersAdapter.setLetters(game.getGameState());
+        lettersAdapter.setLetters(game.getFixedGameState(game.getLongestWordLength()));
         gridLetters.invalidateViews();
 
         // update the correct/incorrect guesses
