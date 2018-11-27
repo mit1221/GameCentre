@@ -1,5 +1,6 @@
 package fall2018.csc2017.slidingtiles;
 
+import fall2018.csc2017.Board;
 import fall2018.csc2017.Move;
 
 /**
@@ -40,6 +41,38 @@ public class SlidingTilesMove implements Move {
 
     int getCol2() {
         return col2;
+    }
+
+    /**
+     * Return a Move object from the position clicked.
+     *
+     * @param position the position on the board clicked
+     * @param b        the board
+     * @return Move to make
+     */
+    static Move createMove(int position, Board b) {
+        SlidingTilesBoard board = (SlidingTilesBoard) b;
+        int row = position / board.getSize();
+        int col = position % board.getSize();
+        int blankId = board.getBlankTileId();
+
+        int rowOfBlankTile = row;
+        int colOfBlankTile = col;
+
+        if (col != 0 && board.getTile(row, col - 1).getId() == blankId) {
+            // blank tile is to the left
+            colOfBlankTile = col - 1;
+        } else if (col != board.getSize() - 1 && board.getTile(row, col + 1).getId() == blankId) {
+            // blank tile is to the right
+            colOfBlankTile = col + 1;
+        } else if (row != 0 && board.getTile(row - 1, col).getId() == blankId) {
+            // blank tile is above
+            rowOfBlankTile = row - 1;
+        } else {
+            // blank tile has to be below
+            rowOfBlankTile = row + 1;
+        }
+        return new SlidingTilesMove(row, col, rowOfBlankTile, colOfBlankTile);
     }
 
     @Override

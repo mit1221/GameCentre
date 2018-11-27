@@ -5,6 +5,7 @@ import java.util.List;
 
 import fall2018.csc2017.Board;
 import fall2018.csc2017.BoardManager;
+import fall2018.csc2017.Move;
 import fall2018.csc2017.Tile;
 
 /**
@@ -78,28 +79,29 @@ class SudokuBoardManager implements BoardManager {
     /**
      * Return whether the tile can be changed.
      *
-     * @param position the tile to check
+     * @param m the move to check
      * @return whether the tile at position can be changed
      */
     @Override
-    public boolean isValidTap(int position) {
+    public boolean isValidMove(Move m) {
+        SudokuMove move = (SudokuMove) m;
         int row = position / board.getSize();
         int col = position % board.getSize();
 
-        return !(getBoard().getTile(row, col) instanceof SudokuLockedTile);
+        return getBoard().getTile(row, col) instanceof SudokuEditableTile;
     }
 
     /**
-     * Process a touch at position in the board, changed the tile number as appropriate.
+     * Process a touch at position in the board, changing the tile number as appropriate.
      *
-     * @param position the position
+     * @param move the move to make
      */
     @Override
-    public void touchMove(int position) {
+    public void touchMove(Move move) {
         if (this.puzzleSolved()) { // don't let user shift tiles if game is finished
             return;
         }
-
+        board.makeMove(move);
     }
 
     public static void main(String[] args) {
