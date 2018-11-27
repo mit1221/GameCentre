@@ -31,7 +31,7 @@ public abstract class WordManager {
      * @param category the category from which to get the words
      * @return a list of all words for the category
      */
-    public static ArrayList<String> getFileWords(String category, Context c) { // need contexzt now
+    public static ArrayList<String> getFileWords(String category, Context c) { // need context now
         ArrayList<String> fileWords = new ArrayList<>();
 
         // adapted from https://stackoverflow.com/questions/12421814/how-can-i-read-a-text-file-in-android
@@ -43,7 +43,7 @@ public abstract class WordManager {
 
             while ((line = br.readLine()) != null) {
                 fileWords.add(line);
-                System.out.println(fileWords);
+
             }
         } catch (IOException e) {
             System.out.print("Issue at getFileWords while trying to read from ");
@@ -73,7 +73,6 @@ public abstract class WordManager {
     public static String getWord(String category, Context c) {
         ArrayList<String> words = getFileWords(category, c);
         return randWordFromList(words);
-
     }
 
     /**
