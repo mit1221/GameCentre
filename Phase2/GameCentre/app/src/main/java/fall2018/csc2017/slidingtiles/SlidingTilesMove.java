@@ -84,8 +84,8 @@ public class SlidingTilesMove implements Move {
         } else if (row != 0 && board.getTile(row - 1, col).getId() == blankId) {
             // blank tile is above
             rowOfBlankTile = row - 1;
-        } else {
-            // blank tile has to be below
+        } else if (row != board.getSize() - 1 && board.getTile(row + 1, col).getId() == blankId) {
+            // blank tile is below
             rowOfBlankTile = row + 1;
         }
         return new SlidingTilesMove(row, col, rowOfBlankTile, colOfBlankTile);
