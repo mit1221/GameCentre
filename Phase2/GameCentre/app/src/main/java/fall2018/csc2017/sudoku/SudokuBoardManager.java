@@ -40,7 +40,7 @@ class SudokuBoardManager implements BoardManager {
      */
     private List<SudokuTile> generateTiles(int size) {
         List<SudokuTile> tiles = new ArrayList<>();
-        BoardGenerator generator = new BoardGenerator(size, 50);
+        BoardGenerator generator = new BoardGenerator(size, 14);
         generator.fillValues();
 
         int id = 0;
