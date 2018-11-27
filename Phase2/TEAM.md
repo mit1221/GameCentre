@@ -24,7 +24,7 @@ Facebook Messenger
 
 ### Contract:
 I will do my best
-I will not finish early
+I will finish early
 I will communicate well with my teammates
 I will get my allotted work done on time.
 I will attend every team meeting and actively participate.
