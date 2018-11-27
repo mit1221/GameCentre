@@ -85,10 +85,7 @@ class SudokuBoardManager implements BoardManager {
     @Override
     public boolean isValidMove(Move m) {
         SudokuMove move = (SudokuMove) m;
-        int row = position / board.getSize();
-        int col = position % board.getSize();
-
-        return getBoard().getTile(row, col) instanceof SudokuEditableTile;
+        return board.getTile(move.getRow(), move.getCol()) instanceof SudokuEditableTile;
     }
 
     /**
@@ -106,7 +103,7 @@ class SudokuBoardManager implements BoardManager {
 
     public static void main(String[] args) {
         SudokuBoardManager manager = new SudokuBoardManager(2);
-        Board board = manager.getBoard();
+        Board board = manager.board;
 
         for (Tile tile : board) {
             System.out.println(tile.getId());

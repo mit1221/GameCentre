@@ -7,9 +7,25 @@ import fall2018.csc2017.Move;
  * Represents a move for the sliding tiles game.
  */
 public class SlidingTilesMove implements Move {
+
+    /**
+     * Row of clicked tile
+     */
     private int row1;
+
+    /**
+     * Row of tile to swap
+     */
     private int row2;
+
+    /**
+     * Column of clicked tile
+     */
     private int col1;
+
+    /**
+     * Column of tile to swap
+     */
     private int col2;
 
     /**
@@ -44,7 +60,7 @@ public class SlidingTilesMove implements Move {
     }
 
     /**
-     * Return a Move object from the position clicked.
+     * Return a Move object from the position clicked on the board.
      *
      * @param position the position on the board clicked
      * @param b        the board
