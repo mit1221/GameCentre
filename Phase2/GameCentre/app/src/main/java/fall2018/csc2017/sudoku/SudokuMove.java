@@ -53,7 +53,6 @@ public class SudokuMove implements Move {
         return newNumber;
     }
 
-
     @Override
     public Move reverseMove() {
         return new SudokuMove(row, col, newNumber, currentNumber);
