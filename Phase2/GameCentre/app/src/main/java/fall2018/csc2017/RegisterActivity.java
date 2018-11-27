@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Handle Click event for register button
-     * @param view
+     * @param view view
      */
     public void onRegisterClick(View view){
         String userName = Username.getText().toString(); // get input from the user

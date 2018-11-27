@@ -13,18 +13,26 @@ import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class UserManager implements Serializable {
+/**
+ * Utility class to assist with managing users.
+ */
+public final class UserManager implements Serializable {
     private static ArrayList<User> users = new ArrayList<>();
     private static String saveDirectory = "users.txt";
+
+    /**
+     * Prevent instantiation of the class.
+     */
+    private UserManager() {
+    }
 
     /**
      * Register a new user with the given userName and password.
      *
      * @param userName the new user's name
      * @param password the new user's password(hashed)
-     * @return the newly registered user
      */
-    public static User registerNewUser(String userName, String password, Context c) throws
+    static void registerNewUser(String userName, String password, Context c) throws
             UserException, EmptyFieldException {
         if (userName.equals("") || password.equals("")) {
             throw new EmptyFieldException("Username or password cannot be empty");
@@ -35,7 +43,6 @@ public class UserManager implements Serializable {
             User newUser = new User(userName, password.hashCode()); // hash the password
             users.add(newUser);
             saveUsers(c);
-            return newUser;
         }
     }
 
@@ -44,7 +51,7 @@ public class UserManager implements Serializable {
      * @param c        context to read files in
      * @return whether the user already exists
      */
-    public static boolean userExists(String userName, Context c) {
+    private static boolean userExists(String userName, Context c) {
         return getUser(userName, c) != null;
     }
 
@@ -99,6 +106,7 @@ public class UserManager implements Serializable {
      *
      * @param c the context in which to load users
      */
+    @SuppressWarnings("unchecked")
     private static void loadUsers(Context c) {
 
         try {
