@@ -40,17 +40,13 @@ class SudokuBoardManager implements BoardManager {
      */
     private List<SudokuTile> generateTiles(int size) {
         List<SudokuTile> tiles = new ArrayList<>();
-        BoardGenerator generator = new BoardGenerator(size, 14);
+        BoardGenerator generator = new BoardGenerator(size, 50);
         generator.fillValues();
 
         int id = 0;
         for (int number : generator) {
             SudokuTile tile;
-            if (number == 0) {
-                tile = new SudokuEditableTile(id);
-            } else {
-                tile = new SudokuLockedTile(id, number);
-            }
+            tile = number == 0 ? new SudokuEditableTile(id) : new SudokuLockedTile(id, number);
             tiles.add(tile);
             id++;
         }
@@ -102,16 +98,44 @@ class SudokuBoardManager implements BoardManager {
     }
 
     public static void main(String[] args) {
-        SudokuBoardManager manager = new SudokuBoardManager(2);
+        SudokuBoardManager manager = new SudokuBoardManager(3);
         Board board = manager.board;
 
         for (Tile tile : board) {
-            System.out.println(tile.getId());
+            SudokuTile t = (SudokuTile) tile;
+            System.out.println(t.getValue());
         }
 
-        System.out.println(((SudokuBoard) board).allColumnsSolved());
-        System.out.println(((SudokuBoard) board).allRowsSolved());
-        System.out.println(((SudokuBoard) board).allSubSquaresSolved());
+        int row = 0;
+        int col = 1;
+        SudokuTile t1 = (SudokuTile) board.getTile(row, col);
+
+        SudokuMove move = new SudokuMove(row, col, t1.getValue(), 2);
+        if (manager.isValidMove(move)) {
+            manager.touchMove(move);
+
+            System.out.println("=============================");
+            for (Tile tile : board) {
+                SudokuTile t = (SudokuTile) tile;
+                System.out.println(t.getValue());
+            }
+
+            move = new SudokuMove(row, col, t1.getValue(), 6);
+            manager.touchMove(move);
+
+            System.out.println("=============================");
+            for (Tile tile : board) {
+                SudokuTile t = (SudokuTile) tile;
+                System.out.println(t.getValue());
+            }
+
+            manager.getBoard().undoLastMove();
+            System.out.println("=============================");
+            for (Tile tile : board) {
+                SudokuTile t = (SudokuTile) tile;
+                System.out.println(t.getValue());
+            }
+        }
     }
 
 }

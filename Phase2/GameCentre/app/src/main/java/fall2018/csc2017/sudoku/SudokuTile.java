@@ -5,9 +5,14 @@ import fall2018.csc2017.Tile;
 abstract class SudokuTile extends Tile {
 
     /**
-     * Display value of the Sudoku tile.
+     * Value of the Sudoku tile.
      */
-    protected int value;
+    private int value;
+
+    /**
+     * Value for an empty Sudoku tile.
+     */
+    final static int EMPTY_TILE_VALUE = 0;
 
     /**
      * A Sudoku Tile with an id and a value.
@@ -17,7 +22,9 @@ abstract class SudokuTile extends Tile {
      */
     SudokuTile(int id, int value) {
         super(id);
-        this.value = value;
+        if (valueInvariant(value)) {
+            this.value = value;
+        }
     }
 
     /**
@@ -27,5 +34,26 @@ abstract class SudokuTile extends Tile {
      */
     int getValue() {
         return value;
+    }
+
+    /**
+     * Set the value of the tile.
+     *
+     * @param value the value to be set to the tile
+     */
+    void setValue(int value) {
+        if (valueInvariant(value)) {
+            this.value = value;
+        }
+    }
+
+    /**
+     * Return whether the value is valid for the Sudoku game.
+     *
+     * @param value value
+     * @return whether the value is valid
+     */
+    private boolean valueInvariant(int value) {
+        return (value > 0 && value < 10) || value == EMPTY_TILE_VALUE;
     }
 }

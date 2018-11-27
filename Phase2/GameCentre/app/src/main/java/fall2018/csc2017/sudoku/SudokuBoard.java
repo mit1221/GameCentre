@@ -150,7 +150,8 @@ public class SudokuBoard extends Board {
         Set<Integer> listSet = new HashSet<>();
 
         for (Tile t : list) {
-            listSet.add(t.getId());
+            SudokuTile tile = (SudokuTile) t;
+            listSet.add(tile.getValue());
         }
 
         return !listSet.equals(digitSet);
