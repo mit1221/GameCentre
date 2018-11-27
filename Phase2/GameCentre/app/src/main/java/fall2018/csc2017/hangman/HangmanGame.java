@@ -19,6 +19,13 @@ public class HangmanGame implements Serializable{
     private HangmanLetters hmLetters;
 
     /**
+     * Return the answer to the game
+     */
+    public String getAnswer(){
+        return hmLetters.getAnswer();
+    }
+
+    /**
      * The category the answer belongs to.
      */
     public String getCategory() {
@@ -103,19 +110,12 @@ public class HangmanGame implements Serializable{
     /**
      * Sets all correct letters in the game to reveal the answer
      */
-    private void revealAnswer(){
+    public void revealAnswer(){
         for(Character letter : hmLetters.getLetters().keySet()){
             if(hmLetters.getAnswer().indexOf(letter) != -1){
                 hmLetters.makeGuess(letter);
             }
         }
-    }
-
-    /**
-     * Return the answer to the game
-     */
-    public String getAnswer(){
-        return hmLetters.getAnswer();
     }
 
     /**
@@ -155,7 +155,7 @@ public class HangmanGame implements Serializable{
      *
      */
     public int getScore(){
-        if(isGameOver()){
+        if(didUserWin()){
             return getAnswer().length()*2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses;
         }
         return -1;

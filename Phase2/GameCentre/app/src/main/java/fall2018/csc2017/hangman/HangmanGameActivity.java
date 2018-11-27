@@ -130,7 +130,8 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
                 GameScoreboard.addScore(this, HANGMAN_HS_FILE, score);
             }
             else{
-                Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
+                game.revealAnswer();
             }
         }
 
@@ -153,6 +154,9 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
      * Create a dialog when user clicks on Make a Guess
      */
     public void onBtnMakeGuessClick(View view){
+        if(game.isGameOver()){ // ignore button press if game is over
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // input in the dialog for specifying max # of undos allowed

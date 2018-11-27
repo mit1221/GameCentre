@@ -39,13 +39,13 @@ public class HangmanMenuActivity extends AppCompatActivity implements MenuActivi
      */
     public void onBtnNewGameClick(View view){
         // Choose a random category and word
-        /*
+
         Object[] cateogories = WordManager.getCategories().toArray();
         Random rand = new Random();
         String category = (String)cateogories[rand.nextInt(cateogories.length)];
-        String answer = WordManager.getWord(category);
-        HangmanGame game = new HangmanGame(answer, category);*/
-        HangmanGame game = new HangmanGame("Some more text asdf", "A category");
+        String answer = WordManager.getWord(category, this);
+        HangmanGame game = new HangmanGame(answer, category);
+        //HangmanGame game = new HangmanGame("Some more text asdf", "A category");
         gotoHangmanGameActivity(game);
     }
 

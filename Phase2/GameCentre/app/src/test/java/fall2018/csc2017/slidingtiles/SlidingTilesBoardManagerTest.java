@@ -12,9 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 import fall2018.csc2017.Tile;
-
-
 
 public class SlidingTilesBoardManagerTest {
 
@@ -78,11 +77,11 @@ public class SlidingTilesBoardManagerTest {
     @Test
     public void testIsValidTap() {
         setUpCorrect(5);
-        assertTrue(boardManager.isValidTap(23));
-        assertTrue(boardManager.isValidTap(19));
-        assertFalse(boardManager.isValidTap(18));
-        assertFalse(boardManager.isValidTap(0));
-        assertFalse(boardManager.isValidTap(24));
+        assertTrue(boardManager.isValidMove((SlidingTilesMove.createMove(23,boardManager.getBoard()))));
+        assertTrue(boardManager.isValidMove((SlidingTilesMove.createMove(19,boardManager.getBoard()))));
+        assertFalse(boardManager.isValidMove((SlidingTilesMove.createMove(18,boardManager.getBoard()))));
+        assertFalse(boardManager.isValidMove((SlidingTilesMove.createMove(0,boardManager.getBoard()))));
+        assertFalse(boardManager.isValidMove((SlidingTilesMove.createMove(24,boardManager.getBoard()))));
     }
 
     @Test
@@ -90,7 +89,7 @@ public class SlidingTilesBoardManagerTest {
         setUpIncorrect(3);
         Tile tile0 = boardManager.getBoard().getTile(0, 0);
         Tile tile1 = boardManager.getBoard().getTile(0, 1);
-        boardManager.touchMove(1);
+        boardManager.touchMove(SlidingTilesMove.createMove(1,boardManager.getBoard()));
         assertEquals(boardManager.getBoard().getTile(0, 0), tile1);
         assertEquals(boardManager.getBoard().getTile(0, 1), tile0);
     }
