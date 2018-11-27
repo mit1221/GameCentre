@@ -40,6 +40,13 @@ public abstract class Board extends Observable implements Serializable, Iterable
     private UndoMoveList<Move> moves;
 
     /**
+     * Return the list of moves made
+     *
+     * @return list of moves made
+     */
+    public UndoMoveList<Move> getUndoMoveList() {return moves;}
+
+    /**
      * The number of moves made
      */
     private int movesMade;
