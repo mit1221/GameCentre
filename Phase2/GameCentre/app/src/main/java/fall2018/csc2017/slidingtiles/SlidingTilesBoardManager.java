@@ -124,9 +124,21 @@ class SlidingTilesBoardManager extends BoardManager {
      * @return whether the tile at position is surrounded by a blank tile
      */
     @Override
-    // TODO: change this back to the old code
     public boolean isValidMove(Move m) {
         SlidingTilesMove move = (SlidingTilesMove) m;
-        return move.getRow1() != move.getRow2() || move.getCol1() != move.getCol2();
+
+        int row = move.getRow1();
+        int col = move.getCol1();
+        int blankId = ((SlidingTilesBoard) getBoard()).getBlankTileId();
+
+        // Are any of the 4 the blank tile?
+        Tile above = row == 0 ? null : getBoard().getTile(row - 1, col);
+        Tile below = row == getBoard().getSize() - 1 ? null : getBoard().getTile(row + 1, col);
+        Tile left = col == 0 ? null : getBoard().getTile(row, col - 1);
+        Tile right = col == getBoard().getSize() - 1 ? null : getBoard().getTile(row, col + 1);
+        return (below != null && below.getId() == blankId)
+                || (above != null && above.getId() == blankId)
+                || (left != null && left.getId() == blankId)
+                || (right != null && right.getId() == blankId);
     }
 }
