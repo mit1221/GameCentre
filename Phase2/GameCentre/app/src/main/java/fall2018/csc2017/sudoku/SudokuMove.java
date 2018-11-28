@@ -1,5 +1,6 @@
 package fall2018.csc2017.sudoku;
 
+import fall2018.csc2017.Board;
 import fall2018.csc2017.Move;
 
 /**
@@ -51,6 +52,23 @@ public class SudokuMove implements Move {
 
     int getNewNumber() {
         return newNumber;
+    }
+
+    /**
+     * Return a Move object from the position clicked on the board and the number entered.
+     *
+     * @param position  the position on the board clicked
+     * @param b         the board
+     * @param newNumber the new number to put
+     * @return Move to make
+     */
+    static Move createMove(int position, Board b, int newNumber) {
+        SudokuBoard board = (SudokuBoard) b;
+        int row = position / board.getSize();
+        int col = position % board.getSize();
+        SudokuTile tile = (SudokuTile) board.getTile(row, col);
+
+        return new SudokuMove(row, col, tile.getValue(), newNumber);
     }
 
     @Override

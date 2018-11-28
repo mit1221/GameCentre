@@ -8,12 +8,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Observable;
 
 /**
  * A general board.
  */
-public abstract class Board extends Observable implements Serializable, Iterable<Tile> {
+public abstract class Board implements Serializable, Iterable<Tile> {
 
     public static Comparator<Score> getComparator() {
         return new Comparator<Score>() {
@@ -33,32 +32,6 @@ public abstract class Board extends Observable implements Serializable, Iterable
      * The tiles on the board.
      */
     protected Tile[][] tiles;
-
-    /**
-     * Keep track of moves made
-     */
-    private UndoMoveList<Move> moves;
-
-    /**
-     * Return the list of moves made
-     *
-     * @return list of moves made
-     */
-    public UndoMoveList<Move> getUndoMoveList() {return moves;}
-
-    /**
-     * The number of moves made
-     */
-    private int movesMade;
-
-    /**
-     * Return the number of moves made
-     *
-     * @return number of moves made
-     */
-    public int getMovesMade() {
-        return movesMade;
-    }
 
     /**
      * Get the size of the board
@@ -90,26 +63,6 @@ public abstract class Board extends Observable implements Serializable, Iterable
     }
 
     /**
-     * The game specific move to make
-     *
-     * @param m the move to make
-     */
-    public abstract void gameMove(Move m);
-
-    /**
-     * Apply the move to the board
-     * Note: this method is called for both a forward move and an undo move
-     *
-     * @param m the move to make
-     */
-    private void move(Move m) {
-        gameMove(m);
-        movesMade += 1;
-        setChanged();
-        notifyObservers();
-    }
-
-    /**
      * Helper method for setting the tiles for the board.
      *
      * @param tiles the tiles for the board
@@ -122,7 +75,6 @@ public abstract class Board extends Observable implements Serializable, Iterable
                 this.tiles[row][col] = iter.next();
             }
         }
-        this.movesMade = 0;
     }
 
     /**
@@ -130,12 +82,10 @@ public abstract class Board extends Observable implements Serializable, Iterable
      *
      * @param size         the size of the board
      * @param tiles        the tiles for the board
-     * @param maxUndoMoves the maximum undos that the user can do
      */
-    public Board(int size, List<? extends Tile> tiles, int maxUndoMoves) {
+    public Board(int size, List<? extends Tile> tiles) {
         this.size = size;
         setTiles(tiles);
-        moves = new UndoMoveList<>(maxUndoMoves);
     }
 
     /**
@@ -156,23 +106,6 @@ public abstract class Board extends Observable implements Serializable, Iterable
      */
     public Tile getTile(int row, int col) {
         return tiles[row][col];
-    }
-
-    /**
-     * Make move and add it to the moves made.
-     *
-     * @param m move to make
-     */
-    public void makeMove(Move m) {
-        move(m);
-        moves.addMove(m);
-    }
-
-    /**
-     * Undo the last move made.
-     */
-    public void undoLastMove() {
-        move(moves.popLastMove().reverseMove());
     }
 
     @Override

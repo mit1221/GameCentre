@@ -4,6 +4,7 @@ import java.util.List;
 
 import fall2018.csc2017.Board;
 import fall2018.csc2017.Move;
+import fall2018.csc2017.Tile;
 
 /**
  * The sliding tiles board.
@@ -15,12 +16,12 @@ public class SlidingTilesBoard extends Board {
      */
     private byte[] image = null;
 
-    SlidingTilesBoard(int size, List<SlidingTile> tiles, int maxUndoMoves) {
-        super(size, tiles, maxUndoMoves);
+    SlidingTilesBoard(int size, List<SlidingTile> tiles) {
+        super(size, tiles);
     }
 
-    SlidingTilesBoard(int size, List<SlidingTile> tiles, int maxUndoMoves, byte[] image) {
-        super(size, tiles, maxUndoMoves);
+    SlidingTilesBoard(int size, List<SlidingTile> tiles, byte[] image) {
+        super(size, tiles);
         this.image = image;
     }
 
@@ -38,20 +39,12 @@ public class SlidingTilesBoard extends Board {
     }
 
     /**
-     * Switch two tiles in the board
-     *
-     * @param m move to make
+     * Set the tile at (row, col) to a new tile.
+     * @param row row
+     * @param col column
+     * @param tile new tile to put at (row, col)
      */
-    @Override
-    public void gameMove(Move m) {
-        SlidingTilesMove move = (SlidingTilesMove) m;
-        int row1 = move.getRow1();
-        int row2 = move.getRow2();
-        int col1 = move.getCol1();
-        int col2 = move.getCol2();
-
-        SlidingTile temp = (SlidingTile) tiles[row1][col1];
-        tiles[row1][col1] = tiles[row2][col2];
-        tiles[row2][col2] = temp;
+    void setTile(int row, int col, Tile tile) {
+        tiles[row][col] = tile;
     }
 }

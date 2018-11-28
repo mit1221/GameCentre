@@ -80,7 +80,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             public void onClick(View v) {
                 try {
                     if (!boardManager.puzzleSolved()) {
-                        boardManager.getBoard().undoLastMove();
+                        boardManager.undoLastMove();
                     }
                 } catch (NoSuchElementException ex) {
                     Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
@@ -93,7 +93,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(boardSize);
         gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
+        boardManager.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -125,8 +125,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            SudokuBoard savedBoard = (SudokuBoard) user.getSave(Game.SUDOKU);
-            boardManager = new SudokuBoardManager(savedBoard);
+            boardManager = (SudokuBoardManager) user.getSave(Game.SUDOKU);
         } else {
             SudokuGameOptions gameOptions = (SudokuGameOptions)
                     extras.getSerializable("GameOptions");
@@ -194,16 +193,16 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         display();
-        Board board = (SudokuBoard) o;
+        BoardManager save = (BoardManager) o;
         // save the state of the board when it changes
-        user.setSave(Game.SUDOKU, board);
+        user.setSave(Game.SUDOKU, save);
         UserManager.saveUserState(user, this);
 
         // save score if game is finished
         if (boardManager.puzzleSolved()) {
-            Score score = new Score(user.getUserName(), board.getMovesMade());
+            Score score = new Score(user.getUserName(), boardManager.getMovesMade());
             GameScoreboard.addScore(this, Board.getHighScoreFile(
-                    Game.SUDOKU, board.getSize()), score);
+                    Game.SUDOKU, boardManager.getBoard().getSize()), score);
         }
     }
 }

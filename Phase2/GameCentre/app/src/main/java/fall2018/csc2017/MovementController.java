@@ -1,8 +1,5 @@
 package fall2018.csc2017;
 
-import android.content.Context;
-import android.widget.Toast;
-
 public class MovementController {
 
     private BoardManager boardManager = null;
@@ -23,7 +20,7 @@ public class MovementController {
     public String processMove(Move move) {
         String result = null;
         if (boardManager.isValidMove(move)) {
-            boardManager.touchMove(move);
+            boardManager.makeMove(move);
             if (boardManager.puzzleSolved()) {
                 result = "YOU WIN!";
             }

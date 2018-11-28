@@ -87,7 +87,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             public void onClick(View v) {
                 try {
                     if (!boardManager.puzzleSolved()) {
-                        boardManager.getBoard().undoLastMove();
+                        boardManager.undoLastMove();
                     }
                 } catch (NoSuchElementException ex) {
                     Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
@@ -100,7 +100,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(boardSize);
         gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
+        boardManager.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -132,8 +132,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            SlidingTilesBoard savedBoard = (SlidingTilesBoard) user.getSave(Game.SLIDING_TILES);
-            boardManager = new SlidingTilesBoardManager(savedBoard);
+            boardManager = (SlidingTilesBoardManager) user.getSave(Game.SLIDING_TILES);
             populateTileImages();
         } else {
             SlidingTilesGameOptions gameOptions = (SlidingTilesGameOptions)
@@ -156,7 +155,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                 boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves, stream.toByteArray());
                 populateTileImages();
             } else {
-                boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves);
+                boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves, null);
             }
 
             user.setSave(Game.SLIDING_TILES, boardManager.getBoard());
@@ -275,16 +274,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     public void update(Observable o, Object arg) {
         display();
-        Board board = (SlidingTilesBoard) o;
+        BoardManager save = (BoardManager) o;
         // save the state of the board when it changes
-        user.setSave(Game.SLIDING_TILES, board);
+        user.setSave(Game.SLIDING_TILES, save);
         UserManager.saveUserState(user, this);
 
         // save score if game is finished
         if (boardManager.puzzleSolved()) {
-            Score score = new Score(user.getUserName(), board.getMovesMade());
+            Score score = new Score(user.getUserName(), boardManager.getMovesMade());
             GameScoreboard.addScore(this, Board.getHighScoreFile(
-                    Game.SLIDING_TILES, board.getSize()), score);
+                    Game.SLIDING_TILES, boardManager.getBoard().getSize()), score);
         }
     }
 

@@ -11,26 +11,7 @@ import fall2018.csc2017.Tile;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class SlidingTilesBoardManager implements BoardManager {
-
-    /**
-     * The board being managed.
-     */
-    private SlidingTilesBoard board;
-
-    /**
-     * Manage a board that has been pre-populated.
-     *
-     * @param board the board
-     */
-    SlidingTilesBoardManager(SlidingTilesBoard board) {
-        this.board = board;
-    }
-
-    @Override
-    public SlidingTilesBoard getBoard() {
-        return board;
-    }
+class SlidingTilesBoardManager extends BoardManager {
 
     /**
      * Helper method for generating all the sliding tiles for the board.
@@ -38,7 +19,8 @@ class SlidingTilesBoardManager implements BoardManager {
      * @param size size of the board
      * @return the generated shuffled tiles
      */
-    private List<SlidingTile> generateTiles(int size) {
+    @Override
+    public List<SlidingTile> generateTiles(int size) {
         List<SlidingTile> tiles = new ArrayList<>();
         int numTiles = (int) Math.pow(size, 2);
         for (int tileNum = 0; tileNum < numTiles; tileNum++) {
@@ -57,23 +39,15 @@ class SlidingTilesBoardManager implements BoardManager {
     }
 
     /**
-     * Manage a new shuffled board with numbered tiles.
-     *
-     * @param size         size of the board
-     * @param maxUndoMoves the maximum undos that the user can do
-     */
-    SlidingTilesBoardManager(int size, int maxUndoMoves) {
-        this.board = new SlidingTilesBoard(size, generateTiles(size), maxUndoMoves);
-    }
-
-    /**
      * Manage a new shuffled board with image tiles.
      *
      * @param size         size of the board
      * @param maxUndoMoves the maximum undos that the user can do
+     * @param image the image to use as the background
      */
     SlidingTilesBoardManager(int size, int maxUndoMoves, byte[] image) {
-        this.board = new SlidingTilesBoard(size, generateTiles(size), maxUndoMoves, image);
+        super(maxUndoMoves);
+        setBoard(new SlidingTilesBoard(size, generateTiles(size), image));
     }
 
     /**
@@ -104,6 +78,26 @@ class SlidingTilesBoardManager implements BoardManager {
     }
 
     /**
+     * Switch two tiles in the board
+     *
+     * @param m move to make
+     */
+    @Override
+    public void gameMove(Move m) {
+        SlidingTilesMove move = (SlidingTilesMove) m;
+        int row1 = move.getRow1();
+        int row2 = move.getRow2();
+        int col1 = move.getCol1();
+        int col2 = move.getCol2();
+
+        Tile temp = getBoard().getTile(row1, col1);
+        SlidingTilesBoard board = (SlidingTilesBoard) getBoard();
+
+        board.setTile(row1, col1, getBoard().getTile(row2, col2));
+        board.setTile(row2, col2, temp);
+    }
+
+    /**
      * Return whether the tiles are in row-major order.
      *
      * @return whether the tiles are in row-major order
@@ -113,7 +107,7 @@ class SlidingTilesBoardManager implements BoardManager {
         boolean solved = true;
 
         Tile lastTile = null;
-        for (Tile tile : board) {
+        for (Tile tile : getBoard()) {
             if (lastTile != null && lastTile.compareTo(tile) <= 0) {
                 solved = false;
                 break;
@@ -130,22 +124,9 @@ class SlidingTilesBoardManager implements BoardManager {
      * @return whether the tile at position is surrounded by a blank tile
      */
     @Override
+    // TODO: change this back to the old code
     public boolean isValidMove(Move m) {
         SlidingTilesMove move = (SlidingTilesMove) m;
         return move.getRow1() != move.getRow2() || move.getCol1() != move.getCol2();
     }
-
-    /**
-     * Process a touch at position in the board, swapping tiles as appropriate.
-     *
-     * @param move the move to make
-     */
-    @Override
-    public void touchMove(Move move) {
-        if (this.puzzleSolved()) { // don't let user shift tiles if game is finished
-            return;
-        }
-        board.makeMove(move);
-    }
-
 }
