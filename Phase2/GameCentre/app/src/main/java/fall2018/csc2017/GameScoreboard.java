@@ -21,7 +21,7 @@ public abstract class GameScoreboard implements Serializable {
 
     /**
      * Add score s to scoreboard stored at dir and resort scoreboard for later use.
-     * @param c
+     * @param c the context
      * @param dir the directory containing the scoreboard to add the scores to
      * @param s the score to be added
      */

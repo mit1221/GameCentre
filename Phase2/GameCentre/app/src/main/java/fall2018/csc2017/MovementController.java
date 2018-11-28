@@ -21,15 +21,15 @@ public class MovementController {
      * @return "YOU WIN" if the puzzle is solved, "Invalid Tap" if the tap is not allowed and null otherwise
      */
     public String processMove(Move move) {
-        String returnString = null;
+        String result = null;
         if (boardManager.isValidMove(move)) {
             boardManager.touchMove(move);
             if (boardManager.puzzleSolved()) {
-                returnString = "YOU WIN!";
+                result = "YOU WIN!";
             }
         } else {
-            returnString = "Invalid Tap";
+            result = "Invalid Tap";
         }
-        return returnString;
+        return result;
     }
 }

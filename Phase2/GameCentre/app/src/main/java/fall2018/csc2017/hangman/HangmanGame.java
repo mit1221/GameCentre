@@ -1,14 +1,20 @@
 package fall2018.csc2017.hangman;
 
+import android.content.Context;
 import android.util.Pair;
 
 import java.io.Serializable;
+import java.security.InvalidParameterException;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Observable;
 
+import fall2018.csc2017.GameScoreboard;
 import fall2018.csc2017.Score;
+import fall2018.csc2017.User;
 import fall2018.csc2017.slidingtiles.R;
+
+import static fall2018.csc2017.hangman.HangmanGameActivity.HANGMAN_HS_FILE;
 
 /**
  * Represents a game of hangman
@@ -24,7 +30,7 @@ public class HangmanGame extends Observable implements Serializable {
     /**
      * Return the answer to the game
      */
-    public String getAnswer(){
+    public String getAnswer() {
         return hmLetters.getAnswer();
     }
 
@@ -34,6 +40,7 @@ public class HangmanGame extends Observable implements Serializable {
     public String getCategory() {
         return category;
     }
+
     private String category;
 
     /**
@@ -54,13 +61,16 @@ public class HangmanGame extends Observable implements Serializable {
     /**
      * The number of lives the user has
      */
-    public int getNumLives(){return numLives;}
+    public int getNumLives() {
+        return numLives;
+    }
+
     private int numLives;
 
     /**
      * Create a new Hangman game
      */
-    public HangmanGame(String answer, String category){
+    public HangmanGame(String answer, String category) {
         hmLetters = new HangmanLetters(answer);
         this.category = category;
         numAnswerGuesses = 0;
@@ -68,16 +78,36 @@ public class HangmanGame extends Observable implements Serializable {
     }
 
     /**
+     * Make a letter guess in hangman
+     *
+     * @param letter The user's guess
+     * @return returns if the user makes a correct guess.
+     */
+    private boolean makeGuess(Character letter) {
+        letter = Character.toUpperCase(letter);
+        if (hmLetters.getLetters().containsKey(letter)) {
+            if (getAnswer().contains(letter.toString())) {
+                hmLetters.getLetters().put(letter, HangmanLetters.LETTER_STATE.CORRECT);
+                return true;
+            } else {
+                hmLetters.getLetters().put(letter, HangmanLetters.LETTER_STATE.INCORRECT);
+                return false;
+            }
+        }
+        throw new InvalidParameterException("Alphabet letter expected");
+    }
+
+    /**
      * Make a guess for the entire solution
-     * @param guess
+     *
+     * @param guess the guess made
      * @return is the guess correct
      */
-    public boolean makeAnswerGuess(String guess){
-        boolean isGuessCorrect =  guess.toUpperCase().equals(hmLetters.getAnswer());
-        if(isGuessCorrect){
+    public boolean makeAnswerGuess(String guess) {
+        boolean isGuessCorrect = guess.toUpperCase().equals(hmLetters.getAnswer());
+        if (isGuessCorrect) {
             revealAnswer();
-        }
-        else{
+        } else {
             numLives -= 1;
             numAnswerGuesses += 1;
         }
@@ -87,16 +117,16 @@ public class HangmanGame extends Observable implements Serializable {
 
     /**
      * Make a letter guess.
+     *
      * @param guess
      * @return If the guess was valid (not used before)
      */
-    public boolean makeLetterGuess(Character guess){
+    public boolean makeLetterGuess(Character guess) {
         boolean unused = hmLetters.getLetterState(guess) == HangmanLetters.LETTER_STATE.UNUSED;
-        if(unused){
-            if(hmLetters.makeGuess(guess)){
+        if (unused) {
+            if (makeGuess(guess)) {
                 numCorrectLetters += 1;
-            }
-            else{
+            } else {
                 numWrongLetters += 1;
                 numLives -= 1;
             }
@@ -115,10 +145,10 @@ public class HangmanGame extends Observable implements Serializable {
     /**
      * Sets all correct letters in the game to reveal the answer
      */
-    private void revealAnswer(){
-        for(Character letter : hmLetters.getLetters().keySet()){
-            if(hmLetters.getAnswer().indexOf(letter) != -1){
-                hmLetters.makeGuess(letter);
+    private void revealAnswer() {
+        for (Character letter : hmLetters.getLetters().keySet()) {
+            if (hmLetters.getAnswer().indexOf(letter) != -1) {
+                makeGuess(letter);
             }
         }
     }
@@ -126,8 +156,8 @@ public class HangmanGame extends Observable implements Serializable {
     /**
      * Nofify observers and reveal answer if game is over
      */
-    private void afterMoveMade(){
-        if(isGameOver() && !didUserWin()) {
+    private void afterMoveMade() {
+        if (isGameOver() && !didUserWin()) {
             revealAnswer();
         }
         setChanged();
@@ -137,48 +167,84 @@ public class HangmanGame extends Observable implements Serializable {
     /**
      * Returns the state of letters in the game, with correctly guessed letters shown, "_" otherwise
      */
-    public String getGameState(){
+    public String getGameState() {
         StringBuilder strState = new StringBuilder();
-        for(int i = 0; i < hmLetters.getAnswer().length(); i++){
+        for (int i = 0; i < hmLetters.getAnswer().length(); i++) {
             Character c = hmLetters.getAnswer().charAt(i);
             // Display letter if correctly guessed or is just a space
-            if(c == ' ' || hmLetters.getLetterState(c) == HangmanLetters.LETTER_STATE.CORRECT){
+            if (c == ' ' || hmLetters.getLetterState(c) == HangmanLetters.LETTER_STATE.CORRECT) {
                 strState.append(c);
-            }
-            else // keep it hidden otherwise
+            } else // keep it hidden otherwise
                 strState.append("_");
         }
         return strState.toString();
     }
 
     /**
-     * Return if the user has won
+     * Return if the game has been solved.
+     *
+     * @return if the game has been solved
      */
-    public boolean didUserWin(){
-        return numLives > 0 && hmLetters.isSolved();
+    public boolean isSolved() {
+        for (Character c : hmLetters.getLetters().keySet()) {
+            // If the user didn't use a letter that is in the answer, not solved
+            if (hmLetters.getLetterState(c) == HangmanLetters.LETTER_STATE.UNUSED
+                    && hmLetters.getAnswer().contains(c.toString())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Return if the user has won
+     * @return if the user has won
+     */
+    public boolean didUserWin() {
+        return numLives > 0 && isSolved();
     }
 
     /**
      * Return if the game is over
+     * @return if the game is over
      */
-    public boolean isGameOver(){
+    public boolean isGameOver() {
         return didUserWin() || numLives <= 0;
     }
 
     /**
-     * Returns the score of the game if it is over.
-     * If it is not over, then returns -1
+     * Add score to the scoreboard if the user won the game.
      *
+     * @param c    context
+     * @param user the user
+     * @return result of the game
      */
-    public int getScore(){
-        if(didUserWin()){
-            return getAnswer().length()*2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses;
+    public String processGameOver(Context c, User user) {
+        String result;
+        if (didUserWin()) {
+            Score score = new Score(user.getUserName(), getScore());
+            GameScoreboard.addScore(c, HANGMAN_HS_FILE, score);
+            result = "YOU WIN !!!";
+        } else {
+            result = "GAME OVER";
+        }
+        return result;
+    }
+
+    /**
+     * Returns the score of the game.
+     * @return the score of the game if it is over, else -1
+     */
+    public int getScore() {
+        if (didUserWin()) {
+            return getAnswer().length() * 2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses;
         }
         return -1;
     }
 
     /**
      * Returns the comparator used to compare hangman scores
+     * @return the comparator used to compare hangman scores
      */
     public static Comparator<Score> getComparator() {
         return new Comparator<Score>() {
@@ -192,28 +258,27 @@ public class HangmanGame extends Observable implements Serializable {
     /**
      * Returns the state of letters in the game, with correctly guessed letters shown, "_" otherwise
      * Extra spaces are inserted to fix the string, such that words are not cut off (if possible) when displayed.
+     *
      * @param maxWidth The maximum number of characters allowed per line
      * @return the fixed string representing the state of the game
      */
-    public String getFixedGameState(int maxWidth){
+    public String getFixedGameState(int maxWidth) {
         String[] words = getGameState().split(" ");
         StringBuilder out = new StringBuilder(words[0]);
 
-        for(int i = 1; i < words.length; i++){
+        for (int i = 1; i < words.length; i++) {
             String word = words[i];
             int available = maxWidth - (out.length() % maxWidth);
 
-            if(available == maxWidth){ // is a new line
+            if (available == maxWidth) { // is a new line
                 out.append(word); // no need to add a space before
-            }
-            else if(word.length() + 1 <= available){ // no longer a new line; need to add a space before
+            } else if (word.length() + 1 <= available) { // no longer a new line; need to add a space before
                 out.append(" ").append(word);
-            }
-            else{ // word.length + 1 > available
+            } else { // word.length + 1 > available
                 // if the word is longer than maxNumColumns, just add it
                 out.append(" ");
-                if(word.length() <= maxWidth){
-                    while(out.length() % maxWidth != 0){ // add spaces until you get to a new line
+                if (word.length() <= maxWidth) {
+                    while (out.length() % maxWidth != 0) { // add spaces until you get to a new line
                         out.append(" ");
                     }
                 }
@@ -226,12 +291,13 @@ public class HangmanGame extends Observable implements Serializable {
 
     /**
      * Returns the length of the longest word in the puzzle
+     * @return length of the longest word in the puzzle
      */
-    public int getLongestWordLength(){
+    public int getLongestWordLength() {
         int max = 0;
         // set to max length word
-        for(String word : getAnswer().split(" ")){
-            if(word.length() > max){
+        for (String word : getAnswer().split(" ")) {
+            if (word.length() > max) {
                 max = word.length();
             }
         }

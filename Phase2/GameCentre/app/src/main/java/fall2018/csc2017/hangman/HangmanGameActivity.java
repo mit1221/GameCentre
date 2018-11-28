@@ -16,10 +16,7 @@ import android.widget.Toast;
 import java.util.Observable;
 import java.util.Observer;
 
-import fall2018.csc2017.Board;
 import fall2018.csc2017.Game;
-import fall2018.csc2017.GameScoreboard;
-import fall2018.csc2017.Score;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
 import fall2018.csc2017.slidingtiles.R;
@@ -47,7 +44,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
     private GridView gridLetterButtons;
 
     /**
-     *  Current game of hangman
+     * Current game of hangman
      */
     private HangmanGame game;
 
@@ -72,16 +69,12 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangman_game);
 
-        game = (HangmanGame)getIntent().getSerializableExtra("HangmanGame");
+        game = (HangmanGame) getIntent().getSerializableExtra("HangmanGame");
         game.addObserver(this);
-        user = (User)getIntent().getSerializableExtra("User");
+        user = (User) getIntent().getSerializableExtra("User");
 
         // Setup grid views
-        setupGridLetters();
-
-        gridLetterButtons = findViewById(R.id.gridLetterButtons);
-        LetterButtonsAdapter letterButtonsAdapter = new LetterButtonsAdapter(this, game.getLetters());
-        gridLetterButtons.setAdapter(letterButtonsAdapter);
+        setupGrid();
 
         // display the category
         TextView tvCategory = findViewById(R.id.tvCategory);
@@ -92,25 +85,30 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         imgHangman.setImageResource(hangmanImages[game.getNumLives()]);
     }
 
-    private void setupGridLetters() {
+    private void setupGrid() {
         gridLetters = findViewById(R.id.gridLetters);
         gridLetters.setNumColumns(game.getLongestWordLength());
         lettersAdapter = new LettersAdapter(game.getFixedGameState(game.getLongestWordLength()));
         gridLetters.setAdapter(lettersAdapter);
+
+        gridLetterButtons = findViewById(R.id.gridLetterButtons);
+        LetterButtonsAdapter letterButtonsAdapter = new LetterButtonsAdapter(this, game.getLetters());
+        gridLetterButtons.setAdapter(letterButtonsAdapter);
     }
 
 
     /**
      * Handle the click event for the letter buttons
-     * @param v  View that was clicked
+     *
+     * @param v View that was clicked
      */
     @Override
     public void onClick(View v) {
         // Ignore letter buttons if game is already over
-        if(game.isGameOver()){
+        if (game.isGameOver()) {
             return;
         }
-        Button btn = (Button)v;
+        Button btn = (Button) v;
         // Get the letter that was clicked on
         Character letter = btn.getText().toString().charAt(0);
 
@@ -124,17 +122,11 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
     /**
      * Update the views in the game activity
      */
-    private void updateViews(){
+    private void updateViews() {
         // Notify user if they won/lost on this move
-        if(game.isGameOver()){
-            if(game.didUserWin()) {
-                Toast.makeText(this, "YOU WIN !!!", Toast.LENGTH_SHORT).show();
-                Score score = new Score(user.getUserName(), game.getScore());
-                GameScoreboard.addScore(this, HANGMAN_HS_FILE, score);
-            }
-            else{
-                Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
-            }
+        if (game.isGameOver()) {
+            String result = game.processGameOver(this, user);
+            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
         }
 
         // update the solved/unsolved letters
@@ -151,8 +143,8 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
     /**
      * Create a dialog when user clicks on Make a Guess to prompt user for an answer.
      */
-    public void onBtnMakeGuessClick(View view){
-        if(game.isGameOver()){ // ignore button press if game is over
+    public void onBtnMakeGuessClick(View view) {
+        if (game.isGameOver()) { // ignore button press if game is over
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -169,7 +161,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         // add Next and Cancel buttons
         builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                if(!game.makeAnswerGuess(input.getText().toString())){
+                if (!game.makeAnswerGuess(input.getText().toString())) {
                     Toast.makeText(HangmanGameActivity.this, "Wrong answer", Toast.LENGTH_SHORT).show();
                 }
             }
