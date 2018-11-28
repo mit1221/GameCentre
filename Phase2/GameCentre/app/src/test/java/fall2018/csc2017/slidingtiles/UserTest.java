@@ -15,14 +15,20 @@ public class UserTest {
         return new User("user",  "1234".hashCode());
     }
 
+    /**
+     * Test setters and getters for
+     */
     @Test
-    public void testInstanceVariables(){
+    public void testSettersandGetters(){
         User u = setupUser();
 
         Assert.assertEquals(u.getUserName(), "user");
         Assert.assertEquals(u.getPassword(), "1234".hashCode());
     }
 
+    /**
+     * Test storing/getting saves in users.
+     */
     @Test
     public void testSaves(){
         User u = setupUser();
@@ -33,6 +39,9 @@ public class UserTest {
 
     }
 
+    /**
+     * Test checkCredentials()
+     */
     @Test
     public void testCheckCredentials(){
         User u = setupUser();
