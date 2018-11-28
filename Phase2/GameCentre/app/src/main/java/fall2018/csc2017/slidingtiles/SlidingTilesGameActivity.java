@@ -269,10 +269,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     protected void onPause() {
         super.onPause();
-        //saveToFile(SlidingTilesMenuActivity.TEMP_SAVE_FILENAME);
-        if (user != null) {
-            UserManager.saveUserState(user, this);
-        }
+        UserManager.saveUserState(user, this);
     }
 
     @Override
@@ -280,10 +277,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         display();
         Board board = (SlidingTilesBoard) o;
         // save the state of the board when it changes
-        if (user != null) {
-            user.setSave(Game.SLIDING_TILES, board);
-            UserManager.saveUserState(user, this);
-        }
+        user.setSave(Game.SLIDING_TILES, board);
+        UserManager.saveUserState(user, this);
 
         // save score if game is finished
         if (boardManager.puzzleSolved()) {

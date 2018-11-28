@@ -10,9 +10,14 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import fall2018.csc2017.Board;
 import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.CustomAdapter;
+import fall2018.csc2017.Game;
+import fall2018.csc2017.GameScoreboard;
+import fall2018.csc2017.Score;
 import fall2018.csc2017.User;
+import fall2018.csc2017.UserManager;
 import fall2018.csc2017.slidingtiles.GestureDetectGridView;
 import fall2018.csc2017.slidingtiles.R;
 
@@ -55,10 +60,33 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        handleExtras();
+        handleExtras();
 
         createTileButtons(this);
         setContentView(R.layout.activity_sudoku_game_real);
+    }
+
+    /**
+     * Get extras from past activity and initialize the boardManager correctly.
+     */
+    private void handleExtras() {
+        // Retrieve the user, whether the previous game should be loaded, and game options
+        Bundle extras = getIntent().getExtras();
+
+        user = (User) extras.getSerializable("User");
+        boolean shouldLoad = extras.getBoolean("LoadGame", true);
+
+        if (shouldLoad) {
+            SudokuBoard savedBoard = (SudokuBoard) user.getSave(Game.SUDOKU);
+            boardManager = new SudokuBoardManager(savedBoard);
+        } else {
+            SudokuGameOptions gameOptions = (SudokuGameOptions)
+                    extras.getSerializable("GameOptions");
+            int maxUndoMoves = gameOptions.getUndoMoves();
+
+            boardManager = new SudokuBoardManager(maxUndoMoves);
+            user.setSave(Game.SUDOKU, boardManager.getBoard());
+        }
     }
 
     /**
@@ -95,8 +123,28 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         }
     }
 
+    /**
+     * Dispatch onPause() to fragments.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        UserManager.saveUserState(user, this);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
+        display();
+        Board board = (SudokuBoard) o;
+        // save the state of the board when it changes
+        user.setSave(Game.SUDOKU, board);
+        UserManager.saveUserState(user, this);
 
+        // save score if game is finished
+        if (boardManager.puzzleSolved()) {
+            Score score = new Score(user.getUserName(), board.getMovesMade());
+            GameScoreboard.addScore(this, Board.getHighScoreFile(
+                    Game.SUDOKU, board.getSize()), score);
+        }
     }
 }
