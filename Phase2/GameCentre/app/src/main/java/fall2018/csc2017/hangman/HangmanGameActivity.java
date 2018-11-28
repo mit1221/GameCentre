@@ -123,12 +123,6 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
      * Update the views in the game activity
      */
     private void updateViews() {
-        // Notify user if they won/lost on this move
-        if (game.isGameOver()) {
-            String result = game.processGameOver(this, user);
-            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
-        }
-
         // update the solved/unsolved letters
         lettersAdapter.setLetters(game.getFixedGameState(game.getLongestWordLength()));
         gridLetters.invalidateViews();
@@ -178,5 +172,11 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
         // Save the game
         user.setSave(Game.HANGMAN, game);
         UserManager.saveUserState(user, this);
+
+        // Notify user if they won/lost on this move
+        if (game.isGameOver()) {
+            String result = game.processGameOver(this, user);
+            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+        }
     }
 }
