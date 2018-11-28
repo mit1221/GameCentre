@@ -64,7 +64,7 @@ public class SudokuBoardManagerTest {
 
         }
 //        System.out.println(tiles);
-        SudokuBoard board = new SudokuBoard(tiles, 3);
+        SudokuBoard board = new SudokuBoard(tiles);
         return board;
 
 
@@ -95,29 +95,29 @@ public class SudokuBoardManagerTest {
 
     @Test
     public void testSolved(){
-        boardManager = new SudokuBoardManager(setCorrect());
+        boardManager = new SudokuBoardManager(setCorrect(), 3);
         assertTrue(boardManager.puzzleSolved());
     }
 
     @Test
     public void testNotSolved(){
-        SudokuBoard brd = new SudokuBoard(this.specficBoard(), 3);
-        boardManager = new SudokuBoardManager(brd);
+        SudokuBoard brd = new SudokuBoard(this.specficBoard());
+        boardManager = new SudokuBoardManager(brd, 3);
         assertFalse(boardManager.puzzleSolved());
     }
 
     @Test
     public void testLockedValidity(){
-        SudokuBoard brd = new SudokuBoard(this.specficBoard(), 3);
-        boardManager = new SudokuBoardManager(brd);
+        SudokuBoard brd = new SudokuBoard(this.specficBoard());
+        boardManager = new SudokuBoardManager(brd, 3);
         SudokuMove move = new SudokuMove(1, 1, 4, 3);
         assertFalse(boardManager.isValidMove(move));
     }
 
     @Test
     public void testEditableValidity(){
-        SudokuBoard brd = new SudokuBoard(this.specficBoard(), 3);
-        boardManager = new SudokuBoardManager(brd);
+        SudokuBoard brd = new SudokuBoard(this.specficBoard());
+        boardManager = new SudokuBoardManager(brd, 3);
         SudokuMove move = new SudokuMove(5, 0, 0, 3);
         assertTrue(boardManager.isValidMove(move));
 
@@ -125,10 +125,10 @@ public class SudokuBoardManagerTest {
 
     @Test
     public void testMoveWin(){
-        SudokuBoard brd = new SudokuBoard(this.specficBoard(), 3);
-        boardManager = new SudokuBoardManager(brd);
+        SudokuBoard brd = new SudokuBoard(this.specficBoard());
+        boardManager = new SudokuBoardManager(brd, 3);
         SudokuMove move = new SudokuMove(5, 0, 0, 9);
-        boardManager.touchMove(move);
+        boardManager.gameMove(move);
         System.out.println(Arrays.deepToString(board));
         assertFalse(boardManager.puzzleSolved());
 
