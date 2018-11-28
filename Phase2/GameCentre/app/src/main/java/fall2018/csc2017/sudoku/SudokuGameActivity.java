@@ -1,12 +1,18 @@
 package fall2018.csc2017.sudoku;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -34,7 +40,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     /**
      * The buttons to display.
      */
-    private ArrayList<Button> tileButtons;
+    private ArrayList<EditText> tiles;
 
     /**
      * Grid View and calculated column height and width based on device size
@@ -54,7 +60,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     // Display
     public void display() {
         updateTileButtons();
-        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
+        gridView.setAdapter(new CustomAdapter(tiles, columnWidth, columnHeight));
     }
 
     @Override
@@ -64,6 +70,48 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
         createTileButtons(this);
         setContentView(R.layout.activity_sudoku_game_real);
+
+        // Add an undo button to the game
+        Button undoButton = findViewById(R.id.undoButton);
+        undoButton.setGravity(Gravity.BOTTOM);
+        undoButton.setText("Undo");
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (!boardManager.puzzleSolved()) {
+                        boardManager.getBoard().undoLastMove();
+                    }
+                } catch (NoSuchElementException ex) {
+                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        int boardSize = boardManager.getBoard().getSize();
+        // Add View to activity
+        gridView = findViewById(R.id.grid);
+        gridView.setNumColumns(boardSize);
+        gridView.setBoardManager(boardManager);
+        boardManager.getBoard().addObserver(this);
+        // Observer sets up desired dimensions as well as calls our display function
+        gridView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
+                                this);
+                        int displayWidth = gridView.getMeasuredWidth();
+                        int displayHeight = gridView.getMeasuredHeight();
+
+                        columnWidth = displayWidth / boardManager.getBoard().getSize();
+                        // Leave some space for display at the top
+                        columnHeight = ((int) (displayHeight * 0.7)) /
+                                boardManager.getBoard().getSize();
+
+                        display();
+                    }
+                });
     }
 
     /**
@@ -96,13 +144,21 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     private void createTileButtons(Context context) {
         SudokuBoard board = (SudokuBoard) boardManager.getBoard();
-        tileButtons = new ArrayList<>();
+        tiles = new ArrayList<>();
 
         for (int row = 0; row < board.getSize(); row++) {
             for (int col = 0; col < board.getSize(); col++) {
-                Button tmp = new Button(context);
-                tmp.setText(((SudokuTile) board.getTile(row, col)).getValue());
-                this.tileButtons.add(tmp);
+                EditText tmp = new EditText(context);
+                SudokuTile tile = (SudokuTile) board.getTile(row, col);
+                tmp.getText().clear();
+                tmp.setGravity(Gravity.CENTER);
+                if (tile instanceof SudokuLockedTile) {
+                    tmp.setText(tile.getStringValue());
+                    tmp.setEnabled(false);
+                    tmp.setTextColor(Color.BLACK);
+                    tmp.setBackground(null);
+                }
+                this.tiles.add(tmp);
             }
         }
     }
@@ -115,10 +171,13 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         int boardSize = board.getSize();
         int nextPos = 0;
 
-        for (Button b : tileButtons) {
+        for (EditText t : tiles) {
             int row = nextPos / boardSize;
             int col = nextPos % boardSize;
-            b.setText(((SudokuTile) board.getTile(row, col)).getValue());
+            SudokuTile tile = (SudokuTile) board.getTile(row, col);
+            if (tile instanceof SudokuLockedTile) {
+                t.setText(tile.getStringValue());
+            }
             nextPos++;
         }
     }

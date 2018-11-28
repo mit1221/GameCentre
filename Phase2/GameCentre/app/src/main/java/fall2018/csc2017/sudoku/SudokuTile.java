@@ -37,6 +37,15 @@ abstract class SudokuTile extends Tile {
     }
 
     /**
+     * Get string value at the Sudoku tile.
+     *
+     * @return value
+     */
+    String getStringValue() {
+        return String.valueOf(value);
+    }
+
+    /**
      * Set the value of the tile.
      *
      * @param value the value to be set to the tile

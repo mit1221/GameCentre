@@ -48,9 +48,10 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_slidingtiles_menu);
+
         // Retrieve the user who is currently logged in
         user = (User) getIntent().getSerializableExtra("User");
-        setContentView(R.layout.activity_slidingtiles_menu);
     }
 
     /**
@@ -238,7 +239,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     @Override
     public void startGame() {
-        Intent intent = new Intent(SlidingTilesMenuActivity.this, SlidingTilesGameActivity.class);
+        Intent intent = new Intent(this, SlidingTilesGameActivity.class);
         intent.putExtra("User", user);
         intent.putExtra("LoadGame", false);
         intent.putExtra("GameOptions", gameOptions);
@@ -268,7 +269,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
     @Override
     public void loadSavedGame() {
         if (user != null && user.hasSave(Game.SLIDING_TILES)) {
-            Intent intent = new Intent(SlidingTilesMenuActivity.this, SlidingTilesGameActivity.class);
+            Intent intent = new Intent(this, SlidingTilesGameActivity.class);
             intent.putExtra("User", user);
             intent.putExtra("LoadGame", true);
             startActivity(intent);
