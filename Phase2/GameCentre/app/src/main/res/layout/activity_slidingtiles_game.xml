@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<fall2018.csc2017.slidingtiles.GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/grid"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="fall2018.csc2017.slidingtiles.SlidingTilesGameActivity" />
-    <Button android:id="@+id/undoButton"
+
+    <fall2018.csc2017.slidingtiles.GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="fall2018.csc2017.slidingtiles.SlidingTilesGameActivity" />
+
+    <Button
+        android:id="@+id/undoButton"
         android:layout_width="200px"
         android:layout_height="100px"
-        android:layout_alignParentBottom="true"
-    />
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

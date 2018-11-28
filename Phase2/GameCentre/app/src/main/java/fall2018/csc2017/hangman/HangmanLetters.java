@@ -10,13 +10,13 @@ import java.util.regex.Pattern;
 /**
  * Represents the state of letters in a game of Hangman.
  */
-public class HangmanLetters implements Serializable{
+public class HangmanLetters implements Serializable {
 
     /**
      * Represents the state of a letter in hangman.
      * Can be unused, correct, or incorrect
      */
-    public enum LETTER_STATE implements Serializable{
+    public enum LETTER_STATE implements Serializable {
         UNUSED, CORRECT, INCORRECT
     }
 
@@ -26,6 +26,7 @@ public class HangmanLetters implements Serializable{
     public String getAnswer() {
         return answer;
     }
+
     private String answer;
 
     /**
@@ -42,9 +43,10 @@ public class HangmanLetters implements Serializable{
 
     /**
      * Create a new HangmanLetters
+     *
      * @param answer The answer. The game will not be case sensitive; answer can only contain alphabetic letters
      */
-    public HangmanLetters(String answer){
+    public HangmanLetters(String answer) {
         // Check if answer makes a valid game (letters and space)
         answer = answer.toUpperCase();
         Pattern p = Pattern.compile("^[A-Z ]+$");
@@ -56,54 +58,23 @@ public class HangmanLetters implements Serializable{
         letters = new HashMap<>();
 
         // put all the letters as unused
-        for(int i = (int)'A';  i < (int)'Z' + 1; i++){
-            letters.put((char)i, LETTER_STATE.UNUSED);
+        for (int i = (int) 'A'; i < (int) 'Z' + 1; i++) {
+            letters.put((char) i, LETTER_STATE.UNUSED);
         }
     }
 
     /**
      * Retrieves the state of the letter in the HangmanLetters
+     *
      * @param letter Letter to check. Must be alphabetic letter
      * @return The state of the letter
      */
-    public LETTER_STATE getLetterState(Character letter){
+    public LETTER_STATE getLetterState(Character letter) {
         letter = Character.toUpperCase(letter);
-        if(letters.containsKey(letter)){
+        if (letters.containsKey(letter)) {
             return letters.get(letter);
         }
         throw new InvalidParameterException("Alphabet letter expected");
-    }
-
-    /**
-     * Make a letter guess in hangman
-     * @param letter The user's guess
-     * @return returns if the user makes a correct guess.
-     */
-    public boolean makeGuess(Character letter){
-        letter = Character.toUpperCase(letter);
-        if(letters.containsKey(letter)) {
-            if (getAnswer().contains(letter.toString())) {
-                letters.put(letter, LETTER_STATE.CORRECT);
-                return true;
-            } else {
-                letters.put(letter, LETTER_STATE.INCORRECT);
-                return false;
-            }
-        }
-        throw new InvalidParameterException("Alphabet letter expected");
-    }
-
-    /**
-     * Return if the game has been solved.
-     */
-    public boolean isSolved(){
-        for(Character c : letters.keySet()){
-            // If the user didn't use a letter that is in the answer, not solved
-            if(getLetterState(c) == HangmanLetters.LETTER_STATE.UNUSED && answer.contains(c.toString())){
-                return false;
-            }
-        }
-        return true;
     }
 
 }

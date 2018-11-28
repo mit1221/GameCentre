@@ -5,6 +5,11 @@ import android.support.annotation.NonNull;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * A helper class to generate a solvable Sudoku board.
+ * <p>
+ * Adapted from: https://www.geeksforgeeks.org/program-sudoku-generator/
+ */
 public class BoardGenerator implements Iterable<Integer> {
 
     /**

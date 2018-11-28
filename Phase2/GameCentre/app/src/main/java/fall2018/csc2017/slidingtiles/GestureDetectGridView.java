@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Move;
@@ -61,7 +62,10 @@ public class GestureDetectGridView extends GridView {
                 int position = GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
                 Move move = SlidingTilesMove.createMove(position, boardManager.getBoard());
-                mController.processMove(context, move);
+                String result = mController.processMove(move);
+                if (result != null) {
+                    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
 

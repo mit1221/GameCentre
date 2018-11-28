@@ -1,8 +1,5 @@
 package fall2018.csc2017;
 
-import android.content.Context;
-import android.widget.Toast;
-
 public class MovementController {
 
     private BoardManager boardManager = null;
@@ -14,14 +11,22 @@ public class MovementController {
         this.boardManager = boardManager;
     }
 
-    public void processMove(Context context, Move move) {
+    /**
+     * Process a move made on the board.
+     *
+     * @param move the move to make
+     * @return "YOU WIN" if the puzzle is solved, "Invalid Tap" if the tap is not allowed and null otherwise
+     */
+    public String processMove(Move move) {
+        String result = null;
         if (boardManager.isValidMove(move)) {
-            boardManager.touchMove(move);
+            boardManager.makeMove(move);
             if (boardManager.puzzleSolved()) {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+                result = "YOU WIN!";
             }
         } else {
-            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+            result = "Invalid Tap";
         }
+        return result;
     }
 }

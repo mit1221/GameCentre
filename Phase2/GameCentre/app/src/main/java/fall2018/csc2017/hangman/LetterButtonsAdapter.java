@@ -28,14 +28,14 @@ public class LetterButtonsAdapter extends BaseAdapter {
 
     /**
      * Create a new LetterButtonsAdapter
+     *
      * @param listener Listener who is interested in the letter button clicks
      */
     public LetterButtonsAdapter(View.OnClickListener listener,
-                                Map<Character, HangmanLetters.LETTER_STATE> letters){
+                                Map<Character, HangmanLetters.LETTER_STATE> letters) {
         this.letters = letters;
         this.listener = listener;
     }
-
 
 
     @Override
@@ -54,7 +54,7 @@ public class LetterButtonsAdapter extends BaseAdapter {
 
         // Color the button if its correct/incorrect
         HangmanLetters.LETTER_STATE letterState = letters.get(letter);
-        if(letterState != HangmanLetters.LETTER_STATE.UNUSED){
+        if (letterState != HangmanLetters.LETTER_STATE.UNUSED) {
             btnLetter.setTextColor(Color.WHITE);
             btnLetter.setBackgroundColor(letterState == HangmanLetters.LETTER_STATE.CORRECT ? Color.GREEN : Color.MAGENTA);
         }

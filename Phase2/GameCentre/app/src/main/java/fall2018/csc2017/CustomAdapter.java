@@ -11,16 +11,18 @@ It is designed to aid setting the button sizes and positions in the GridView
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter {
-    private ArrayList<Button> mButtons;
+    private ArrayList<TextView> mButtons;
     private int mColumnWidth, mColumnHeight;
 
-    public CustomAdapter(ArrayList<Button> buttons, int columnWidth, int columnHeight) {
-        mButtons = buttons;
+    public CustomAdapter(ArrayList<? extends TextView> buttons, int columnWidth, int columnHeight) {
+        mButtons = (ArrayList<TextView>) buttons;
         mColumnWidth = columnWidth;
         mColumnHeight = columnHeight;
     }
@@ -42,12 +44,12 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Button button;
+        TextView button;
 
         if (convertView == null) {
             button = mButtons.get(position);
         } else {
-            button = (Button) convertView;
+            button = (TextView) convertView;
         }
 
         android.widget.AbsListView.LayoutParams params =

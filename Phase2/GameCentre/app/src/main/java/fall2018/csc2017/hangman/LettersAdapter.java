@@ -19,7 +19,7 @@ import fall2018.csc2017.slidingtiles.R;
 /**
  * Adapter to create a list of letters/empty slots for the hangman puzzles
  */
-public class LettersAdapter extends BaseAdapter{
+public class LettersAdapter extends BaseAdapter {
 
     /**
      * Letters to display
@@ -28,15 +28,19 @@ public class LettersAdapter extends BaseAdapter{
 
     /**
      * Set new letters to display
+     *
      * @param letters
      */
-    public void setLetters(String letters){this.letters = letters;}
+    public void setLetters(String letters) {
+        this.letters = letters;
+    }
 
     /**
      * Create a new LettersAdapter with the given letters
+     *
      * @param letters to display. Use "_" to denote unsolved characters
      */
-    public LettersAdapter(String letters){
+    public LettersAdapter(String letters) {
         this.letters = letters;
     }
 
@@ -62,9 +66,9 @@ public class LettersAdapter extends BaseAdapter{
         tvLetter.setText(c.toString());
         tvLetter.setBackgroundColor(Color.WHITE);
         tvLetter.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        if(c != ' ' && c!= '_'){ // Underline the text
-            tvLetter.setPaintFlags(tvLetter.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+        if (c != ' ' && c != '_') { // Underline the text
+            tvLetter.setPaintFlags(tvLetter.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }
-        return  tvLetter;
+        return tvLetter;
     }
 }
