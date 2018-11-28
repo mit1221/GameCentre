@@ -11,7 +11,7 @@ import fall2018.csc2017.Tile;
 /**
  * Manage a Sudoku board.
  */
-class SudokuBoardManager implements BoardManager {
+public class SudokuBoardManager implements BoardManager {
 
     /**
      * The Sudoku board being managed.
