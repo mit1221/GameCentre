@@ -25,7 +25,7 @@
         <activity android:name=".SlidingTilesHSActivity" />
         <activity android:name="fall2018.csc2017.SettingsActivity" />
         <activity android:name="fall2018.csc2017.sudoku.SudokuMenuActivity" />
-        <activity android:name="fall2018.csc2017.sudoku.SudokuGameActivty" />
+        <activity android:name="fall2018.csc2017.sudoku.SudokuGameActivity" />
         <activity android:name="fall2018.csc2017.hangman.HangmanGameActivity" />
         <activity android:name="fall2018.csc2017.hangman.HangmanMenuActivity"/>
         <activity android:name="fall2018.csc2017.hangman.HangmanHSActivity" />

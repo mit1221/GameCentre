@@ -19,7 +19,7 @@ import fall2018.csc2017.slidingtiles.R;
 /**
  * The Sudoku game activity.
  */
-public class SudokuGameActivty extends AppCompatActivity implements Observer {
+public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
     /**
      * The board manager.

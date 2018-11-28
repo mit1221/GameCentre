@@ -14,14 +14,22 @@ public class MovementController {
         this.boardManager = boardManager;
     }
 
-    public void processMove(Context context, Move move) {
+    /**
+     * Process a move made on the board.
+     *
+     * @param move the move to make
+     * @return "YOU WIN" if the puzzle is solved, "Invalid Tap" if the tap is not allowed and null otherwise
+     */
+    public String processMove(Move move) {
+        String returnString = null;
         if (boardManager.isValidMove(move)) {
             boardManager.touchMove(move);
             if (boardManager.puzzleSolved()) {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+                returnString = "YOU WIN!";
             }
         } else {
-            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+            returnString = "Invalid Tap";
         }
+        return returnString;
     }
 }
