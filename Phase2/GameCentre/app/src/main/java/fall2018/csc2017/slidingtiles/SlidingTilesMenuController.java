@@ -1,7 +1,12 @@
 package fall2018.csc2017.slidingtiles;
 
+import android.graphics.Bitmap;
+
 import fall2018.csc2017.MenuController;
 
+/**
+ * Controller for the Sliding Tiles menu activity.
+ */
 public class SlidingTilesMenuController extends MenuController {
 
     /**
@@ -23,7 +28,7 @@ public class SlidingTilesMenuController extends MenuController {
      *
      * @param size board size
      */
-    public void setBoardSize(int size) {
+    void setBoardSize(int size) {
         int boardSize;
         switch (size) {
             case R.id.StartButton3:
@@ -40,5 +45,23 @@ public class SlidingTilesMenuController extends MenuController {
                 break;
         }
         gameOptions.setSize(boardSize);
+    }
+
+    /**
+     * Set the number of moves to undo in the game options.
+     *
+     * @param undoMoves number of moves that can be undone
+     */
+    void setUndoMoves(int undoMoves) {
+        gameOptions.setUndoMoves(undoMoves);
+    }
+
+    /**
+     * Set the image in the game options.
+     *
+     * @param image the image
+     */
+    public void setImage(Bitmap image) {
+        gameOptions.setImage(image);
     }
 }

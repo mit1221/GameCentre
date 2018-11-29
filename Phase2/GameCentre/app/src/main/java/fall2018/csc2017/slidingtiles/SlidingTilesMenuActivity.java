@@ -31,22 +31,12 @@ import fall2018.csc2017.UserManager;
 public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuActivity {
 
     /**
-     * Current user
-     */
-    private User user;
-
-    /**
-     * Customizable options for the game
-     */
-    private SlidingTilesGameOptions gameOptions = new SlidingTilesGameOptions();
-
-    /**
      * Dialog for choosing board image options.
      */
     private AlertDialog imageSelectDialog = null;
 
     /**
-     * Hanldes the logic for this activity
+     * Handles the logic for this activity
      */
     private SlidingTilesMenuController menuController;
 
@@ -56,7 +46,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
         setContentView(R.layout.activity_slidingtiles_menu);
         menuController = new SlidingTilesMenuController();
         // Retrieve the user who is currently logged in
-        user = (User) getIntent().getSerializableExtra("User");
+        User user = (User) getIntent().getSerializableExtra("User");
         menuController.setUser(user);
     }
 
@@ -86,7 +76,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     public void onBtnHighscoresClick(View view) {
         Intent intent = new Intent(this, SlidingTilesHSActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("User", menuController.getUser());
         startActivity(intent);
     }
 
@@ -133,7 +123,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
                             Toast.LENGTH_SHORT).show();
                 } else {
                     undoMoves = unlimitedUndoMoves[0] ? -1 : undoMoves;
-                    gameOptions.setUndoMoves(undoMoves);
+                    menuController.setUndoMoves(undoMoves);
                     openDialog2();
                 }
             }
@@ -190,7 +180,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
                             "No image at given URL. Try again with another URL.",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    gameOptions.setImage(output);
+                    menuController.setImage(output);
                     try {
                         startGame();
                         imageSelectDialog.dismiss();
@@ -214,7 +204,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
         BitmapDrawable drawable = (BitmapDrawable) imgView.getDrawable();
 
         Bitmap bitmap = drawable.getBitmap();
-        gameOptions.setImage(bitmap);
+        menuController.setImage(bitmap);
         startGame();
         imageSelectDialog.dismiss();
     }
@@ -235,9 +225,9 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
     @Override
     public void startGame() {
         Intent intent = new Intent(this, SlidingTilesGameActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("User", menuController.getUser());
         intent.putExtra("LoadGame", false);
-        intent.putExtra("GameOptions", gameOptions);
+        intent.putExtra("GameOptions", menuController.getGameOptions());
         startActivity(intent);
     }
 
@@ -250,7 +240,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
             Uri selectedImage = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                gameOptions.setImage(bitmap);
+                menuController.setImage(bitmap);
                 startGame();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -263,9 +253,9 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     @Override
     public void loadSavedGame() {
-        if (user != null && user.hasSave(Game.SLIDING_TILES)) {
+        if (menuController.userHasSave()) {
             Intent intent = new Intent(this, SlidingTilesGameActivity.class);
-            intent.putExtra("User", user);
+            intent.putExtra("User", menuController.getUser());
             intent.putExtra("LoadGame", true);
             startActivity(intent);
         } else {
@@ -279,7 +269,8 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
     @Override
     protected void onResume() {
         super.onResume();
-        user = UserManager.getUser(user.getUserName(), this); //reload the user data
-        gameOptions.setImage(null);
+        User user = UserManager.getUser(menuController.getUser().getUserName(), this); //reload the user data
+        menuController.setUser(user);
+        menuController.setImage(null);
     }
 }

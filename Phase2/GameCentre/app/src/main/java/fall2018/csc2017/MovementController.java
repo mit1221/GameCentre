@@ -1,5 +1,8 @@
 package fall2018.csc2017;
 
+/**
+ * Controller for a general game activity.
+ */
 public class MovementController {
 
     private BoardManager boardManager = null;
