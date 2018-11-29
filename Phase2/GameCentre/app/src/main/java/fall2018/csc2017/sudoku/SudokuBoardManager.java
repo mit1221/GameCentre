@@ -43,7 +43,7 @@ public class SudokuBoardManager extends BoardManager {
      *
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    SudokuBoardManager(int maxUndoMoves) {
+    public SudokuBoardManager(int maxUndoMoves) {
         super(maxUndoMoves);
         setBoard(new SudokuBoard(generateTiles(SudokuBoard.SIZE)));
     }

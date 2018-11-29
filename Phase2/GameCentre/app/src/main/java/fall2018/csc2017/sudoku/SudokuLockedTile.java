@@ -1,6 +1,6 @@
 package fall2018.csc2017.sudoku;
 
-class SudokuLockedTile extends SudokuTile {
+public class SudokuLockedTile extends SudokuTile {
 
     /**
      * A Sudoku Tile with an id, which cannot be changed.
@@ -8,7 +8,7 @@ class SudokuLockedTile extends SudokuTile {
      * @param id    the id
      * @param value the displayed number on the tile
      */
-    SudokuLockedTile(int id, int value) {
+    public SudokuLockedTile(int id, int value) {
         super(id, value);
     }
 

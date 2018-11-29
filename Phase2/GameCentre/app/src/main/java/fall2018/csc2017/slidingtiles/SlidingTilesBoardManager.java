@@ -1,8 +1,12 @@
 package fall2018.csc2017.slidingtiles;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Move;
@@ -140,5 +144,15 @@ class SlidingTilesBoardManager extends BoardManager {
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
                 || (right != null && right.getId() == blankId);
+    }
+
+    void undoClick(Context context) {
+        try {
+            if (!this.puzzleSolved()) {
+                this.undoLastMove();
+            }
+        } catch (NoSuchElementException ex) {
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }

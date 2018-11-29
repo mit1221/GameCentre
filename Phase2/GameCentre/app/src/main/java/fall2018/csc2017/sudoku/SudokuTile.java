@@ -2,7 +2,7 @@ package fall2018.csc2017.sudoku;
 
 import fall2018.csc2017.Tile;
 
-abstract class SudokuTile extends Tile {
+public abstract class SudokuTile extends Tile {
 
     /**
      * Value of the Sudoku tile.
@@ -20,7 +20,7 @@ abstract class SudokuTile extends Tile {
      * @param id    the id
      * @param value the number on the tile
      */
-    SudokuTile(int id, int value) {
+    public SudokuTile(int id, int value) {
         super(id);
         if (valueInvariant(value)) {
             this.value = value;

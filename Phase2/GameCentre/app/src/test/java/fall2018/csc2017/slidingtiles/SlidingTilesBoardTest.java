@@ -39,7 +39,7 @@ public class SlidingTilesBoardTest {
      */
     private void setUpCorrect(int size) {
         List<SlidingTile> tiles = makeTiles(size);
-        board = new SlidingTilesBoard(size, tiles,3);
+        board = new SlidingTilesBoard(size, tiles);
     }
 
     @Test

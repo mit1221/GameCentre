@@ -31,27 +31,23 @@ import fall2018.csc2017.UserManager;
 public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuActivity {
 
     /**
-     * Current user
-     */
-    private User user;
-
-    /**
-     * Customizable options for the game
-     */
-    private SlidingTilesGameOptions gameOptions = new SlidingTilesGameOptions();
-
-    /**
      * Dialog for choosing board image options.
      */
     private AlertDialog imageSelectDialog = null;
+
+    /**
+     * Handles the logic for this activity
+     */
+    private SlidingTilesMenuController menuController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slidingtiles_menu);
-
+        menuController = new SlidingTilesMenuController();
         // Retrieve the user who is currently logged in
-        user = (User) getIntent().getSerializableExtra("User");
+        User user = (User) getIntent().getSerializableExtra("User");
+        menuController.setUser(user);
     }
 
     /**
@@ -60,22 +56,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      * @param view View that was clicked
      */
     public void onBtnStartClick(View view) {
-        int boardSize;
-        switch (view.getId()) {
-            case R.id.StartButton3:
-                boardSize = 3;
-                break;
-            case R.id.StartButton4:
-                boardSize = 4;
-                break;
-            case R.id.StartButton5:
-                boardSize = 5;
-                break;
-            default:
-                boardSize = 3;
-                break;
-        }
-        gameOptions.setSize(boardSize);
+        menuController.setBoardSize(view.getId());
         openDialog1();
     }
 
@@ -95,7 +76,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     public void onBtnHighscoresClick(View view) {
         Intent intent = new Intent(this, SlidingTilesHSActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("User", menuController.getUser());
         startActivity(intent);
     }
 
@@ -142,7 +123,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
                             Toast.LENGTH_SHORT).show();
                 } else {
                     undoMoves = unlimitedUndoMoves[0] ? -1 : undoMoves;
-                    gameOptions.setUndoMoves(undoMoves);
+                    menuController.setUndoMoves(undoMoves);
                     openDialog2();
                 }
             }
@@ -170,33 +151,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
                 assert input != null;
                 String url = input.getText().toString();
 
-                if (url.equals("")) {
-                    startGame();
-                    imageSelectDialog.dismiss();
-                    return;
-                }
-                // call asynchronous task
-                new ImageFromUrlTask(new ImageFromUrlTask.AsyncResponse() {
-
-                    @Override
-                    public void processFinish(Bitmap output) {
-                        if (output == null) {
-                            Toast.makeText(getApplicationContext(),
-                                    "No image at given URL. Try again with another URL.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            gameOptions.setImage(output);
-                            try {
-                                startGame();
-                                imageSelectDialog.dismiss();
-                            } catch (RuntimeException ex) {
-                                Toast.makeText(getApplicationContext(),
-                                        "Image is too big. Try again with another URL.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                }).execute(url);
+                urlInputHandler(url);
             }
         });
         imageSelectView.findViewById(R.id.CancelButton).setOnClickListener(new View.OnClickListener() {
@@ -209,6 +164,36 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
         imageSelectDialog.show();
     }
 
+    private void urlInputHandler(String url) {
+        if (url.equals("")) {
+            startGame();
+            imageSelectDialog.dismiss();
+            return;
+        }
+        // call asynchronous task
+        new ImageFromUrlTask(new ImageFromUrlTask.AsyncResponse() {
+
+            @Override
+            public void processFinish(Bitmap output) {
+                if (output == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "No image at given URL. Try again with another URL.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    menuController.setImage(output);
+                    try {
+                        startGame();
+                        imageSelectDialog.dismiss();
+                    } catch (RuntimeException ex) {
+                        Toast.makeText(getApplicationContext(),
+                                "Image is too big. Try again with another URL.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }).execute(url);
+    }
+
     /**
      * Button event handler for clicking on thumbnail.
      *
@@ -219,7 +204,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
         BitmapDrawable drawable = (BitmapDrawable) imgView.getDrawable();
 
         Bitmap bitmap = drawable.getBitmap();
-        gameOptions.setImage(bitmap);
+        menuController.setImage(bitmap);
         startGame();
         imageSelectDialog.dismiss();
     }
@@ -240,9 +225,9 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
     @Override
     public void startGame() {
         Intent intent = new Intent(this, SlidingTilesGameActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("User", menuController.getUser());
         intent.putExtra("LoadGame", false);
-        intent.putExtra("GameOptions", gameOptions);
+        intent.putExtra("GameOptions", menuController.getGameOptions());
         startActivity(intent);
     }
 
@@ -255,7 +240,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
             Uri selectedImage = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                gameOptions.setImage(bitmap);
+                menuController.setImage(bitmap);
                 startGame();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -268,9 +253,9 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     @Override
     public void loadSavedGame() {
-        if (user != null && user.hasSave(Game.SLIDING_TILES)) {
+        if (menuController.userHasSave()) {
             Intent intent = new Intent(this, SlidingTilesGameActivity.class);
-            intent.putExtra("User", user);
+            intent.putExtra("User", menuController.getUser());
             intent.putExtra("LoadGame", true);
             startActivity(intent);
         } else {
@@ -284,7 +269,8 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
     @Override
     protected void onResume() {
         super.onResume();
-        user = UserManager.getUser(user.getUserName(), this); //reload the user data
-        gameOptions.setImage(null);
+        User user = UserManager.getUser(menuController.getUser().getUserName(), this); //reload the user data
+        menuController.setUser(user);
+        menuController.setImage(null);
     }
 }
