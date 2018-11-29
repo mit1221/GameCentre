@@ -37,7 +37,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     /**
      * The board manager.
      */
-    private BoardManager boardManager;
+    private SlidingTilesBoardManager boardManager;
 
     /**
      * The buttons to display.
@@ -72,6 +72,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        gameController = new SlidingTilesGameController(boardManager.getBoard());
         super.onCreate(savedInstanceState);
         handleExtras();
 
@@ -85,13 +86,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    if (!boardManager.puzzleSolved()) {
-                        boardManager.undoLastMove();
-                    }
-                } catch (NoSuchElementException ex) {
-                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                boardManager.undoClick(getApplicationContext());
             }
         });
 
@@ -120,6 +115,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                     }
                 });
     }
+
+
 
     /**
      * Get extras from past activity and initialize the boardManager correctly.
