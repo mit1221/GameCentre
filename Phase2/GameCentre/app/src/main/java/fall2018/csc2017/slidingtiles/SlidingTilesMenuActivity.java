@@ -31,6 +31,11 @@ import fall2018.csc2017.UserManager;
 public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuActivity {
 
     /**
+     *
+     */
+    private SlidingTilesMenuController controller;
+
+    /**
      * Current user
      */
     private User user;
@@ -47,6 +52,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        controller = new SlidingTilesMenuController();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slidingtiles_menu);
 
@@ -60,24 +66,11 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      * @param view View that was clicked
      */
     public void onBtnStartClick(View view) {
-        int boardSize;
-        switch (view.getId()) {
-            case R.id.StartButton3:
-                boardSize = 3;
-                break;
-            case R.id.StartButton4:
-                boardSize = 4;
-                break;
-            case R.id.StartButton5:
-                boardSize = 5;
-                break;
-            default:
-                boardSize = 3;
-                break;
-        }
-        gameOptions.setSize(boardSize);
+        controller.setBoardSize(view, gameOptions);
         openDialog1();
     }
+
+
 
     /**
      * The Load button event handler
@@ -170,33 +163,7 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
                 assert input != null;
                 String url = input.getText().toString();
 
-                if (url.equals("")) {
-                    startGame();
-                    imageSelectDialog.dismiss();
-                    return;
-                }
-                // call asynchronous task
-                new ImageFromUrlTask(new ImageFromUrlTask.AsyncResponse() {
-
-                    @Override
-                    public void processFinish(Bitmap output) {
-                        if (output == null) {
-                            Toast.makeText(getApplicationContext(),
-                                    "No image at given URL. Try again with another URL.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            gameOptions.setImage(output);
-                            try {
-                                startGame();
-                                imageSelectDialog.dismiss();
-                            } catch (RuntimeException ex) {
-                                Toast.makeText(getApplicationContext(),
-                                        "Image is too big. Try again with another URL.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                }).execute(url);
+                urlInputHandler(url);
             }
         });
         imageSelectView.findViewById(R.id.CancelButton).setOnClickListener(new View.OnClickListener() {
@@ -207,6 +174,36 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
         });
 
         imageSelectDialog.show();
+    }
+
+    private void urlInputHandler(String url) {
+        if (url.equals("")) {
+            startGame();
+            imageSelectDialog.dismiss();
+            return;
+        }
+        // call asynchronous task
+        new ImageFromUrlTask(new ImageFromUrlTask.AsyncResponse() {
+
+            @Override
+            public void processFinish(Bitmap output) {
+                if (output == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "No image at given URL. Try again with another URL.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    gameOptions.setImage(output);
+                    try {
+                        startGame();
+                        imageSelectDialog.dismiss();
+                    } catch (RuntimeException ex) {
+                        Toast.makeText(getApplicationContext(),
+                                "Image is too big. Try again with another URL.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }).execute(url);
     }
 
     /**
