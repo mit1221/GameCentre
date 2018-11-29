@@ -146,7 +146,7 @@ class SlidingTilesBoardManager extends BoardManager {
                 || (right != null && right.getId() == blankId);
     }
 
-    public void undoClick(Context context) {
+    void undoClick(Context context) {
         try {
             if (!this.puzzleSolved()) {
                 this.undoLastMove();
