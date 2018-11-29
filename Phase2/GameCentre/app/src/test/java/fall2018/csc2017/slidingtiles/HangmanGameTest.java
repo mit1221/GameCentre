@@ -128,16 +128,16 @@ public class HangmanGameTest {
     @Test
     public void testMakeGuessCorrect(){
         setup("abcd c");
-        assertEquals(true, game.makeLetterGuess('a'));
-        assertEquals(HangmanLetters.LETTER_STATE.CORRECT, game.getLetters().get('a'));
+        assertEquals(true, game.makeLetterGuess('A'));
+        assertEquals(HangmanLetters.LETTER_STATE.CORRECT, game.getLetters().get('A'));
         assertEquals(false, game.isSolved());
     }
 
     @Test
     public void testMakeGuessIncorrect(){
         setup("abcd c");
-        assertEquals(false, game.makeLetterGuess('z'));
-        assertEquals(HangmanLetters.LETTER_STATE.INCORRECT, game.getLetters().get('z'));
+        assertEquals(true, game.makeLetterGuess('Z'));
+        assertEquals(HangmanLetters.LETTER_STATE.INCORRECT, game.getLetters().get('Z'));
         assertEquals(false, game.isSolved());
     }
 
