@@ -27,7 +27,7 @@ public class SudokuBoard extends Board {
      *
      * @param tiles        tiles for the board
      */
-    SudokuBoard(List<SudokuTile> tiles) {
+    public SudokuBoard(List<SudokuTile> tiles) {
         super(SIZE, tiles);
     }
 }

@@ -35,7 +35,7 @@ public class SudokuMove implements Move {
      * @param currentNumber The number currently at the tile on (row, column)
      * @param newNumber The number to put at the tile on (row, column)
      */
-    SudokuMove(int row, int col, int currentNumber, int newNumber) {
+    public SudokuMove(int row, int col, int currentNumber, int newNumber) {
         this.row = row;
         this.col = col;
         this.currentNumber = currentNumber;
