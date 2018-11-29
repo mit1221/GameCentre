@@ -31,11 +31,6 @@ import fall2018.csc2017.UserManager;
 public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuActivity {
 
     /**
-     *
-     */
-    private SlidingTilesMenuController controller;
-
-    /**
      * Current user
      */
     private User user;
@@ -50,14 +45,19 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      */
     private AlertDialog imageSelectDialog = null;
 
+    /**
+     * Hanldes the logic for this activity
+     */
+    private SlidingTilesMenuController menuController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        controller = new SlidingTilesMenuController();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slidingtiles_menu);
-
+        menuController = new SlidingTilesMenuController();
         // Retrieve the user who is currently logged in
         user = (User) getIntent().getSerializableExtra("User");
+        menuController.setUser(user);
     }
 
     /**
@@ -66,11 +66,9 @@ public class SlidingTilesMenuActivity extends AppCompatActivity implements MenuA
      * @param view View that was clicked
      */
     public void onBtnStartClick(View view) {
-        controller.setBoardSize(view, gameOptions);
+        menuController.setBoardSize(view.getId());
         openDialog1();
     }
-
-
 
     /**
      * The Load button event handler

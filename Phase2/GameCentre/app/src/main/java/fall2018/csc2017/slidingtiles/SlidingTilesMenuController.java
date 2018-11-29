@@ -1,16 +1,31 @@
 package fall2018.csc2017.slidingtiles;
 
-import android.view.View;
+import fall2018.csc2017.MenuController;
 
+public class SlidingTilesMenuController extends MenuController {
 
-public class SlidingTilesMenuController {
+    /**
+     * Customizable options for the game
+     */
+    private SlidingTilesGameOptions gameOptions = new SlidingTilesGameOptions();
 
-    public SlidingTilesMenuController() {
+    /**
+     * Get the gameOptions.
+     *
+     * @return game options
+     */
+    public SlidingTilesGameOptions getGameOptions() {
+        return gameOptions;
     }
 
-    public void setBoardSize(View view, SlidingTilesGameOptions gameOptions) {
+    /**
+     * Set the board size in the game options.
+     *
+     * @param size board size
+     */
+    public void setBoardSize(int size) {
         int boardSize;
-        switch (view.getId()) {
+        switch (size) {
             case R.id.StartButton3:
                 boardSize = 3;
                 break;
@@ -26,5 +41,4 @@ public class SlidingTilesMenuController {
         }
         gameOptions.setSize(boardSize);
     }
-
 }
