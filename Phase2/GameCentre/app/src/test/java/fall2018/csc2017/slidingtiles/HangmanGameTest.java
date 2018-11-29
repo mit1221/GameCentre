@@ -106,10 +106,51 @@ public class HangmanGameTest {
     }
 
     @Test
-    public void testGet(){
+    public void testGetFixedGameState(){
         setup("ab a cdefg abc");
         String fixed = game.getFixedGameState(5);
         assertEquals("__ _ ________", fixed);
+    }
+
+
+    @Test
+    public void testMakeGuessInvalid(){
+        setup("abcd a");
+        try{
+            game.makeLetterGuess('1');
+        }
+        catch(Exception e){
+            assertEquals("Alphabet letter expected", e.getMessage());
+        }
+
+    }
+
+    @Test
+    public void testMakeGuessCorrect(){
+        setup("abcd c");
+        assertEquals(true, game.makeLetterGuess('a'));
+        assertEquals(HangmanLetters.LETTER_STATE.CORRECT, game.getLetters().get('a'));
+        assertEquals(false, game.isSolved());
+    }
+
+    @Test
+    public void testMakeGuessIncorrect(){
+        setup("abcd c");
+        assertEquals(false, game.makeLetterGuess('z'));
+        assertEquals(HangmanLetters.LETTER_STATE.INCORRECT, game.getLetters().get('z'));
+        assertEquals(false, game.isSolved());
+    }
+
+    @Test
+    public void testIsSolved(){
+        setup("abc");
+        assertEquals(false, game.isSolved());
+
+        game.makeLetterGuess('a');
+        assertEquals(false, game.isSolved());
+        game.makeLetterGuess('b');
+        game.makeLetterGuess('c');
+        assertEquals(true, game.isSolved());
     }
 
 }
