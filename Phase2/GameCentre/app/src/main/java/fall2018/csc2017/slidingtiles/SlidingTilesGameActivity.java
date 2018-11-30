@@ -25,9 +25,9 @@ import fall2018.csc2017.UserManager;
 public class SlidingTilesGameActivity extends AppCompatActivity implements Observer {
 
     /**
-     * The model that contains data.
+     * The manager that contains data.
      */
-    private SlidingTilesBoardManager model;
+    private SlidingTilesBoardManager manager;
 
     /**
      * The buttons to display.
@@ -59,10 +59,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         Bundle extras = getIntent().getExtras();
         Resources resources = getResources();
 
-        // Get extras from past activity and initialize the model correctly.
+        // Get extras from past activity and initialize the manager correctly.
         controller.handleExtras(extras, resources);
         // Obtain info from controller
-        model = controller.getModel();
+        manager = controller.getModel();
         gridView = controller.getGridView();
         columnWidth = SlidingTilesGameController.getColumnWidth();
         columnHeight = SlidingTilesGameController.getColumnHeight();
@@ -81,16 +81,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.undoClick(getApplicationContext());
+                manager.undoClick(getApplicationContext());
             }
         });
 
-        int boardSize = model.getBoard().getSize();
+        int boardSize = manager.getBoard().getSize();
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(boardSize);
-        gridView.setBoardManager(model);
-        model.addObserver(this);
+        gridView.setBoardManager(manager);
+        manager.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -101,10 +101,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = displayWidth / model.getBoard().getSize();
+                        columnWidth = displayWidth / manager.getBoard().getSize();
                         // Leave some space for display at the top
                         columnHeight = ((int) (displayHeight * 0.7)) /
-                                model.getBoard().getSize();
+                                manager.getBoard().getSize();
 
                         // Set up the background image for each button based on the master list
                         // of positions, and then call the adapter to set the view.

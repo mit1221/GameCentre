@@ -40,7 +40,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     /**
      * The board manager.
      */
-    private SudokuBoardManager model;
+    private SudokuBoardManager manager;
 
     /**
      * The buttons to display.
@@ -76,7 +76,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         createTiles(this);
         setContentView(R.layout.activity_sudoku_game);
         mController = new MovementController();
-        mController.setBoardManager(model);
+        mController.setBoardManager(manager);
 
         // Add an undo button to the game
         Button undoButton = findViewById(R.id.undoButton);
@@ -86,8 +86,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             @Override
             public void onClick(View v) {
                 try {
-                    if (!model.puzzleSolved()) {
-                        model.undoLastMove();
+                    if (!manager.puzzleSolved()) {
+                        manager.undoLastMove();
                         updateTiles();
                     }
                 } catch (NoSuchElementException ex) {
@@ -96,11 +96,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             }
         });
 
-        int boardSize = model.getBoard().getSize();
+        int boardSize = manager.getBoard().getSize();
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(boardSize);
-        model.addObserver(this);
+        manager.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -111,10 +111,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = displayWidth / model.getBoard().getSize();
+                        columnWidth = displayWidth / manager.getBoard().getSize();
                         // Leave some space for display at the top
                         columnHeight = ((int) (displayHeight * 0.7)) /
-                                model.getBoard().getSize();
+                                manager.getBoard().getSize();
 
                         display();
                         updateTiles();
@@ -123,7 +123,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-     * Get extras from past activity and initialize the model correctly.
+     * Get extras from past activity and initialize the manager correctly.
      */
     private void handleExtras() {
         // Retrieve the user, whether the previous game should be loaded, and game options
@@ -133,14 +133,14 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            model = (SudokuBoardManager) user.getSave(Game.SUDOKU);
+            manager = (SudokuBoardManager) user.getSave(Game.SUDOKU);
         } else {
             SudokuGameOptions gameOptions = (SudokuGameOptions)
                     extras.getSerializable("GameOptions");
             int maxUndoMoves = gameOptions.getUndoMoves();
 
-            model = new SudokuBoardManager(maxUndoMoves);
-            user.setSave(Game.SUDOKU, model.getBoard());
+            manager = new SudokuBoardManager(maxUndoMoves);
+            user.setSave(Game.SUDOKU, manager.getBoard());
         }
     }
 
@@ -150,7 +150,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * @param context the context
      */
     private void createTiles(Context context) {
-        SudokuBoard board = (SudokuBoard) model.getBoard();
+        SudokuBoard board = (SudokuBoard) manager.getBoard();
         tiles = new ArrayList<>();
 
         for (int row = 0; row < board.getSize(); row++) {
@@ -199,7 +199,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                 } else {
                     int position = gridView.getPositionClicked();
                     int newNumber = Integer.parseInt(s.toString());
-                    Move move = SudokuMove.createMove(position, model.getBoard(), newNumber);
+                    Move move = SudokuMove.createMove(position, manager.getBoard(), newNumber);
                     mController.processMove(move);
                 }
             }
@@ -210,7 +210,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * Update the text on the tiles once the internal board changes.
      */
     private void updateTiles() {
-        SudokuBoard board = (SudokuBoard) model.getBoard();
+        SudokuBoard board = (SudokuBoard) manager.getBoard();
 
         int boardSize = board.getSize();
         int nextPos = 0;
@@ -221,6 +221,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             SudokuTile tile = (SudokuTile) board.getTile(row, col);
             t.setText(tile.getStringValue());
             nextPos++;
+
+            if (manager.puzzleSolved()) {
+                t.setEnabled(false);
+            }
         }
     }
 
@@ -243,8 +247,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         UserManager.saveUserState(user, this);
 
         // save score if game is finished
-        if (model.puzzleSolved()) {
-            String result = model.processGameOver(this, user);
+        if (manager.puzzleSolved()) {
+            String result = manager.processGameOver(this, user);
             Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
         }
     }
