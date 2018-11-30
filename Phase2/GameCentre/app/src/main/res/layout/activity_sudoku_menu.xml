@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="fall2018.csc2017.sudoku.SudokuMenuActivity">
 
+    <Button
+        android:id="@+id/highscoresButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GameText"
+        android:layout_alignParentEnd="true"
+        android:onClick="onBtnHighscoresClick"
+        android:text="@string/highscores"
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_editor_absoluteY="409dp" />
+
     <TextView
         android:id="@+id/textView7"
         android:layout_width="94dp"

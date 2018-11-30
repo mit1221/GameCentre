@@ -3,7 +3,7 @@ package fall2018.csc2017;
 /**
  * Controller for a general menu activity with a user.
  */
-public class MenuController {
+public abstract class MenuController {
 
     /**
      * Current user
@@ -31,10 +31,8 @@ public class MenuController {
     /**
      * Check if user has a save.
      *
-     * @return
+     * @return if user has a save
      */
-    public boolean userHasSave() {
-        return user != null && user.hasSave(Game.SLIDING_TILES);
-    }
+    public abstract boolean userHasSave();
 }
 
