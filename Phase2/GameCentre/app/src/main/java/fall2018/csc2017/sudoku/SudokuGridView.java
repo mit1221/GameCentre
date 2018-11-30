@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Map;
 
+import fall2018.csc2017.Board;
 import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Move;
 import fall2018.csc2017.MovementController;
@@ -72,11 +73,14 @@ public class SudokuGridView extends GridView {
                 int position = SudokuGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
                 positionData = position;
-//                Move move = SudokuMove.createMove(position, boardManager.getBoard(), 3);
-//                String result = mController.processMove(move);
-//                if (result != null) {
-//                    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
-//                }
+
+                Board board = boardManager.getBoard();
+                int row = position / board.getSize();
+                int column = position / board.getSize();
+
+                if (board.getTile(row, column) instanceof SudokuLockedTile) {
+                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
 
