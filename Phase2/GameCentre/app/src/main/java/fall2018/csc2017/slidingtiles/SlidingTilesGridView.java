@@ -20,7 +20,7 @@ import fall2018.csc2017.Model;
 import fall2018.csc2017.Move;
 import fall2018.csc2017.MovementController;
 
-public class GestureDetectGridView extends GridView {
+public class SlidingTilesGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
     public static final int SWIPE_MAX_OFF_PATH = 100;
     public static final int SWIPE_THRESHOLD_VELOCITY = 100;
@@ -31,24 +31,24 @@ public class GestureDetectGridView extends GridView {
     private float mTouchY;
     private Model model;
 
-    public GestureDetectGridView(Context context) {
+    public SlidingTilesGridView(Context context) {
         super(context);
         init(context);
     }
 
-    public GestureDetectGridView(Context context, AttributeSet attrs) {
+    public SlidingTilesGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SlidingTilesGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) // API 21
-    public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr,
-                                 int defStyleRes) {
+    public SlidingTilesGridView(Context context, AttributeSet attrs, int defStyleAttr,
+                                int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
@@ -59,7 +59,7 @@ public class GestureDetectGridView extends GridView {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
-                int position = GestureDetectGridView.this.pointToPosition
+                int position = SlidingTilesGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
                 Move move = SlidingTilesMove.createMove(position, model.getBoard());
                 String result = mController.processMove(move);

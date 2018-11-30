@@ -34,7 +34,7 @@ public class SlidingTilesGameController {
     /**
      * Grid View and calculated column height and width based on device size
      */
-    private GestureDetectGridView gridView;
+    private SlidingTilesGridView gridView;
     private static int columnWidth, columnHeight;
 
     /**
@@ -55,7 +55,7 @@ public class SlidingTilesGameController {
         return tileButtons;
     }
 
-    public GestureDetectGridView getGridView() {
+    public SlidingTilesGridView getGridView() {
         return gridView;
     }
 
