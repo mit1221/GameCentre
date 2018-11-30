@@ -114,45 +114,13 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                         columnHeight = ((int) (displayHeight * 0.7)) /
                                 model.getBoard().getSize();
 
-                        display();
+                        // Set up the background image for each button based on the master list
+                        // of positions, and then call the adapter to set the view.
+                        controller.updateTileButtons();
+                        tileButtons = controller.getTileButtons();
+                        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
                     }
                 });
-    }
-
-
-    /**
-     * Set up the background image for each button based on the master list
-     * of positions, and then call the adapter to set the view.
-     */
-    // Display
-    public void display() {
-        updateTileButtons();
-        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
-    }
-
-    /**
-     * Update the backgrounds on the buttons to match the tiles.
-     */
-    private void updateTileButtons() {
-        SlidingTilesBoard board = (SlidingTilesBoard) model.getBoard();
-        int boardSize = board.getSize();
-        int nextPos = 0;
-
-        if (tileImages != null) {
-            for (Button b : tileButtons) {
-                int row = nextPos / boardSize;
-                int col = nextPos % boardSize;
-                b.setBackground(tileImages.get(board.getTile(row, col).getId()));
-                nextPos++;
-            }
-        } else {
-            for (Button b : tileButtons) {
-                int row = nextPos / boardSize;
-                int col = nextPos % boardSize;
-                b.setBackgroundResource(((SlidingTile) board.getTile(row, col)).getBackground());
-                nextPos++;
-            }
-        }
     }
 
     /**
@@ -166,7 +134,9 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
     @Override
     public void update(Observable o, Object arg) {
-        display();
+        controller.updateTileButtons();
+        tileButtons = controller.getTileButtons();
+        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
         Model save = (Model) o;
         // save the state of the board when it changes
         user.setSave(Game.SLIDING_TILES, save);

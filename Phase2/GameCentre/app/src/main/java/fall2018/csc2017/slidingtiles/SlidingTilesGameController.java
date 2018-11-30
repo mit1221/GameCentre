@@ -216,5 +216,30 @@ public class SlidingTilesGameController {
         }
 
     }
+
+    /**
+     * Update the backgrounds on the buttons to match the tiles.
+     */
+    void updateTileButtons() {
+        SlidingTilesBoard board = (SlidingTilesBoard) model.getBoard();
+        int boardSize = board.getSize();
+        int nextPos = 0;
+
+        if (tileImages != null) {
+            for (Button b : tileButtons) {
+                int row = nextPos / boardSize;
+                int col = nextPos % boardSize;
+                b.setBackground(tileImages.get(board.getTile(row, col).getId()));
+                nextPos++;
+            }
+        } else {
+            for (Button b : tileButtons) {
+                int row = nextPos / boardSize;
+                int col = nextPos % boardSize;
+                b.setBackgroundResource(((SlidingTile) board.getTile(row, col)).getBackground());
+                nextPos++;
+            }
+        }
+    }
 }
 
