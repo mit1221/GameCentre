@@ -34,7 +34,7 @@ import fall2018.csc2017.UserManager;
 public class SlidingTilesGameActivity extends AppCompatActivity implements Observer {
 
     /**
-     * The board manager.
+     * The model that contains data.
      */
     private SlidingTilesModel model;
 
@@ -55,9 +55,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private User user;
 
     /**
-     * array of the images for the tiles
+     * Controller
      */
-    private ArrayList<Drawable> tileImages;
 
     private SlidingTilesGameController controller;
 
@@ -68,16 +67,18 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         Resources resources = getResources();
+
+        // Get extras from past activity and initialize the model correctly.
         controller.handleExtras(extras, resources);
+        // Obtain info from controller
         model = controller.getModel();
         gridView = controller.getGridView();
         columnWidth = SlidingTilesGameController.getColumnWidth();
         columnHeight = SlidingTilesGameController.getColumnHeight();
         user = controller.getUser();
-        tileImages = controller.getTileImages();
 
+        // Create tile buttons
         Context context = getApplicationContext();
-
         controller.createTileButtons(context);
         tileButtons = controller.getTileButtons();
         setContentView(R.layout.activity_slidingtiles_game);
@@ -141,13 +142,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         // save the state of the board when it changes
         user.setSave(Game.SLIDING_TILES, save);
         UserManager.saveUserState(user, this);
-
         // save score if game is finished
-        if (model.puzzleSolved()) {
-            Score score = new Score(user.getUserName(), model.getMovesMade());
-            GameScoreboard.addScore(this, Board.getHighScoreFile(
-                    Game.SLIDING_TILES, model.getBoard().getSize()), score);
+        Context context = getApplicationContext();
+        controller.addScore(context);
         }
-    }
-
 }
