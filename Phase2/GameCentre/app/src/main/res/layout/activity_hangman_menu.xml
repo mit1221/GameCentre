@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="370dp"
         android:onClick="onBtnNewGameClick"
-        android:text="Start New Game" />
+        android:text=" New Game" />
 
     <Button
         android:id="@+id/btnLoadGame"
