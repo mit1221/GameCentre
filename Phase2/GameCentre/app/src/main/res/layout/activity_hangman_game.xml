@@ -12,15 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxHeight="200sp"
-        android:layout_above="@id/tvCategory"
+        android:layout_above="@+id/gridLetters"
         android:layout_centerHorizontal="true"
         />
     <TextView
         android:id="@+id/tvCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/gridLetters"
-        android:textSize="12sp"/>
+        android:layout_above="@id/tvCategory"
+        android:textSize="20sp"/>
     <GridView
         android:id="@+id/gridLetters"
         android:layout_width="match_parent"
