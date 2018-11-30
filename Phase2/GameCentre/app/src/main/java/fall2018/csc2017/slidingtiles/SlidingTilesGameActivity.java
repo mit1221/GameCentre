@@ -2,10 +2,6 @@ package fall2018.csc2017.slidingtiles;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -13,18 +9,13 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import fall2018.csc2017.Board;
 import fall2018.csc2017.Model;
 import fall2018.csc2017.CustomAdapter;
 import fall2018.csc2017.Game;
-import fall2018.csc2017.GameScoreboard;
-import fall2018.csc2017.Score;
-import fall2018.csc2017.Tile;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
 
