@@ -7,30 +7,22 @@ https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/
 This extension of GridView contains built in logic for handling swipes between buttons
  */
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import fall2018.csc2017.Board;
-import fall2018.csc2017.Model;
-import fall2018.csc2017.MovementController;
-
+/**
+ * GridView for the Sudoku Game.
+ */
 public class SudokuGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
-    public static final int SWIPE_MAX_OFF_PATH = 100;
-    public static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private int positionData;
     private GestureDetector gDetector;
-    private MovementController mController;
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
-    private Model model;
 
     public SudokuGridView(Context context) {
         super(context);
@@ -51,30 +43,13 @@ public class SudokuGridView extends GridView {
         init(context);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) // API 21
-    public SudokuGridView(Context context, AttributeSet attrs, int defStyleAttr,
-                          int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
-    }
-
     private void init(final Context context) {
-        mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
-                int position = SudokuGridView.this.pointToPosition
+                positionData = SudokuGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                positionData = position;
-
-                Board board = model.getBoard();
-                int row = position / board.getSize();
-                int column = position / board.getSize();
-
-                if (board.getTile(row, column) instanceof SudokuLockedTile) {
-                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-                }
                 return true;
             }
 
@@ -116,10 +91,5 @@ public class SudokuGridView extends GridView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return gDetector.onTouchEvent(ev);
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-        mController.setModel(model);
     }
 }

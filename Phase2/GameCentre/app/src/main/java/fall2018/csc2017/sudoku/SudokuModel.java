@@ -24,7 +24,7 @@ public class SudokuModel extends Model {
     @Override
     public List<SudokuTile> generateTiles(int size) {
         List<SudokuTile> tiles = new ArrayList<>();
-        BoardGenerator generator = new BoardGenerator(size, 1);
+        BoardGenerator generator = new BoardGenerator(size, 28);
         generator.fillValues();
 
         int id = 0;
