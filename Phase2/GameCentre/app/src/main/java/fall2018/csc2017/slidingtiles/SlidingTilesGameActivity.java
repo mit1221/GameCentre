@@ -103,7 +103,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
                         columnWidth = displayWidth / manager.getBoard().getSize();
                         // Leave some space for display at the top
-                        columnHeight = ((int) (displayHeight * 0.7)) /
+                        columnHeight = displayHeight /
                                 manager.getBoard().getSize();
 
                         // Set up the background image for each button based on the master list
