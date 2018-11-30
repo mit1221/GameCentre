@@ -12,7 +12,10 @@ import android.widget.Button;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+import fall2018.csc2017.Board;
 import fall2018.csc2017.Game;
+import fall2018.csc2017.GameScoreboard;
+import fall2018.csc2017.Score;
 import fall2018.csc2017.Tile;
 import fall2018.csc2017.User;
 
@@ -44,61 +47,36 @@ public class SlidingTilesGameController {
      */
     private ArrayList<Drawable> tileImages;
 
-    public SlidingTilesModel getModel() {
+    SlidingTilesModel getModel() {
         return model;
     }
 
-    public void setModel(SlidingTilesModel model) {
-        this.model = model;
-    }
-
-    public ArrayList<Button> getTileButtons() {
+    ArrayList<Button> getTileButtons() {
         return tileButtons;
-    }
-
-    public void setTileButtons(ArrayList<Button> tileButtons) {
-        this.tileButtons = tileButtons;
     }
 
     public GestureDetectGridView getGridView() {
         return gridView;
     }
 
-    public void setGridView(GestureDetectGridView gridView) {
-        this.gridView = gridView;
-    }
-
-    public static int getColumnWidth() {
+    static int getColumnWidth() {
         return columnWidth;
     }
 
-    public static void setColumnWidth(int columnWidth) {
-        SlidingTilesGameController.columnWidth = columnWidth;
-    }
-
-    public static int getColumnHeight() {
+    static int getColumnHeight() {
         return columnHeight;
     }
 
-    public static void setColumnHeight(int columnHeight) {
-        SlidingTilesGameController.columnHeight = columnHeight;
-    }
 
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public ArrayList<Drawable> getTileImages() {
         return tileImages;
     }
 
-    public void setTileImages(ArrayList<Drawable> tileImages) {
-        this.tileImages = tileImages;
-    }
 
     public SlidingTilesGameController() {
     }
@@ -239,6 +217,20 @@ public class SlidingTilesGameController {
                 b.setBackgroundResource(((SlidingTile) board.getTile(row, col)).getBackground());
                 nextPos++;
             }
+        }
+    }
+
+    /**
+     *
+     * Save score if game is finished
+     *
+     * @param context the context
+     */
+    void addScore(Context context) {
+        if (model.puzzleSolved()) {
+            Score score = new Score(user.getUserName(), model.getMovesMade());
+            GameScoreboard.addScore(context, Board.getHighScoreFile(
+                    Game.SLIDING_TILES, model.getBoard().getSize()), score);
         }
     }
 }
