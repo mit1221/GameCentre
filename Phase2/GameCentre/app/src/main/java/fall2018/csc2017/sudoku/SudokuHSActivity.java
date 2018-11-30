@@ -2,6 +2,7 @@ package fall2018.csc2017.sudoku;
 
 import java.util.List;
 
+import fall2018.csc2017.Board;
 import fall2018.csc2017.GameScoreboard;
 import fall2018.csc2017.HighscoresActivity;
 import fall2018.csc2017.Score;
@@ -15,8 +16,8 @@ public class SudokuHSActivity extends HighscoresActivity {
 //        String fileName = HangmanGameActivity.HANGMAN_HS_FILE;
         String fileName = SudokuGameActivity.SUDOKU_HS_FILE;
         return allUsers ?
-                GameScoreboard.getScores(this, fileName, HangmanGame.getComparator()) :
-                GameScoreboard.getScoresByUser(this, fileName, user, HangmanGame.getComparator());
+                GameScoreboard.getScores(this, fileName, Board.getComparator()) :
+                GameScoreboard.getScoresByUser(this, fileName, user, Board.getComparator());
     }
 
     @Override
