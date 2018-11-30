@@ -36,11 +36,27 @@ Signed by: David Hyun Suk Lim, Jason Lee, Mit Kapadia, Victor Trinh, Ishaan Ghos
 
 
 ### Git:
+Victor Trinh: victor
 Jason Lee: jasonkclee
 Mit Kapadia: Mit
 Ishaan Ghosh: Ishaan Ghosh
 David Hyun Suk Lim: David Lim
-Victor Trinh: victor
+
 
 ### Contributions:
+Victor Trinh:
+Wrote presentation outline.
+Discussed project architecture extensively, created CRC cards.
+Developed classes related to file reading/writing
+Worked on model/control classes for Users, Scores
+Designed images for Hangman
+etc.
+(See phase 1, phase 2 commits for specific coding contributions)
+
+Jason Lee:
+Mit Kapadia:
+Ishaan Ghosh:
+David Hyun Suk Lim:
+
+
 
