@@ -5,13 +5,13 @@ package fall2018.csc2017;
  */
 public class MovementController {
 
-    private Model model = null;
+    private BoardManager boardManager = null;
 
     public MovementController() {
     }
 
-    public void setModel(Model model) {
-        this.model = model;
+    public void setBoardManager(BoardManager boardManager) {
+        this.boardManager = boardManager;
     }
 
     /**
@@ -22,9 +22,9 @@ public class MovementController {
      */
     public String processMove(Move move) {
         String result = null;
-        if (model.isValidMove(move)) {
-            model.makeMove(move);
-            if (model.puzzleSolved()) {
+        if (boardManager.isValidMove(move)) {
+            boardManager.makeMove(move);
+            if (boardManager.puzzleSolved()) {
                 result = "YOU WIN!";
             }
         } else {

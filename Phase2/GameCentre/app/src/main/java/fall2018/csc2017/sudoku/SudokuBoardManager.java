@@ -9,7 +9,7 @@ import java.util.Set;
 import android.content.Context;
 
 import fall2018.csc2017.GameScoreboard;
-import fall2018.csc2017.Model;
+import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Move;
 import fall2018.csc2017.Score;
 import fall2018.csc2017.Tile;
@@ -20,7 +20,7 @@ import static fall2018.csc2017.sudoku.SudokuGameActivity.SUDOKU_HS_FILE;
 /**
  * Manage a Sudoku board.
  */
-public class SudokuModel extends Model {
+public class SudokuBoardManager extends BoardManager {
 
     /**
      * Helper method for generating all the tiles for the Sudoku board.
@@ -49,7 +49,7 @@ public class SudokuModel extends Model {
      *
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    public SudokuModel(int maxUndoMoves) {
+    public SudokuBoardManager(int maxUndoMoves) {
         super(maxUndoMoves);
         setBoard(new SudokuBoard(generateTiles(SudokuBoard.SIZE)));
     }

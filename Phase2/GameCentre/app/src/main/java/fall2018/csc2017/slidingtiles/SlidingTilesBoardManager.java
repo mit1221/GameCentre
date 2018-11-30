@@ -8,14 +8,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import fall2018.csc2017.Model;
+import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Move;
 import fall2018.csc2017.Tile;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class SlidingTilesModel extends Model {
+class SlidingTilesBoardManager extends BoardManager {
 
     /**
      * Manage a new shuffled board with image tiles.
@@ -24,7 +24,7 @@ class SlidingTilesModel extends Model {
      * @param maxUndoMoves the maximum undos that the user can do
      * @param image the image to use as the background
      */
-    SlidingTilesModel(int size, int maxUndoMoves, byte[] image) {
+    SlidingTilesBoardManager(int size, int maxUndoMoves, byte[] image) {
         super(maxUndoMoves);
         setBoard(new SlidingTilesBoard(size, generateTiles(size), image));
     }

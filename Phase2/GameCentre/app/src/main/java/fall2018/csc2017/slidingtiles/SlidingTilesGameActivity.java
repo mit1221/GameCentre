@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import fall2018.csc2017.Model;
+import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.CustomAdapter;
 import fall2018.csc2017.Game;
 import fall2018.csc2017.User;
@@ -27,7 +27,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     /**
      * The model that contains data.
      */
-    private SlidingTilesModel model;
+    private SlidingTilesBoardManager model;
 
     /**
      * The buttons to display.
@@ -89,7 +89,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(boardSize);
-        gridView.setModel(model);
+        gridView.setBoardManager(model);
         model.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -129,7 +129,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         controller.updateTileButtons();
         tileButtons = controller.getTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
-        Model save = (Model) o;
+        BoardManager save = (BoardManager) o;
         // save the state of the board when it changes
         user.setSave(Game.SLIDING_TILES, save);
         UserManager.saveUserState(user, this);

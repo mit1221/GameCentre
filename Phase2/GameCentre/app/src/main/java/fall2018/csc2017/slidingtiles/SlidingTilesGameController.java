@@ -24,7 +24,7 @@ public class SlidingTilesGameController {
     /**
      * The board manager.
      */
-    private SlidingTilesModel model;
+    private SlidingTilesBoardManager model;
 
     /**
      * The buttons to display.
@@ -47,7 +47,7 @@ public class SlidingTilesGameController {
      */
     private ArrayList<Drawable> tileImages;
 
-    SlidingTilesModel getModel() {
+    SlidingTilesBoardManager getModel() {
         return model;
     }
 
@@ -90,7 +90,7 @@ public class SlidingTilesGameController {
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            model = (SlidingTilesModel) user.getSave(Game.SLIDING_TILES);
+            model = (SlidingTilesBoardManager) user.getSave(Game.SLIDING_TILES);
             populateTileImages(resources);
         } else {
             SlidingTilesGameOptions gameOptions = (SlidingTilesGameOptions)
@@ -110,10 +110,10 @@ public class SlidingTilesGameController {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 squaredImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
-                model = new SlidingTilesModel(boardSize, maxUndoMoves, stream.toByteArray());
+                model = new SlidingTilesBoardManager(boardSize, maxUndoMoves, stream.toByteArray());
                 populateTileImages(resources);
             } else {
-                model = new SlidingTilesModel(boardSize, maxUndoMoves, null);
+                model = new SlidingTilesBoardManager(boardSize, maxUndoMoves, null);
             }
 
             user.setSave(Game.SLIDING_TILES, model.getBoard());

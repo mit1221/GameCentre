@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -18,19 +17,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
 
-import fall2018.csc2017.Board;
-import fall2018.csc2017.Model;
+import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.CustomAdapter;
 import fall2018.csc2017.Game;
-import fall2018.csc2017.GameScoreboard;
 import fall2018.csc2017.Move;
 import fall2018.csc2017.MovementController;
-import fall2018.csc2017.Score;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
 import fall2018.csc2017.slidingtiles.R;
@@ -45,7 +40,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     /**
      * The board manager.
      */
-    private SudokuModel model;
+    private SudokuBoardManager model;
 
     /**
      * The buttons to display.
@@ -81,7 +76,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         createTiles(this);
         setContentView(R.layout.activity_sudoku_game);
         mController = new MovementController();
-        mController.setModel(model);
+        mController.setBoardManager(model);
 
         // Add an undo button to the game
         Button undoButton = findViewById(R.id.undoButton);
@@ -138,13 +133,13 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            model = (SudokuModel) user.getSave(Game.SUDOKU);
+            model = (SudokuBoardManager) user.getSave(Game.SUDOKU);
         } else {
             SudokuGameOptions gameOptions = (SudokuGameOptions)
                     extras.getSerializable("GameOptions");
             int maxUndoMoves = gameOptions.getUndoMoves();
 
-            model = new SudokuModel(maxUndoMoves);
+            model = new SudokuBoardManager(maxUndoMoves);
             user.setSave(Game.SUDOKU, model.getBoard());
         }
     }
@@ -241,7 +236,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         display();
-        Model save = (Model) o;
+        BoardManager save = (BoardManager) o;
 
         // save the state of the board when it changes
         user.setSave(Game.SUDOKU, save);
