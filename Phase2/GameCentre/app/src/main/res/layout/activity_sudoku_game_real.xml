@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fall2018.csc2017.slidingtiles.GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    <fall2018.csc2017.sudoku.SudokuGridView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="fall2018.csc2017.slidingtiles.SlidingTilesGameActivity" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        tools:context="fall2018.csc2017.sudoku.SudokuGameActivity" />
 
     <Button
         android:id="@+id/undoButton"

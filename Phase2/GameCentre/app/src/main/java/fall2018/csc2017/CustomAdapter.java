@@ -55,7 +55,7 @@ public class CustomAdapter extends BaseAdapter {
         android.widget.AbsListView.LayoutParams params =
                 new android.widget.AbsListView.LayoutParams(mColumnWidth, mColumnHeight);
         button.setLayoutParams(params);
-
+        button.setTag(position);
         return button;
     }
 }

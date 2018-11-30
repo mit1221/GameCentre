@@ -18,6 +18,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Move;
@@ -28,6 +29,7 @@ public class SudokuGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
     public static final int SWIPE_MAX_OFF_PATH = 100;
     public static final int SWIPE_THRESHOLD_VELOCITY = 100;
+    private int positionData;
     private GestureDetector gDetector;
     private MovementController mController;
     private boolean mFlingConfirmed = false;
@@ -38,6 +40,10 @@ public class SudokuGridView extends GridView {
     public SudokuGridView(Context context) {
         super(context);
         init(context);
+    }
+
+    public int getPositionClicked() {
+        return positionData;
     }
 
     public SudokuGridView(Context context, AttributeSet attrs) {
@@ -65,12 +71,12 @@ public class SudokuGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = SudokuGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                Log.d("mytag3", String.valueOf(position));
-                Move move = SudokuMove.createMove(position, boardManager.getBoard(), 3);
-                String result = mController.processMove(move);
-                if (result != null) {
-                    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
-                }
+                positionData = position;
+//                Move move = SudokuMove.createMove(position, boardManager.getBoard(), 3);
+//                String result = mController.processMove(move);
+//                if (result != null) {
+//                    Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
+//                }
                 return true;
             }
 
