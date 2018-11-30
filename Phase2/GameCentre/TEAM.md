@@ -45,12 +45,16 @@ David Hyun Suk Lim: David Lim
 
 ### Contributions:
 Victor Trinh:
-Wrote presentation outline.
-Discussed project architecture extensively, created CRC cards.
-Developed classes related to file reading/writing
-Worked on model/control classes for Users, Scores
-Designed images for Hangman
-etc.
+- Laid out presentation and prepared outline.
+- Discussed project architecture, developed program layout for general GameCentre functions, CRC Cards
+- Developed classes related to reading/writing multiple types of data from files 
+    - Users
+    - Words for Hangman
+    - Scores
+- Developed some general classes for encapsulating data, tests for those classes 
+- Worked on HangMan alongside Jason for phase 2.
+- Designed images for Hangman
+- etc.
 (See phase 1, phase 2 commits for specific coding contributions)
 
 Jason Lee:
