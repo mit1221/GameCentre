@@ -85,6 +85,14 @@ Ishaan Ghosh:
 - etc.
 
 David Hyun Suk Lim:
+- Wrote some classes and methods in SlidingTileGame.
+- Made the sliding tile always solvable.
+- Discussed how we can make our code to better fit the MVC design pattern.
+- Implemented the MVC design by refactoring code and separating the functionalities.
+- Set up unittesting settings and wrote SlidingTilesGame unittests.
+- Worked on README.md and other documentation.
+- Made some tile images.
+
 
 
 
