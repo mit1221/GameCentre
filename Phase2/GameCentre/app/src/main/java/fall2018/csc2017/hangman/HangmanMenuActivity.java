@@ -16,6 +16,7 @@ import fall2018.csc2017.slidingtiles.R;
 
 /**
  * Menu Activity for the Hangman game
+ * No unit tests since this class mainly deals with displaying and handling views in android
  */
 public class HangmanMenuActivity extends AppCompatActivity implements MenuActivity {
 

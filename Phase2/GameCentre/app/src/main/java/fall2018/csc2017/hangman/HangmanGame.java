@@ -74,7 +74,7 @@ public class HangmanGame extends Observable implements Serializable {
         hmLetters = new HangmanLetters(answer);
         this.category = category;
         numAnswerGuesses = 0;
-        numLives = 3;
+        numLives = 6;
     }
 
     /**

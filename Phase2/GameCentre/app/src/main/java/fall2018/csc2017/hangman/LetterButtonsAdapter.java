@@ -13,6 +13,7 @@ import java.util.Set;
 
 /**
  * An adapter to create a grid of alphabet letter buttons in a GridView
+ * No unit tests since this class mainly deals with displaying and handling views in android
  */
 public class LetterButtonsAdapter extends BaseAdapter {
 

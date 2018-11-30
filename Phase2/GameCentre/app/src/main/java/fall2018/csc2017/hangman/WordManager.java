@@ -24,7 +24,8 @@ public abstract class WordManager {
         wordMap.put("Animals",
                 "animals.txt");
         wordMap.put("Computer Science Teaching Stream", "teaching_stream.txt");
-        wordMap.put("Buildings at the University of Toronto", "uoftbuildings.txt");
+        wordMap.put("Buildings at UofT", "uoftbuildings.txt");
+        wordMap.put("Developers of this App", "app_devs.txt");
     }
 
     /**

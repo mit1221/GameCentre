@@ -1,7 +1,6 @@
 Canidae
 Felidae
 Cat
-Cattle
 Dog
 Donkey
 Goat
@@ -9,15 +8,6 @@ Guinea pig
 Horse
 Pig
 Rabbit
-Fancy rat varieties
-laboratory rat strains
-Sheep breeds
-Water buffalo breeds
-Chicken breeds
-Duck breeds
-Goose breeds
-Pigeon breeds
-Turkey breeds
 Aardvark
 Aardwolf
 African buffalo
@@ -26,10 +16,9 @@ African leopard
 Albatross
 Alligator
 Alpaca
-American buffalo (bison)
+Bison
 American robin
 Amphibian
-list
 Anaconda
 Angelfish
 Anglerfish
@@ -45,7 +34,7 @@ Arctic Wolf
 Armadillo
 Arrow crab
 Asp
-Ass (donkey)
+Ass
 Baboon
 Badger
 Bald eagle
@@ -57,13 +46,11 @@ Bass
 Bat
 Beaked whale
 Bear
-list
 Beaver
 Bedbug
 Bee
 Beetle
 Bird
-list
 Bison
 Blackbird
 Black panther
@@ -79,8 +66,8 @@ Bonobo
 Booby
 Box jellyfish
 Bovid
-Buffalo, African
-Buffalo, American (bison)
+African Buffalo
+Bison
 Bug
 Butterfly
 Buzzard
@@ -92,19 +79,16 @@ Cardinal
 Caribou
 Carp
 Cat
-list
 Catshark
 Caterpillar
 Catfish
 Cattle
-list
 Centipede
 Cephalopod
 Chameleon
 Cheetah
 Chickadee
 Chicken
-list
 Chimpanzee
 Chinchilla
 Chipmunk
@@ -133,18 +117,14 @@ Damselfly
 Deer
 Dingo
 Dinosaur
-list
 Dog
-list
 Dolphin
 Donkey
-list
 Dormouse
 Dove
 Dragonfly
 Dragon
 Duck
-list
 Dung beetle
 Eagle
 Earthworm
@@ -172,9 +152,7 @@ Fox
 Frog
 Fruit bat
 Gamefowl
-list
 Galliform
-list
 Gazelle
 Gecko
 Gerbil
@@ -184,10 +162,8 @@ Gibbon
 Gila monster
 Giraffe
 Goat
-list
 Goldfish
 Goose
-list
 Gopher
 Gorilla
 Grasshopper
@@ -198,12 +174,9 @@ Ground shark
 Ground sloth
 Grouse
 Guan
-list
 Guanaco
 Guineafowl
-list
 Guinea pig
-list
 Gull
 Guppy
 Haddock
@@ -221,7 +194,6 @@ Hippopotamus
 Hookworm
 Hornet
 Horse
-list
 Hoverfly
 Hummingbird
 Humpback whale
@@ -297,11 +269,9 @@ Mule
 Muskox
 Narwhal
 Newt
-New World quail
 Nightingale
 Ocelot
 Octopus
-Old World quail
 Opossum
 Orangutan
 Orca
@@ -325,7 +295,6 @@ Peregrine falcon
 Pheasant
 Pig
 Pigeon
-list
 Pike
 Pilot whale
 Pinniped
@@ -336,7 +305,7 @@ Polar bear
 Pony
 Porcupine
 Porpoise
-Portuguese man o' war
+Portuguese man o war
 Possum
 Prairie dog
 Prawn
@@ -350,14 +319,11 @@ Quail
 Quelea
 Quokka
 Rabbit
-list
 Raccoon
 Rainbow trout
 Rat
 Rattlesnake
 Raven
-Ray (Batoidea)
-Ray (Rajiformes)
 Red panda
 Reindeer
 Reptile
@@ -381,9 +347,7 @@ Sea lion
 Sea slug
 Sea snail
 Shark
-list
 Sheep
-list
 Shrew
 Shrimp
 Silkworm
@@ -395,7 +359,6 @@ Slug
 Smelt
 Snail
 Snake
-list
 Snipe
 Snow leopard
 Sockeye salmon
@@ -441,7 +404,6 @@ Tree frog
 Trout
 Tuna
 Turkey
-list
 Turtle
 Tyrannosaurus
 Urial
@@ -477,10 +439,6 @@ Yak
 Yellow perch
 Zebra
 Zebra finch
-Animals by number of neurons
-Animals by size
-Common household pests
-Common names of poisonous animals
 Alpaca
 Bali cattle
 Cat
@@ -502,9 +460,6 @@ Domestic silkmoth
 Domestic silver fox
 Domestic turkey
 Donkey
-Fancy mouse
-Fancy rat
-Lab rat
 Ferret
 Gayal
 Goldfish
