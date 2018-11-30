@@ -42,7 +42,7 @@ public abstract class SudokuTile extends Tile {
      * @return value
      */
     String getStringValue() {
-        return String.valueOf(value);
+        return value == 0 ? "" : String.valueOf(value);
     }
 
     /**
@@ -64,5 +64,10 @@ public abstract class SudokuTile extends Tile {
      */
     private boolean valueInvariant(int value) {
         return (value > 0 && value < 10) || value == EMPTY_TILE_VALUE;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getValue());
     }
 }

@@ -80,7 +80,7 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
 
         // display the category
         TextView tvCategory = findViewById(R.id.tvCategory);
-        tvCategory.setText(game.getCategory());
+        tvCategory.setText("Category: " + game.getCategory());
 
         // Set the image for the hangman lives
         imgHangman = findViewById(R.id.imgHangman);
