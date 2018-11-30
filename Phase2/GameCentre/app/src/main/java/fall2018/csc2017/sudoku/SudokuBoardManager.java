@@ -31,7 +31,7 @@ public class SudokuBoardManager extends BoardManager {
     @Override
     public List<SudokuTile> generateTiles(int size) {
         List<SudokuTile> tiles = new ArrayList<>();
-        BoardGenerator generator = new BoardGenerator(size, 28);
+        BoardGenerator generator = new BoardGenerator(size, 2);
         generator.fillValues();
 
         int id = 0;

@@ -140,7 +140,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             int maxUndoMoves = gameOptions.getUndoMoves();
 
             manager = new SudokuBoardManager(maxUndoMoves);
-            user.setSave(Game.SUDOKU, manager.getBoard());
+            user.setSave(Game.SUDOKU, manager);
         }
     }
 

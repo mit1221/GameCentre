@@ -24,7 +24,7 @@ public class SlidingTilesGameController {
     /**
      * The board manager.
      */
-    private SlidingTilesBoardManager model;
+    private SlidingTilesBoardManager manager;
 
     /**
      * The buttons to display.
@@ -47,8 +47,8 @@ public class SlidingTilesGameController {
      */
     private ArrayList<Drawable> tileImages;
 
-    SlidingTilesBoardManager getModel() {
-        return model;
+    SlidingTilesBoardManager getManager() {
+        return manager;
     }
 
     ArrayList<Button> getTileButtons() {
@@ -82,7 +82,7 @@ public class SlidingTilesGameController {
     }
 
     /**
-     * Get extras from past activity and initialize the model correctly.
+     * Get extras from past activity and initialize the manager correctly.
      */
     void handleExtras(Bundle extras, Resources resources) {
 
@@ -90,7 +90,7 @@ public class SlidingTilesGameController {
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            model = (SlidingTilesBoardManager) user.getSave(Game.SLIDING_TILES);
+            manager = (SlidingTilesBoardManager) user.getSave(Game.SLIDING_TILES);
             populateTileImages(resources);
         } else {
             SlidingTilesGameOptions gameOptions = (SlidingTilesGameOptions)
@@ -110,13 +110,13 @@ public class SlidingTilesGameController {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 squaredImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
-                model = new SlidingTilesBoardManager(boardSize, maxUndoMoves, stream.toByteArray());
+                manager = new SlidingTilesBoardManager(boardSize, maxUndoMoves, stream.toByteArray());
                 populateTileImages(resources);
             } else {
-                model = new SlidingTilesBoardManager(boardSize, maxUndoMoves, null);
+                manager = new SlidingTilesBoardManager(boardSize, maxUndoMoves, null);
             }
 
-            user.setSave(Game.SLIDING_TILES, model.getBoard());
+            user.setSave(Game.SLIDING_TILES, manager);
         }
     }
 
@@ -124,13 +124,13 @@ public class SlidingTilesGameController {
      * Adds the generated tiles to tileImages.
      */
     private void populateTileImages(Resources resources) {
-        SlidingTilesBoard board = (SlidingTilesBoard) model.getBoard();
+        SlidingTilesBoard board = (SlidingTilesBoard) manager.getBoard();
         byte[] image = board.getImage();
         if (image != null) {
             Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
             ArrayList<Bitmap> bitmapImages = generateTiles(bmp, resources);
 
-            tileImages = new ArrayList<>(model.getBoard().numTiles());
+            tileImages = new ArrayList<>(manager.getBoard().numTiles());
             // convert Bitmap tiles to Drawable so they can be used as backgrounds for the buttons
             for (Bitmap tile : bitmapImages) {
                 Drawable drawable = new BitmapDrawable(resources, tile);
@@ -148,10 +148,10 @@ public class SlidingTilesGameController {
      * @return returns an ArrayList of the tiles as Bitmaps
      */
     private ArrayList<Bitmap> generateTiles(Bitmap image, Resources resources) {
-        ArrayList<Bitmap> tiles = new ArrayList<>(model.getBoard().numTiles());
+        ArrayList<Bitmap> tiles = new ArrayList<>(manager.getBoard().numTiles());
 
         int rows, cols;
-        rows = cols = model.getBoard().getSize();
+        rows = cols = manager.getBoard().getSize();
 
         // width and height of each tile
         int chunkWidth, chunkHeight;
@@ -176,7 +176,7 @@ public class SlidingTilesGameController {
      * @param context the context
      */
     void createTileButtons(Context context) {
-        SlidingTilesBoard board = (SlidingTilesBoard) model.getBoard();
+        SlidingTilesBoard board = (SlidingTilesBoard) manager.getBoard();
         tileButtons = new ArrayList<>();
 
         if (tileImages != null) {
@@ -199,7 +199,7 @@ public class SlidingTilesGameController {
      * Update the backgrounds on the buttons to match the tiles.
      */
     void updateTileButtons() {
-        SlidingTilesBoard board = (SlidingTilesBoard) model.getBoard();
+        SlidingTilesBoard board = (SlidingTilesBoard) manager.getBoard();
         int boardSize = board.getSize();
         int nextPos = 0;
 
@@ -227,10 +227,10 @@ public class SlidingTilesGameController {
      * @param context the context
      */
     void addScore(Context context) {
-        if (model.puzzleSolved()) {
-            Score score = new Score(user.getUserName(), model.getMovesMade());
+        if (manager.puzzleSolved()) {
+            Score score = new Score(user.getUserName(), manager.getMovesMade());
             GameScoreboard.addScore(context, Board.getHighScoreFile(
-                    Game.SLIDING_TILES, model.getBoard().getSize()), score);
+                    Game.SLIDING_TILES, manager.getBoard().getSize()), score);
         }
     }
 }

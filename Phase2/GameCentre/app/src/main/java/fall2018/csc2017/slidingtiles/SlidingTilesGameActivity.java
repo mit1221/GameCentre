@@ -62,7 +62,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         // Get extras from past activity and initialize the manager correctly.
         controller.handleExtras(extras, resources);
         // Obtain info from controller
-        manager = controller.getModel();
+        manager = controller.getManager();
         gridView = controller.getGridView();
         columnWidth = SlidingTilesGameController.getColumnWidth();
         columnHeight = SlidingTilesGameController.getColumnHeight();
