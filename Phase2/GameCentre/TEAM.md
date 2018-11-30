@@ -54,6 +54,14 @@ etc.
 (See phase 1, phase 2 commits for specific coding contributions)
 
 Jason Lee:
+- Wrote classes for playing a game of Hangman
+- Displaying Android activities and views for Hangman
+- abstract HighscoresActivity class used for all 3 games
+    - implemented for Sliding Tiles and Hangman
+- Generic UndoMoveList for keeping track of user's last moves
+- worked on saving and loading of games
+- unit tests for Hangman classes
+
 Mit Kapadia:
 Ishaan Ghosh:
 David Hyun Suk Lim:
