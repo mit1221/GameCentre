@@ -64,6 +64,13 @@ Jason Lee:
 
 Mit Kapadia:
 Ishaan Ghosh:
+- Wrote some classes related to playing Sudoku.
+- Created some Android Activities relating to Sudoku.
+- Fixed class for generating game boards.
+- Unit tests for Sudoku before new criteria for testing.
+- Settings Page.
+- etc.
+
 David Hyun Suk Lim:
 
 
