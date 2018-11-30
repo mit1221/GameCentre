@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
-import fall2018.csc2017.slidingtiles.R;
 /**
  * A general Tile for a board.
  */
@@ -36,5 +35,10 @@ public abstract class Tile implements Serializable, Comparable<Tile> {
     @Override
     public int compareTo(@NonNull Tile o) {
         return o.getId() - this.getId();
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getId());
     }
 }
