@@ -11,16 +11,14 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
 
 import fall2018.csc2017.Board;
-import fall2018.csc2017.BoardManager;
+import fall2018.csc2017.Model;
 import fall2018.csc2017.CustomAdapter;
 import fall2018.csc2017.Game;
 import fall2018.csc2017.GameScoreboard;
@@ -37,7 +35,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     /**
      * The board manager.
      */
-    private SlidingTilesBoardManager boardManager;
+    private SlidingTilesModel boardManager;
 
     /**
      * The buttons to display.
@@ -94,7 +92,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(boardSize);
-        gridView.setBoardManager(boardManager);
+        gridView.setModel(boardManager);
         boardManager.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -129,7 +127,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         boolean shouldLoad = extras.getBoolean("LoadGame", true);
 
         if (shouldLoad) {
-            boardManager = (SlidingTilesBoardManager) user.getSave(Game.SLIDING_TILES);
+            boardManager = (SlidingTilesModel) user.getSave(Game.SLIDING_TILES);
             populateTileImages();
         } else {
             SlidingTilesGameOptions gameOptions = (SlidingTilesGameOptions)
@@ -149,10 +147,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 squaredImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
-                boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves, stream.toByteArray());
+                boardManager = new SlidingTilesModel(boardSize, maxUndoMoves, stream.toByteArray());
                 populateTileImages();
             } else {
-                boardManager = new SlidingTilesBoardManager(boardSize, maxUndoMoves, null);
+                boardManager = new SlidingTilesModel(boardSize, maxUndoMoves, null);
             }
 
             user.setSave(Game.SLIDING_TILES, boardManager.getBoard());
@@ -271,7 +269,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     public void update(Observable o, Object arg) {
         display();
-        BoardManager save = (BoardManager) o;
+        Model save = (Model) o;
         // save the state of the board when it changes
         user.setSave(Game.SLIDING_TILES, save);
         UserManager.saveUserState(user, this);

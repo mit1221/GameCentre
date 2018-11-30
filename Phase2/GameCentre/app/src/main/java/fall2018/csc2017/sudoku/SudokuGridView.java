@@ -11,20 +11,14 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import fall2018.csc2017.Board;
-import fall2018.csc2017.BoardManager;
-import fall2018.csc2017.Move;
+import fall2018.csc2017.Model;
 import fall2018.csc2017.MovementController;
-import fall2018.csc2017.slidingtiles.SlidingTilesMove;
 
 public class SudokuGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
@@ -36,7 +30,7 @@ public class SudokuGridView extends GridView {
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
-    private BoardManager boardManager;
+    private Model model;
 
     public SudokuGridView(Context context) {
         super(context);
@@ -74,7 +68,7 @@ public class SudokuGridView extends GridView {
                         (Math.round(event.getX()), Math.round(event.getY()));
                 positionData = position;
 
-                Board board = boardManager.getBoard();
+                Board board = model.getBoard();
                 int row = position / board.getSize();
                 int column = position / board.getSize();
 
@@ -124,8 +118,8 @@ public class SudokuGridView extends GridView {
         return gDetector.onTouchEvent(ev);
     }
 
-    public void setBoardManager(BoardManager boardManager) {
-        this.boardManager = boardManager;
-        mController.setBoardManager(boardManager);
+    public void setModel(Model model) {
+        this.model = model;
+        mController.setModel(model);
     }
 }

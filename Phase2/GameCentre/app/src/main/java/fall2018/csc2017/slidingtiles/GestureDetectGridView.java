@@ -16,7 +16,7 @@ import android.view.MotionEvent;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import fall2018.csc2017.BoardManager;
+import fall2018.csc2017.Model;
 import fall2018.csc2017.Move;
 import fall2018.csc2017.MovementController;
 
@@ -29,7 +29,7 @@ public class GestureDetectGridView extends GridView {
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
-    private BoardManager boardManager;
+    private Model model;
 
     public GestureDetectGridView(Context context) {
         super(context);
@@ -61,7 +61,7 @@ public class GestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                Move move = SlidingTilesMove.createMove(position, boardManager.getBoard());
+                Move move = SlidingTilesMove.createMove(position, model.getBoard());
                 String result = mController.processMove(move);
                 if (result != null) {
                     Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
@@ -109,8 +109,8 @@ public class GestureDetectGridView extends GridView {
         return gDetector.onTouchEvent(ev);
     }
 
-    public void setBoardManager(BoardManager boardManager) {
-        this.boardManager = boardManager;
-        mController.setBoardManager(boardManager);
+    public void setModel(Model model) {
+        this.model = model;
+        mController.setModel(model);
     }
 }

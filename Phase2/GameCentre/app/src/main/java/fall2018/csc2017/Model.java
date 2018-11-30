@@ -7,7 +7,7 @@ import java.util.Observable;
 /**
  * A general board manager interface.
  */
-public abstract class BoardManager extends Observable implements Serializable {
+public abstract class Model extends Observable implements Serializable {
 
     /**
      * The board being managed.
@@ -30,7 +30,7 @@ public abstract class BoardManager extends Observable implements Serializable {
      * @param board        the board
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    public BoardManager(Board board, int maxUndoMoves) {
+    public Model(Board board, int maxUndoMoves) {
         this.board = board;
         moves = new UndoMoveList<>(maxUndoMoves);
     }
@@ -40,7 +40,7 @@ public abstract class BoardManager extends Observable implements Serializable {
      *
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    public BoardManager(int maxUndoMoves) {
+    public Model(int maxUndoMoves) {
         moves = new UndoMoveList<>(maxUndoMoves);
     }
 

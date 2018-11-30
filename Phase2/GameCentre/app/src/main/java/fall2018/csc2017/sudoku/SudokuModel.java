@@ -6,15 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import fall2018.csc2017.Board;
-import fall2018.csc2017.BoardManager;
+import fall2018.csc2017.Model;
 import fall2018.csc2017.Move;
 import fall2018.csc2017.Tile;
 
 /**
  * Manage a Sudoku board.
  */
-public class SudokuBoardManager extends BoardManager {
+public class SudokuModel extends Model {
 
     /**
      * Helper method for generating all the tiles for the Sudoku board.
@@ -43,7 +42,7 @@ public class SudokuBoardManager extends BoardManager {
      *
      * @param maxUndoMoves the maximum undos that the user can do
      */
-    public SudokuBoardManager(int maxUndoMoves) {
+    public SudokuModel(int maxUndoMoves) {
         super(maxUndoMoves);
         setBoard(new SudokuBoard(generateTiles(SudokuBoard.SIZE)));
     }
