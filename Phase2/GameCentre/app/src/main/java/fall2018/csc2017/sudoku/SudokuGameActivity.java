@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
@@ -28,6 +27,7 @@ import fall2018.csc2017.Model;
 import fall2018.csc2017.CustomAdapter;
 import fall2018.csc2017.Game;
 import fall2018.csc2017.GameScoreboard;
+import fall2018.csc2017.Move;
 import fall2018.csc2017.MovementController;
 import fall2018.csc2017.Score;
 import fall2018.csc2017.User;
@@ -93,6 +93,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                 try {
                     if (!model.puzzleSolved()) {
                         model.undoLastMove();
+                        updateTiles();
                     }
                 } catch (NoSuchElementException ex) {
                     Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
@@ -104,7 +105,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(boardSize);
-        gridView.setModel(model);
         model.addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -202,9 +202,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                 } else {
                     int position = gridView.getPositionClicked();
                     int newNumber = Integer.parseInt(s.toString());
-                    SudokuMove move = (SudokuMove) SudokuMove.createMove(position, model.getBoard(), newNumber);
+                    Move move = SudokuMove.createMove(position, model.getBoard(), newNumber);
                     mController.processMove(move);
-                    Log.d("mytag3", Arrays.deepToString(model.getBoard().getTiles()));
                 }
             }
         }
