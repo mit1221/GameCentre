@@ -103,6 +103,12 @@ public class SudokuMenuActivity extends AppCompatActivity implements MenuActivit
         dialog.show();
     }
 
+    public void onBtnHighscoresClick(View view) {
+        Intent intent = new Intent(this, SudokuHSActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
     /**
      * The Load button event handler
      * @param view - View that was clicked
