@@ -6,9 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.content.Context;
+
+import fall2018.csc2017.GameScoreboard;
 import fall2018.csc2017.Model;
 import fall2018.csc2017.Move;
+import fall2018.csc2017.Score;
 import fall2018.csc2017.Tile;
+import fall2018.csc2017.User;
+
+import static fall2018.csc2017.sudoku.SudokuGameActivity.SUDOKU_HS_FILE;
 
 /**
  * Manage a Sudoku board.
@@ -68,6 +75,19 @@ public class SudokuModel extends Model {
     public boolean puzzleSolved() {
         return allRowsSolved() && allColumnsSolved() && allSubSquaresSolved();
     }
+
+    public String processGameOver(Context c, User user){
+        String result;
+        if (puzzleSolved()){
+            Score score = new Score(user.getUserName(), getScore());
+            GameScoreboard.addScore(c, SUDOKU_HS_FILE, score);
+            result = "Game Over: You Win!";
+
+        } else {result = null;}
+        return result;
+    }
+
+    public int getScore(){return getMovesMade();}
 
     /**
      * Return whether all the rows on the board are solved.

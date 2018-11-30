@@ -13,7 +13,6 @@ public class SudokuHSActivity extends HighscoresActivity {
     @Override
     protected List<Score> getScoresToDisplay() {
         boolean allUsers = btnUser.getText() == btnUser.getTextOff();
-//        String fileName = HangmanGameActivity.HANGMAN_HS_FILE;
         String fileName = SudokuGameActivity.SUDOKU_HS_FILE;
         return allUsers ?
                 GameScoreboard.getScores(this, fileName, Board.getComparator()) :
