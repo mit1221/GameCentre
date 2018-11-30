@@ -1,35 +1,44 @@
-###URL to Clone
+# Game Centre
+
+Game Centre is a Android app where a user can pick one of the featured games and play it.
+
+## Installation
+
+You can clone this repo using this url:
 https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0648
 
-To setup the project and start the app:
-1) Select "Check out project from Version Control" -> "Git"
-2) Enter https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0648 as the Git Repository URL, choose a parent directory, and click Clone.
-3) Click "Yes" if asked to create an Android Studio Project. Import project from Gradle if prompted.
-4) If there is a "sync failed" error in the Build tab, click on the link that says "Re-download dependencies and sync project".
-5) Now open the folder/project at "group_0648/Phase2/GameCentre" and run 'app' on your virtual device.
+To setup the project and start the app using Android Studios:
+1. Select "Check out project from Version Control" -> "Git"
+2. Enter https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0648 as the Git Repository URL, choose a parent directory, and click Clone.
+3. Click "Yes" if asked to create an Android Studio Project. Import project from Gradle if prompted.
+4. If there is a "sync failed" error in the Build tab, click on the link that says "Re-download dependencies and sync project".
+5. Now open the folder/project at "group_0648/Phase2/GameCentre" and run 'app' on your virtual device.
 
 Android Virtual Device:
-1) When you press run 'app', a 'Select Deployment Target' window will pop up.
-2) Click 'Create Android Virtual Device'.
-3) Select Pixel2 as the device to emulate, specifying the device OS as Android 8.1 API 27.
+1. When you press run 'app', a 'Select Deployment Target' window will pop up.
+2. Click 'Create Android Virtual Device'.
+3. Select Pixel2 as the device to emulate, specifying the device OS as Android 8.1 API 27.
+
+## Instructions
 
 Game Launch Centre:
-Instructions: Log in with your credentials, or register if you haven't. Select the game that you want to play, 
+Log in with your credentials, or register if you haven't. Select the game that you want to play,
 or change the header image to your liking in the settings. 
 
 Sliding Tiles:
-Instructions: Slide the numbered tiles so that they are in order.
+Slide the numbered tiles so that they are in order.
 
 Hangman: 
-Instructions: Select letters to guess the randomly selected word from the randomly 
+Select letters to guess the randomly selected word from the randomly
 selected category. The player has 6 lives. 
 Categories: Uoft CS Teaching Stream, UofT Buildings, Animals, Group Members/developers of this app.
 
 Sudoku:
-Instructions: There are nine 3x3 grids. To complete the game, each grid must be filled with the numbers 1-9 each. 
+There are nine 3x3 grids. To complete the game, each grid must be filled with the numbers 1-9 each.
 Moreover, in the complete 9x9 grid, there can be only one instance of any given number in each column and row."
 
-Functionalities:
+## Functionalities
+
 - Game Centre:
     - Register functionality: new users can be registered and persist through opening and closing the app. Each user has a unique userName.
     - Login functionality: registered users can log in using their correct credentials. Passwords are hashed for increased security.
@@ -55,7 +64,11 @@ Functionalities:
     - Autosave: Game is saved after every move.
     - High Scores: high scores for the game can be viewed, with the option to see only the logged in user's scores or all users' scores
     
-    
-    
-    
+## Tests
+
+They can be found under "app/src/test" folder.
+
+## Contributors
+
+Jason Lee, Mit Kapadia, Ishaan Ghosh, David Hyun Suk Lim, Victor Trinh
 
