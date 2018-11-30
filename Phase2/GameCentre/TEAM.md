@@ -67,6 +67,15 @@ Jason Lee:
 - unit tests for Hangman classes
 
 Mit Kapadia:
+- Discussed project architecture, developed program layout for general GameCentre functions, CRC Cards
+- Wrote the code to choose a pre-selected image, upload an image from phone and download an image from the internet for Sliding tiles
+- Wrote most of the menu activity for Sliding tiles
+- Refactored tiles, board and board manager from Sliding tiles to make them abstract super  classes to allow for an inheritance hierarchy and reduced duplicate code
+- Created new Move and GameOptions classes for both Sliding tiles and Sudoku to make code cleaner and to make methods have less parameters
+- Developed classes for the Sudoku Game involving the tiles, board, board manager, and the game activity
+- Refactored the board to move controller functionality to the board manager, following the MVC architecture
+
+
 Ishaan Ghosh:
 - Wrote some classes related to playing Sudoku.
 - Created some Android Activities relating to Sudoku.
