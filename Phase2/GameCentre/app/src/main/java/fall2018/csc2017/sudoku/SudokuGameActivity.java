@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
@@ -69,7 +70,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     // Display
     public void display() {
-//        updateTiles();
         gridView.setAdapter(new CustomAdapter(tiles, columnWidth, columnHeight));
     }
 
@@ -122,6 +122,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                                 model.getBoard().getSize();
 
                         display();
+                        updateTiles();
                     }
                 });
     }
