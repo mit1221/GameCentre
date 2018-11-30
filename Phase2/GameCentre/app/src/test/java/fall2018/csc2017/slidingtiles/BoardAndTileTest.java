@@ -17,7 +17,7 @@
 //public class BoardAndTileTest {
 //
 //    /** The board manager for testing. */
-//    SlidingTilesBoardManager slidingTilesBoardManager;
+//    SlidingTilesModel slidingTilesBoardManager;
 //
 //    /**
 //     * Make a set of tiles that are in order.
@@ -39,7 +39,7 @@
 //    private void setUpCorrect() {
 //        List<Tile> tiles = makeTiles();
 //        Board board = new Board(tiles);
-//        slidingTilesBoardManager = new SlidingTilesBoardManager(board);
+//        slidingTilesBoardManager = new SlidingTilesModel(board);
 //    }
 //
 //    /**
