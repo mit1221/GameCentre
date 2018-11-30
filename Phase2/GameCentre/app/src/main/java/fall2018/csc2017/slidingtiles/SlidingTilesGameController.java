@@ -31,6 +31,11 @@ public class SlidingTilesGameController {
      */
     private ArrayList<Button> tileButtons;
 
+    /**
+     * Grid View and calculated column height and width based on device size
+     */
+    private GestureDetectGridView gridView;
+    private static int columnWidth, columnHeight;
 
     /**
      * Current user
@@ -50,11 +55,30 @@ public class SlidingTilesGameController {
         return tileButtons;
     }
 
+    public GestureDetectGridView getGridView() {
+        return gridView;
+    }
+
+    static int getColumnWidth() {
+        return columnWidth;
+    }
+
+    static int getColumnHeight() {
+        return columnHeight;
+    }
+
+
     public User getUser() {
         return user;
     }
 
-    SlidingTilesGameController() {
+
+    public ArrayList<Drawable> getTileImages() {
+        return tileImages;
+    }
+
+
+    public SlidingTilesGameController() {
     }
 
     /**
@@ -210,4 +234,3 @@ public class SlidingTilesGameController {
         }
     }
 }
-
