@@ -79,7 +79,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         handleExtras();
 
         createTiles(this);
-        setContentView(R.layout.activity_sudoku_game_real);
+        setContentView(R.layout.activity_sudoku_game);
         mController = new MovementController();
         mController.setModel(model);
 
@@ -247,6 +247,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
         // save score if game is finished
         if (model.puzzleSolved()) {
+            Log.d("mytag4", user.getUserName());
+            Log.d("mytag4", String.valueOf(model.getMovesMade()));
             Score score = new Score(user.getUserName(), model.getMovesMade());
             GameScoreboard.addScore(this, Board.getHighScoreFile(
                     Game.SUDOKU, model.getBoard().getSize()), score);
