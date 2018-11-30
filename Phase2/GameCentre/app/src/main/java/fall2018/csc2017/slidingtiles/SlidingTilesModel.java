@@ -18,6 +18,18 @@ import fall2018.csc2017.Tile;
 class SlidingTilesModel extends Model {
 
     /**
+     * Manage a new shuffled board with image tiles.
+     *
+     * @param size         size of the board
+     * @param maxUndoMoves the maximum undos that the user can do
+     * @param image the image to use as the background
+     */
+    SlidingTilesModel(int size, int maxUndoMoves, byte[] image) {
+        super(maxUndoMoves);
+        setBoard(new SlidingTilesBoard(size, generateTiles(size), image));
+    }
+
+    /**
      * Helper method for generating all the sliding tiles for the board.
      *
      * @param size size of the board
@@ -42,17 +54,6 @@ class SlidingTilesModel extends Model {
         return tiles;
     }
 
-    /**
-     * Manage a new shuffled board with image tiles.
-     *
-     * @param size         size of the board
-     * @param maxUndoMoves the maximum undos that the user can do
-     * @param image the image to use as the background
-     */
-    SlidingTilesModel(int size, int maxUndoMoves, byte[] image) {
-        super(maxUndoMoves);
-        setBoard(new SlidingTilesBoard(size, generateTiles(size), image));
-    }
 
     /**
      * Change the tiles so that it is solvable if it isn't. Leave it alone otherwise.

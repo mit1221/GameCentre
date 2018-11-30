@@ -3,7 +3,6 @@ package fall2018.csc2017.slidingtiles;
 import java.util.List;
 
 import fall2018.csc2017.Board;
-import fall2018.csc2017.Move;
 import fall2018.csc2017.Tile;
 
 /**
@@ -14,11 +13,8 @@ public class SlidingTilesBoard extends Board {
     /**
      * The image for the tiles of the board. If null, numbered tiles are used.
      */
-    private byte[] image = null;
+    private byte[] image;
 
-    SlidingTilesBoard(int size, List<SlidingTile> tiles) {
-        super(size, tiles);
-    }
 
     SlidingTilesBoard(int size, List<SlidingTile> tiles, byte[] image) {
         super(size, tiles);

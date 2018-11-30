@@ -72,9 +72,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         controller.handleExtras(extras, resources);
         // Obtain info from controller
         model = controller.getModel();
-        gridView = controller.getGridView();
-        columnWidth = SlidingTilesGameController.getColumnWidth();
-        columnHeight = SlidingTilesGameController.getColumnHeight();
         user = controller.getUser();
 
         // Create tile buttons
@@ -145,5 +142,5 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         // save score if game is finished
         Context context = getApplicationContext();
         controller.addScore(context);
-        }
+    }
 }
