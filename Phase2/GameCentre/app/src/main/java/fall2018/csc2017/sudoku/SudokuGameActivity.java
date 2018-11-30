@@ -32,6 +32,8 @@ import fall2018.csc2017.slidingtiles.R;
  */
 public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
+    public static final String SUDOKU_HS_FILE = "Sudoku.txt";
+
     /**
      * The board manager.
      */
