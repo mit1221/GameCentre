@@ -8,6 +8,7 @@ import fall2018.csc2017.HighscoresActivity;
 
 /**
  * Activity for displaying hangman highscores
+ * No unit tests since this class mainly deals with displaying views in android
  */
 public class HangmanHSActivity extends HighscoresActivity {
     /**

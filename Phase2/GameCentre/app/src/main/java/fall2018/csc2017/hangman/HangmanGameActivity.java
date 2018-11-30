@@ -23,6 +23,7 @@ import fall2018.csc2017.slidingtiles.R;
 
 /**
  * Activity for playing Hangman
+ * No unit tests since this class mainly deals with displaying views in android
  */
 public class HangmanGameActivity extends AppCompatActivity implements View.OnClickListener, Observer {
 
@@ -57,7 +58,8 @@ public class HangmanGameActivity extends AppCompatActivity implements View.OnCli
      * Images related to display for the number of hangman lives the user has.
      * EX hangmanImages[0] => image for 0 lives ....
      */
-    private int[] hangmanImages = new int[]{R.drawable.gand, R.drawable.flower, R.drawable.cat, R.drawable.yodawg};
+    //private int[] hangmanImages = new int[]{R.drawable.gand, R.drawable.flower, R.drawable.cat, R.drawable.yodawg};
+    private int[] hangmanImages = new int[]{R.drawable.man6, R.drawable.man5, R.drawable.man4, R.drawable.man3,R.drawable.man2, R.drawable.man1, R.drawable.man0};
 
     /**
      * The imageview for the hanged man

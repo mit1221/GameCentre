@@ -61,7 +61,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     // Display
     public void display() {
-        updateTileButtons();
+        updateTiles();
         gridView.setAdapter(new CustomAdapter(tiles, columnWidth, columnHeight));
     }
 
@@ -70,7 +70,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         handleExtras();
 
-        createTileButtons(this);
+        createTiles(this);
         setContentView(R.layout.activity_sudoku_game_real);
 
         // Add an undo button to the game
@@ -139,11 +139,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-     * Create the buttons for displaying the tiles.
+     * Create the tiles to be displayed.
      *
      * @param context the context
      */
-    private void createTileButtons(Context context) {
+    private void createTiles(Context context) {
         SudokuBoard board = (SudokuBoard) boardManager.getBoard();
         tiles = new ArrayList<>();
 
@@ -165,9 +165,9 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-     * Update the text on the buttons to match the tiles.
+     * Update the text on the tiles once the internal board changes.
      */
-    private void updateTileButtons() {
+    private void updateTiles() {
         SudokuBoard board = (SudokuBoard) boardManager.getBoard();
         int boardSize = board.getSize();
         int nextPos = 0;

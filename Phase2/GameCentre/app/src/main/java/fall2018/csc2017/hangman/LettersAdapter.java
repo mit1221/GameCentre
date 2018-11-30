@@ -18,6 +18,7 @@ import fall2018.csc2017.slidingtiles.R;
 
 /**
  * Adapter to create a list of letters/empty slots for the hangman puzzles
+ * No unit tests since this class mainly deals with displaying and handling views in android
  */
 public class LettersAdapter extends BaseAdapter {
 
