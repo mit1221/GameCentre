@@ -200,46 +200,4 @@ public class SudokuBoardManager extends BoardManager {
         SudokuMove move = (SudokuMove) m;
         return getBoard().getTile(move.getRow(), move.getCol()) instanceof SudokuEditableTile;
     }
-
-    public static void main(String[] args) {
-        SudokuBoardManager manager = new SudokuBoardManager(3);
-        Board board = manager.getBoard();
-
-        for (Tile tile : board) {
-            SudokuTile t = (SudokuTile) tile;
-            System.out.println(t.getValue());
-        }
-
-        int row = 0;
-        int col = 1;
-        SudokuTile t1 = (SudokuTile) board.getTile(row, col);
-
-        SudokuMove move = new SudokuMove(row, col, t1.getValue(), 2);
-        if (manager.isValidMove(move)) {
-            manager.makeMove(move);
-
-            System.out.println("=============================");
-            for (Tile tile : board) {
-                SudokuTile t = (SudokuTile) tile;
-                System.out.println(t.getValue());
-            }
-
-            move = new SudokuMove(row, col, t1.getValue(), 6);
-            manager.makeMove(move);
-
-            System.out.println("=============================");
-            for (Tile tile : board) {
-                SudokuTile t = (SudokuTile) tile;
-                System.out.println(t.getValue());
-            }
-
-            manager.undoLastMove();
-            System.out.println("=============================");
-            for (Tile tile : board) {
-                SudokuTile t = (SudokuTile) tile;
-                System.out.println(t.getValue());
-            }
-        }
-    }
-
 }

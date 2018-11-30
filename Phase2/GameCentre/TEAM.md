@@ -36,11 +36,35 @@ Signed by: David Hyun Suk Lim, Jason Lee, Mit Kapadia, Victor Trinh, Ishaan Ghos
 
 
 ### Git:
+Victor Trinh: victor
 Jason Lee: jasonkclee
 Mit Kapadia: Mit
 Ishaan Ghosh: Ishaan Ghosh
 David Hyun Suk Lim: David Lim
-Victor Trinh: victor
+
 
 ### Contributions:
+Victor Trinh:
+Wrote presentation outline.
+Discussed project architecture extensively, created CRC cards.
+Developed classes related to file reading/writing
+Worked on model/control classes for Users, Scores
+Designed images for Hangman
+etc.
+(See phase 1, phase 2 commits for specific coding contributions)
+
+Jason Lee:
+- Wrote classes for playing a game of Hangman
+- Displaying Android activities and views for Hangman
+- abstract HighscoresActivity class used for all 3 games
+    - implemented for Sliding Tiles and Hangman
+- Generic UndoMoveList for keeping track of user's last moves
+- worked on saving and loading of games
+- unit tests for Hangman classes
+
+Mit Kapadia:
+Ishaan Ghosh:
+David Hyun Suk Lim:
+
+
 
