@@ -10,7 +10,7 @@ public class Score implements Serializable{
     private Integer value;
 
     /**
-     * Create a new scrore.
+     * Create a new score.
      *
      * @param userName username of the user
      * @param value    user's score
