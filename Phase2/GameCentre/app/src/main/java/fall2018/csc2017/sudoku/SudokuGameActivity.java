@@ -169,11 +169,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                     tmp.setText(tile.getStringValue());
                     tmp.setEnabled(false);
                     tmp.setTextColor(Color.BLACK);
+                    tmp.setBackgroundResource(R.drawable.border);
                 } else {
                     // tile is a SudokuEditableTile
                     tmp.addTextChangedListener(tileInputTextWatcher);
+                    tmp.setBackgroundResource(R.drawable.border_with_background);
                 }
-                tmp.setBackgroundResource(R.drawable.border);
                 this.tiles.add(tmp);
             }
         }
@@ -247,8 +248,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
         // save score if game is finished
         if (model.puzzleSolved()) {
-            Log.d("mytag4", user.getUserName());
-            Log.d("mytag4", String.valueOf(model.getMovesMade()));
+            Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Score score = new Score(user.getUserName(), model.getMovesMade());
             GameScoreboard.addScore(this, Board.getHighScoreFile(
                     Game.SUDOKU, model.getBoard().getSize()), score);
