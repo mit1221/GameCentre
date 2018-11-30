@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import fall2018.csc2017.Board;
 import fall2018.csc2017.BoardManager;
 import fall2018.csc2017.Move;
 import fall2018.csc2017.Tile;
@@ -25,7 +24,7 @@ public class SudokuBoardManager extends BoardManager {
     @Override
     public List<SudokuTile> generateTiles(int size) {
         List<SudokuTile> tiles = new ArrayList<>();
-        BoardGenerator generator = new BoardGenerator(size, 1);
+        BoardGenerator generator = new BoardGenerator(size, 28);
         generator.fillValues();
 
         int id = 0;
