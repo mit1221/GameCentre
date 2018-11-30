@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import fall2018.csc2017.Game;
 import fall2018.csc2017.MenuActivity;
 import fall2018.csc2017.User;
 import fall2018.csc2017.UserManager;
@@ -23,22 +22,18 @@ import fall2018.csc2017.slidingtiles.R;
 public class SudokuMenuActivity extends AppCompatActivity implements MenuActivity {
 
     /**
-     * The current user
+     * Handles the logic for this activity
      */
-    private User user;
-
-    /**
-     * Customizable options for the game
-     */
-    private SudokuGameOptions gameOptions = new SudokuGameOptions();
+    private SudokuMenuController menuController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku_menu);
-
+        menuController = new SudokuMenuController();
         // retrieve the logged in user
-        user = (User) getIntent().getSerializableExtra("User");
+        User user = (User) getIntent().getSerializableExtra("User");
+        menuController.setUser(user);
     }
 
     /**
@@ -92,7 +87,7 @@ public class SudokuMenuActivity extends AppCompatActivity implements MenuActivit
                             Toast.LENGTH_SHORT).show();
                 } else {
                     undoMoves = unlimitedUndoMoves[0] ? -1 : undoMoves;
-                    gameOptions.setUndoMoves(undoMoves);
+                    menuController.setUndoMoves(undoMoves);
                     startGame();
                 }
             }
@@ -103,9 +98,14 @@ public class SudokuMenuActivity extends AppCompatActivity implements MenuActivit
         dialog.show();
     }
 
+    /**
+     * The Highscores button event handler
+     *
+     * @param view View that was clicked
+     */
     public void onBtnHighscoresClick(View view) {
         Intent intent = new Intent(this, SudokuHSActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("User", menuController.getUser());
         startActivity(intent);
     }
 
@@ -123,9 +123,9 @@ public class SudokuMenuActivity extends AppCompatActivity implements MenuActivit
     @Override
     public void startGame() {
         Intent intent = new Intent(this, SudokuGameActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("User", menuController.getUser());
         intent.putExtra("LoadGame", false);
-        intent.putExtra("GameOptions", gameOptions);
+        intent.putExtra("GameOptions", menuController.getGameOptions());
         startActivity(intent);
     }
 
@@ -134,9 +134,9 @@ public class SudokuMenuActivity extends AppCompatActivity implements MenuActivit
      */
     @Override
     public void loadSavedGame() {
-        if (user != null && user.hasSave(Game.SUDOKU)) {
+        if (menuController.userHasSave()) {
             Intent intent = new Intent(this, SudokuGameActivity.class);
-            intent.putExtra("User", user);
+            intent.putExtra("User", menuController.getUser());
             intent.putExtra("LoadGame", true);
             startActivity(intent);
         } else {
@@ -150,6 +150,7 @@ public class SudokuMenuActivity extends AppCompatActivity implements MenuActivit
     @Override
     protected void onResume() {
         super.onResume();
-        user = UserManager.getUser(user.getUserName(), this); //reload the user data
+        User user = UserManager.getUser(menuController.getUser().getUserName(), this); //reload the user data
+        menuController.setUser(user);
     }
 }

@@ -1,5 +1,6 @@
 package fall2018.csc2017.sudoku;
 
+import fall2018.csc2017.Game;
 import fall2018.csc2017.MenuController;
 
 /**
@@ -28,5 +29,10 @@ public class SudokuMenuController extends MenuController {
      */
     void setUndoMoves(int undoMoves) {
         gameOptions.setUndoMoves(undoMoves);
+    }
+
+    @Override
+    public boolean userHasSave() {
+        return getUser() != null && getUser().hasSave(Game.SUDOKU);
     }
 }

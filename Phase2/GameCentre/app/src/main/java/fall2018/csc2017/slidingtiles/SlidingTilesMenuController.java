@@ -2,6 +2,7 @@ package fall2018.csc2017.slidingtiles;
 
 import android.graphics.Bitmap;
 
+import fall2018.csc2017.Game;
 import fall2018.csc2017.MenuController;
 
 /**
@@ -63,5 +64,11 @@ public class SlidingTilesMenuController extends MenuController {
      */
     public void setImage(Bitmap image) {
         gameOptions.setImage(image);
+    }
+
+    @Override
+    public boolean userHasSave() {
+        return getUser() != null && getUser().hasSave(Game.SLIDING_TILES);
+
     }
 }
