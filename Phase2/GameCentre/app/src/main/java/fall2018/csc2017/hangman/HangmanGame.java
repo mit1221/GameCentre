@@ -237,7 +237,7 @@ public class HangmanGame extends Observable implements Serializable {
      */
     public int getScore() {
         if (didUserWin()) {
-            return getAnswer().length() * 2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses;
+            return Math.max(0, getAnswer().length() * 2 - numWrongLetters * 2 - numCorrectLetters - numAnswerGuesses);
         }
         return -1;
     }
