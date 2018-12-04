@@ -1,4 +1,5 @@
 package fall2018.csc2017.slidingtiles;
+import android.content.Context;
 import android.test.mock.MockContext;
 
 import org.junit.Test;
@@ -14,6 +15,7 @@ import fall2018.csc2017.hangman.HangmanLetters;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+import static org.mockito.Mockito.mock;
 
 /**
  * Test for HangmanGame class
@@ -33,8 +35,12 @@ public class HangmanGameTest {
 
     @Test
     public void testProcessGameOver(){
-        //setup("a");
-        //game.processGameOver(new MockContext(), new User("user1", 123));
+        setup("a");
+        Context c = mock(Context.class);
+        game.processGameOver(c, new User("user1", 123));
+        game.makeLetterGuess('A');
+        //game.processGameOver(c, new User("user1", 123));
+
     }
 
     @Test
