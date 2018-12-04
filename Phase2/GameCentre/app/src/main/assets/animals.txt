@@ -334,7 +334,7 @@ Rodent
 Rook
 Rooster
 Roundworm
-Saber-toothed cat
+Sabertoothed cat
 Sailfish
 Salamander
 Salmon
@@ -371,7 +371,7 @@ Spoonbill
 Squid
 Squirrel
 Starfish
-Star-nosed mole
+Starnosed mole
 Steelhead trout
 Stingray
 Stoat
@@ -434,7 +434,7 @@ Woodpecker
 Worm
 Wren
 Xerinae
-X-ray fish
+Xray fish
 Yak
 Yellow perch
 Zebra
