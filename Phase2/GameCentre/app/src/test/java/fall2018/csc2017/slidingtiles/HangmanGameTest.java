@@ -1,12 +1,18 @@
 package fall2018.csc2017.slidingtiles;
+import android.test.mock.MockContext;
+
 import org.junit.Test;
 
+import java.util.Comparator;
 import java.util.Map;
 
+import fall2018.csc2017.Score;
+import fall2018.csc2017.User;
 import fall2018.csc2017.hangman.HangmanGame;
 import fall2018.csc2017.hangman.HangmanLetters;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 /**
@@ -23,6 +29,12 @@ public class HangmanGameTest {
 
     private void setup(String answer){
         game = new HangmanGame(answer, CATEGORY);
+    }
+
+    @Test
+    public void testProcessGameOver(){
+        //setup("a");
+        //game.processGameOver(new MockContext(), new User("user1", 123));
     }
 
     @Test
@@ -86,14 +98,21 @@ public class HangmanGameTest {
 
     @Test
     public void testMakeLetterGuessCorrect(){
-        String answer = "Some answer";
+        String answer = "aa bb";
         setup(answer);
         int initalLives = game.getNumLives();
         assertEquals(true, game.makeLetterGuess('a'));
         assertEquals(initalLives , game.getNumLives());
-        assertEquals("____ A_____", game.getGameState());
+        assertEquals("AA __", game.getGameState());
         assertEquals(false, game.didUserWin());
         assertEquals(false, game.isGameOver());
+        assertEquals(-1, game.getScore());
+
+        assertEquals(true, game.makeLetterGuess('b'));
+        assertEquals("AA BB", game.getGameState());
+        assertEquals(true, game.didUserWin());
+        assertEquals(true, game.isGameOver());
+
     }
 
     @Test
@@ -108,8 +127,8 @@ public class HangmanGameTest {
     @Test
     public void testGetFixedGameState(){
         setup("ab a cdefg abc");
-        String fixed = game.getFixedGameState(5);
-        assertEquals("__ _ ________", fixed);
+        String fixed = game.getFixedGameState(4);
+        assertEquals("__ ______   ___", fixed);
     }
 
 
@@ -139,6 +158,14 @@ public class HangmanGameTest {
         assertEquals(true, game.makeLetterGuess('Z'));
         assertEquals(HangmanLetters.LETTER_STATE.INCORRECT, game.getLetters().get('Z'));
         assertEquals(false, game.isSolved());
+
+        assertEquals(true, game.makeLetterGuess('E'));
+        assertEquals(true, game.makeLetterGuess('F'));
+        assertEquals(true, game.makeLetterGuess('G'));
+        assertEquals(true, game.makeLetterGuess('H'));
+        assertEquals(true, game.makeLetterGuess('I'));
+        assertEquals(true, game.isGameOver());
+
     }
 
     @Test
@@ -153,4 +180,21 @@ public class HangmanGameTest {
         assertEquals(true, game.isSolved());
     }
 
+    @Test
+    public void testGetComparator(){
+        Comparator<Score> c = HangmanGame.getComparator();
+        Score score1 = new Score("User1", 5);
+        Score score2 = new Score("User2", 1);
+        Score score3 = new Score("User3", 5);
+
+        assertTrue(c.compare(score1, score2) < 0);
+        assertTrue(c.compare(score2, score1) > 0);
+        assertTrue(c.compare(score1, score3) == 0);
+    }
+
+    @Test
+    public void testGetLongestWordLength(){
+        setup("one two three");
+        assertEquals(5, game.getLongestWordLength());
+    }
 }
