@@ -5,14 +5,14 @@ Game Centre is a Android app where a user can pick one of the featured games and
 ## Installation
 
 You can clone this repo using this url:
-https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0648
+https://github.com/mit1221/GameCentre.git
 
 To setup the project and start the app using Android Studios:
 1. Select "Check out project from Version Control" -> "Git"
-2. Enter https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0648 as the Git Repository URL, choose a parent directory, and click Clone.
+2. Enter https://github.com/mit1221/GameCentre.git as the Git Repository URL, choose a parent directory, and click Clone.
 3. Click "Yes" if asked to create an Android Studio Project. Import project from Gradle if prompted.
 4. If there is a "sync failed" error in the Build tab, click on the link that says "Re-download dependencies and sync project".
-5. Now open the folder/project at "group_0648/Phase2/GameCentre" and run 'app' on your virtual device.
+5. Now open the folder/project at "GameCentre/" and run 'app' on your virtual device.
 
 Android Virtual Device:
 1. When you press run 'app', a 'Select Deployment Target' window will pop up.
@@ -23,14 +23,14 @@ Android Virtual Device:
 
 Game Launch Centre:
 Log in with your credentials, or register if you haven't. Select the game that you want to play,
-or change the header image to your liking in the settings. 
+or change the header image to your liking in the settings.
 
 Sliding Tiles:
 Slide the numbered tiles so that they are in order.
 
-Hangman: 
+Hangman:
 Select letters to guess the randomly selected word from the randomly
-selected category. The player has 6 lives. 
+selected category. The player has 6 lives.
 Categories: Uoft CS Teaching Stream, UofT Buildings, Animals, Group Members/developers of this app.
 
 Sudoku:
@@ -42,18 +42,18 @@ Moreover, in the complete 9x9 grid, there can be only one instance of any given 
 - Game Centre:
     - Register functionality: new users can be registered and persist through opening and closing the app. Each user has a unique userName.
     - Login functionality: registered users can log in using their correct credentials. Passwords are hashed for increased security.
-    - Settings Page: Users can change the header image displayed in the main menu. 
+    - Settings Page: Users can change the header image displayed in the main menu.
     - Game selection: Users can pick the game they want to play
 - Sliding Tiles Game:
     - Creating new game: You can choose between 3x3, 4x4, 5x5 complexity. Boards are randomly generated and always solvable.
-    - Loading saved games: Games are autosaved for each user so that players can pick up where they left off. 
+    - Loading saved games: Games are autosaved for each user so that players can pick up where they left off.
     - Undo: You will be asked to specify the maximum number moves to undo before the game starts.
     - Autosave: Game is saved after every move.
-    - Custom puzzle: User can choose to upload an image and instead of the default number tiles, so that the tiles will each be 
+    - Custom puzzle: User can choose to upload an image and instead of the default number tiles, so that the tiles will each be
                         a piece of the image and now the objective is to assemble the correct image.
     - High Scores: high scores for the game can be viewed, with the option to see only the logged in user's scores or all users' scores
-- Sudoku: 
-    - Creating new games: Boards are randomly generated and always solvable. 
+- Sudoku:
+    - Creating new games: Boards are randomly generated and always solvable.
     - Loading saved game: Games are autosaved for each user so that players can pick up where they left off.
     - Autosave: Game is saved after every move.
     - Undo: You will be asked to specify the maximum number moves to undo before the game starts.
@@ -63,12 +63,11 @@ Moreover, in the complete 9x9 grid, there can be only one instance of any given 
     - Loading saved game: Games are autosaved for each user so that players can pick up where they left off.
     - Autosave: Game is saved after every move.
     - High Scores: high scores for the game can be viewed, with the option to see only the logged in user's scores or all users' scores
-    
+
 ## Tests
 
 They can be found under "app/src/test" folder.
 
 ## Contributors
 
-Jason Lee, Mit Kapadia, Ishaan Ghosh, David Hyun Suk Lim, Victor Trinh
-
+Mit Kapadia, Jason Lee, Ishaan Ghosh, David Hyun Suk Lim, Victor Trinh
